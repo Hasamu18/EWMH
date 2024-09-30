@@ -1,0 +1,17 @@
+D:\C#\SEP490\Sep490\Infrastructure\Logger\bin\Debug\net8.0\Logger.deps.json
+D:\C#\SEP490\Sep490\Infrastructure\Logger\bin\Debug\net8.0\Logger.dll
+D:\C#\SEP490\Sep490\Infrastructure\Logger\bin\Debug\net8.0\Logger.pdb
+D:\C#\SEP490\Sep490\Infrastructure\Logger\bin\Debug\net8.0\Users.Application.dll
+D:\C#\SEP490\Sep490\Infrastructure\Logger\bin\Debug\net8.0\Users.Domain.dll
+D:\C#\SEP490\Sep490\Infrastructure\Logger\bin\Debug\net8.0\Users.Application.pdb
+D:\C#\SEP490\Sep490\Infrastructure\Logger\bin\Debug\net8.0\Users.Domain.pdb
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.csproj.AssemblyReference.cache
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.AssemblyInfoInputs.cache
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.AssemblyInfo.cs
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.csproj.CoreCompileInputs.cache
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.csproj.Up2Date
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.dll
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\refint\Logger.dll
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\Logger.pdb
+D:\C#\SEP490\Sep490\Infrastructure\Logger\obj\Debug\net8.0\ref\Logger.dll

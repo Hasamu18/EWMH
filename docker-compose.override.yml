@@ -1,0 +1,38 @@
+version: '3.4'
+
+services:
+  gateway.api:
+    container_name: gateway.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker     
+    ports:
+      - "8000:8080" 
+
+  users.api:
+    container_name: users.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8001:8080"
+ 
+  # elasticsearch:
+  #   container_name: elasticsearch
+  #   environment:
+  #     - xpack.watcher.enabled=false
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  #     - discovery.type=single-node
+  #     - xpack.security.enabled=false
+  #   ports:
+  #     - "9200:9200"
+  #   volumes:
+  #     - elasticsearch-data:/usr/share/elasticsearch/data
+
+  # kibana:
+  #   container_name: kibana
+  #   environment:
+  #     - ELASTICSEARCH_URL=http://elasticsearch:9200
+  #   depends_on:
+  #     - elasticsearch
+  #   ports:
+  #     - "5601:5601"  
+        

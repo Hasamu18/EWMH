@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\EWMH.ApiGateway.props" />
+</Project>
