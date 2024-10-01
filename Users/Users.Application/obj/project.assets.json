@@ -3787,11 +3787,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Application\\Users.Application.csproj",
+      "projectUniqueName": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Users.Application.csproj",
       "projectName": "Users.Application",
-      "projectPath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Application\\Users.Application.csproj",
+      "projectPath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Users.Application.csproj",
       "packagesPath": "C:\\Users\\MSI BH\\.nuget\\packages\\",
-      "outputPath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Application\\obj\\",
+      "outputPath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3813,8 +3813,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\C#\\SEP490\\Sep490\\Users\\Users.Domain\\Users.Domain.csproj": {
-              "projectPath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Domain\\Users.Domain.csproj"
+            "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Users.Domain.csproj": {
+              "projectPath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Users.Domain.csproj"
             }
           }
         }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1NccUJTYb6c=",
+  "dgSpecHash": "WmkTqKojZMo=",
   "success": true,
-  "projectFilePath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Application\\Users.Application.csproj",
+  "projectFilePath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Users.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MSI BH\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\MSI BH\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",

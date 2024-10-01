@@ -7,7 +7,7 @@ public partial class Customers
 {
     public string CustomerId { get; set; } = null!;
 
-    public string? RoomId { get; set; }
+    public string RoomId { get; set; } = null!;
 
     public virtual ICollection<Contracts> Contracts { get; set; } = new List<Contracts>();
 
@@ -19,5 +19,5 @@ public partial class Customers
 
     public virtual ICollection<Requests> Requests { get; set; } = new List<Requests>();
 
-    public virtual Rooms? Room { get; set; }
+    public virtual Rooms Room { get; set; } = null!;
 }

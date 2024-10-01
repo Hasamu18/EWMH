@@ -341,5 +341,33 @@ namespace Users.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// Password reset 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     {
+        ///        "email": "abc@gmail.com"
+        ///     }
+        ///   
+        /// </remarks>
+        /// <response code="200">Return a message</response>
+        [HttpPost("12")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CreatePasswordResetLink([FromBody] CreatePasswordResetLinkCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }

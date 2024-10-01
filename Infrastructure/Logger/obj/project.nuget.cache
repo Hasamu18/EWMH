@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "L6Z3Ra8Z8SQ=",
+  "dgSpecHash": "KTOlpMpWSa0=",
   "success": true,
-  "projectFilePath": "D:\\C#\\SEP490\\Sep490\\Infrastructure\\Logger\\Logger.csproj",
+  "projectFilePath": "D:\\C#\\SEP490\\EWMH\\Infrastructure\\Logger\\Logger.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MSI BH\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\MSI BH\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",

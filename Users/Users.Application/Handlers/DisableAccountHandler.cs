@@ -15,36 +15,29 @@ namespace Users.Application.Handlers
     public class DisableAccountHandler : IRequestHandler<DisableAccountCommand, string>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IAuthenRepository _authen;
-        public DisableAccountHandler(IUnitOfWork uow, IAuthenRepository authen)
+        public DisableAccountHandler(IUnitOfWork uow)
         {
             _uow = uow;
-            _authen = authen;
         }
 
         public async Task<string> Handle(DisableAccountCommand request, CancellationToken cancellationToken)
         {
-            var getUserAuthen = await _authen.GetAuthenDbAsync(request.Uid);
-            var getUserFireStore = await _uow.AccountRepo.GetFireStoreAsync(request.Uid);
-            if (getUserAuthen is null || getUserFireStore is null)
+            var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
+            if (!existingUser.Any())
                 return "The user does not exist";
 
-            if (getUserFireStore.Role.Equals(Constants.Role.AdminRole))
-                return "Admin role can not be disabled";
+            if (existingUser[0].Role.Equals(Constants.Role.AdminRole) ||
+                existingUser[0].Role.Equals(Constants.Role.ManagerRole))
+                return $"{existingUser[0].Role} role can not be disabled";
 
-            UserRecordArgs item = new()
-            {
-                Uid = request.Uid,
-                Disabled = request.Disable
-            };
-            await _authen.UpdateAuthenDbAsync(item);
-           
-            getUserFireStore.StatusInText = request.StatusInText;
-            await _uow.AccountRepo.UpdateFireStoreAsync(request.Uid, getUserFireStore);
+            existingUser[0].IsDisabled = true;
+            existingUser[0].DisabledReason = request.DisabledReason;
+
+            await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 
             if (request.Disable)
-                return $"{getUserFireStore.DisplayName} has been disabled";
-            return $"{getUserFireStore.DisplayName} has been activated";
+                return $"{existingUser[0].FullName} has been disabled";
+            return $"{existingUser[0].FullName} has been activated";
         }
     }
 }

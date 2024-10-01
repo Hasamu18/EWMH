@@ -7,7 +7,7 @@ public partial class Workers
 {
     public string WorkerId { get; set; } = null!;
 
-    public string LeaderId { get; set; } = null!;
+    public string? LeaderId { get; set; }
 
     public virtual Leaders Leader { get; set; } = null!;
 

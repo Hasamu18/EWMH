@@ -14,7 +14,8 @@ namespace Users.Application.Mappers
     {
         public MapperProfile()
         {
-            CreateMap<Account, UserRecord>().ReverseMap();
+            CreateMap<Accounts, CreatePersonnelCommand>().ReverseMap();
+            CreateMap<Accounts, CreateCustomerCommand>().ReverseMap();
         }
     }
 }

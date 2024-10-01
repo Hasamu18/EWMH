@@ -1,0 +1,35 @@
+name: dockercompose8167625956187587719
+services:
+  gateway.api:
+    build:
+      context: D:\C#\SEP490\EWMH
+      dockerfile: Gateway/ApiGateway/Dockerfile
+    container_name: gateway.api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+    image: apigateway
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8000"
+        protocol: tcp
+  users.api:
+    build:
+      context: D:\C#\SEP490\EWMH
+      dockerfile: Users/Users.Api/Dockerfile
+    container_name: users.api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    image: usersapi
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        target: 8080
+        published: "8001"
+        protocol: tcp
+networks:
+  default:
+    name: dockercompose8167625956187587719_default

@@ -12,7 +12,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, TResponse<Account>>
+    public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, string>
     {
         private readonly IUnitOfWork _uow;
         public UpdateAccountHandler(IUnitOfWork uow)
@@ -20,25 +20,18 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<TResponse<Account>> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
         {
-            var existingUser = await _uow.AccountRepo.GetFireStoreAsync(request.Uid);
-            if (existingUser is null)
-                return new TResponse<Account>
-                {
-                    Message = "The user does not exist",
-                    Response = null
-                };
+            var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
+            if (!existingUser.Any())
+                return "The user does not exist";
 
-            var account = UserMapper.Mapper.Map<Account>(existingUser);
-            account.DisplayName = request.DisplayName;
-            var userInfo = await _uow.AccountRepo.UpdateFireStoreAsync(account.Uid, account);
+            existingUser[0].FullName = request.FullName;
+            existingUser[0].PhoneNumber = request.PhoneNumber;
+            existingUser[0].DateOfBirth = request.DateOfBirth;
+            await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 
-            return new TResponse<Account>
-            {
-                Message = "Update successfully",
-                Response = userInfo
-            };
+            return "Update successfully";
         }
     }
 }

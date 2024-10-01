@@ -9,11 +9,11 @@ public partial class OrderDetails
 
     public string ProductId { get; set; } = null!;
 
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
 
-    public int? Price { get; set; }
+    public int Price { get; set; }
 
-    public int? TotalPrice { get; set; }
+    public int TotalPrice { get; set; }
 
     public virtual Orders Order { get; set; } = null!;
 

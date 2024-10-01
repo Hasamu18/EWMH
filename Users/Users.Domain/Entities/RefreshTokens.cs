@@ -7,17 +7,12 @@ using System.Threading.Tasks;
 
 namespace Users.Domain.Entities
 {
-    [FirestoreData]
     public sealed class RefreshTokens
     {
+        public required string AccountId { get; set; }
 
-        [FirestoreProperty]
-        public required string Uid { get; set; }
-
-        [FirestoreProperty]
         public required string Token { get; set; }
 
-        [FirestoreProperty]
-        public required string ExpiredAt { get; set; }
+        public DateTime ExpiredAt { get; set; }
     }
 }

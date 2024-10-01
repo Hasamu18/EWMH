@@ -13,17 +13,17 @@ public partial class Requests
 
     public string CustomerId { get; set; } = null!;
 
-    public DateTime? Start { get; set; }
+    public DateTime Start { get; set; }
 
     public DateTime? End { get; set; }
 
-    public string? CustomerProblem { get; set; }
+    public string CustomerProblem { get; set; } = null!;
 
     public string? Conclusion { get; set; }
 
-    public int? Status { get; set; }
+    public int Status { get; set; }
 
-    public int? CategoryRequest { get; set; }
+    public int CategoryRequest { get; set; }
 
     public int? TotalPrice { get; set; }
 

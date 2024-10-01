@@ -7,13 +7,13 @@ public partial class Feedbacks
 {
     public string FeedbackId { get; set; } = null!;
 
-    public string? CustomerId { get; set; }
+    public string CustomerId { get; set; } = null!;
 
-    public string? Content { get; set; }
+    public string Content { get; set; } = null!;
 
-    public int? Rate { get; set; }
+    public int Rate { get; set; }
 
-    public bool? Status { get; set; }
+    public bool Status { get; set; }
 
-    public virtual Customers? Customer { get; set; }
+    public virtual Customers Customer { get; set; } = null!;
 }

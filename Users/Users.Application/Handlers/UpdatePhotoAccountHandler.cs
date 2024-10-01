@@ -14,7 +14,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class UpdatePhotoAccountHandler : IRequestHandler<UpdatePhotoAccountCommand, TResponse<Account>>
+    public class UpdatePhotoAccountHandler : IRequestHandler<UpdatePhotoAccountCommand, string>
     {
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _config;
@@ -24,26 +24,18 @@ namespace Users.Application.Handlers
             _config = config;
         }
 
-        public async Task<TResponse<Account>> Handle(UpdatePhotoAccountCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(UpdatePhotoAccountCommand request, CancellationToken cancellationToken)
         {
-            var existingUser = await _uow.AccountRepo.GetFireStoreAsync(request.Uid);
-            if (existingUser is null)
-                return new TResponse<Account>
-                {
-                    Message = "The user does not exist",
-                    Response = null
-                };
+            var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
+            if (!existingUser.Any())
+                return "The user does not exist";
 
-            var bucketAndPath = await _uow.AccountRepo.UploadImageToStorageAsync(existingUser.Uid, request.Photo, _config);
-            var account = UserMapper.Mapper.Map<Account>(existingUser);
-            account.PhotoUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
-            var userInfo = await _uow.AccountRepo.UpdateFireStoreAsync(account.Uid, account);
+            var bucketAndPath = await _uow.AccountRepo.UploadFileToStorageAsync(request.AccountId, request.Image, _config);
 
-            return new TResponse<Account>
-            {
-                Message = "Update successfully",
-                Response = userInfo
-            };
+            existingUser[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            await _uow.AccountRepo.UpdateAsync(existingUser[0]);
+
+            return "Update avatar successfully";
         }
     }
 }

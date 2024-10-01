@@ -7,17 +7,17 @@ public partial class ServicePackages
 {
     public string ServicePackageId { get; set; } = null!;
 
-    public string? Name { get; set; }
+    public string Name { get; set; } = null!;
 
-    public string? Description { get; set; }
+    public string Description { get; set; } = null!;
 
-    public string? ImageUrl { get; set; }
+    public string ImageUrl { get; set; } = null!;
 
-    public int? NumOfRequest { get; set; }
+    public int NumOfRequest { get; set; }
 
-    public string? Policy { get; set; }
+    public string Policy { get; set; } = null!;
 
-    public bool? Status { get; set; }
+    public bool Status { get; set; }
 
     public virtual ICollection<Contracts> Contracts { get; set; } = new List<Contracts>();
 

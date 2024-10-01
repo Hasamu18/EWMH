@@ -9,9 +9,9 @@ public partial class ServicePackagePrices
 
     public string ServicePackageId { get; set; } = null!;
 
-    public DateTime? Date { get; set; }
+    public DateTime Date { get; set; }
 
-    public int? PriceByDate { get; set; }
+    public int PriceByDate { get; set; }
 
     public virtual ServicePackages ServicePackage { get; set; } = null!;
 }

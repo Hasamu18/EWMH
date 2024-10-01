@@ -7,23 +7,23 @@ public partial class Accounts
 {
     public string AccountId { get; set; } = null!;
 
-    public string? FullName { get; set; }
+    public string FullName { get; set; } = null!;
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
-    public string? Password { get; set; }
+    public string Password { get; set; } = null!;
 
-    public string? PhoneNumber { get; set; }
+    public string PhoneNumber { get; set; } = null!;
 
-    public string? AvatarUrl { get; set; }
+    public string AvatarUrl { get; set; } = null!;
 
-    public DateOnly? DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
 
-    public bool? IsDisabled { get; set; }
+    public bool IsDisabled { get; set; }
 
     public string? DisabledReason { get; set; }
 
-    public string? Role { get; set; }
+    public string Role { get; set; } = null!;
 
     public virtual Customers? Customers { get; set; }
 

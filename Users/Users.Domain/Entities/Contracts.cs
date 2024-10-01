@@ -11,9 +11,9 @@ public partial class Contracts
 
     public string ServicePackageId { get; set; } = null!;
 
-    public string? FileUrl { get; set; }
+    public string FileUrl { get; set; } = null!;
 
-    public DateTime? PurchaseTime { get; set; }
+    public DateTime PurchaseTime { get; set; }
 
     public virtual Customers Customer { get; set; } = null!;
 

@@ -24,15 +24,11 @@ namespace Users.Application.Handlers
 
         public async Task<object> Handle(ResetTokenCommand request, CancellationToken cancellationToken)
         {            
-            Dictionary<string, object> conditions = new()
-            {
-                {"Token", request.RT }
-            };
-            var getRefreshToken = await _uow.RefreshTokenRepo.GetFireStoreAsync(conditions);
+            var getRefreshToken = (await _uow.RefreshTokenRepo.GetAsync(e => e.Token.Equals(request.RT))).ToList();
             if (getRefreshToken.Count == 0)
                 return "Unexisted refresh token";
 
-            var currentTime = Tools.GetDynamicTimeZone().ToString("dd/MM/yyyy HH:mm:ss");
+            var currentTime = Tools.GetDynamicTimeZone();
             if (currentTime.CompareTo(getRefreshToken[0].ExpiredAt) > 0)
                 return "You have been logged out of the system, you need to log in again";
 
@@ -41,7 +37,7 @@ namespace Users.Application.Handlers
 
             var token = jwtAuthen.GenerateJwtToken(claims.uid, claims.role);
             getRefreshToken[0].Token = token.Item2;
-            await _uow.RefreshTokenRepo.UpdateFireStoreAsync(claims.uid, getRefreshToken[0]);
+            await _uow.RefreshTokenRepo.UpdateAsync(getRefreshToken[0]);
 
             return new
             {

@@ -6083,11 +6083,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Api\\Users.Api.csproj",
+      "projectUniqueName": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Users.Api.csproj",
       "projectName": "Users.Api",
-      "projectPath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Api\\Users.Api.csproj",
+      "projectPath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Users.Api.csproj",
       "packagesPath": "C:\\Users\\MSI BH\\.nuget\\packages\\",
-      "outputPath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Api\\obj\\",
+      "outputPath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -6109,14 +6109,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\C#\\SEP490\\Sep490\\Infrastructure\\Logger\\Logger.csproj": {
-              "projectPath": "D:\\C#\\SEP490\\Sep490\\Infrastructure\\Logger\\Logger.csproj"
+            "D:\\C#\\SEP490\\EWMH\\Infrastructure\\Logger\\Logger.csproj": {
+              "projectPath": "D:\\C#\\SEP490\\EWMH\\Infrastructure\\Logger\\Logger.csproj"
             },
-            "D:\\C#\\SEP490\\Sep490\\Users\\Users.Application\\Users.Application.csproj": {
-              "projectPath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Application\\Users.Application.csproj"
+            "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Users.Application.csproj": {
+              "projectPath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Users.Application.csproj"
             },
-            "D:\\C#\\SEP490\\Sep490\\Users\\Users.Infrastructure\\Users.Infrastructure.csproj": {
-              "projectPath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Infrastructure\\Users.Infrastructure.csproj"
+            "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Users.Infrastructure.csproj": {
+              "projectPath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Users.Infrastructure.csproj"
             }
           }
         }

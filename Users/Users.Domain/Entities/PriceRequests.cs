@@ -9,9 +9,9 @@ public partial class PriceRequests
 
     public string Description { get; set; } = null!;
 
-    public DateTime? Date { get; set; }
+    public DateTime Date { get; set; }
 
-    public int? PriceByDate { get; set; }
+    public int PriceByDate { get; set; }
 
     public virtual ICollection<Requests> Requests { get; set; } = new List<Requests>();
 }

@@ -28,6 +28,24 @@ namespace Users.Infrastructure.Repositories
             get => _accountRepo ??= new GenericRepository<Accounts>(_context);           
         }
 
+        private IGenericRepository<Leaders> _leaderRepo;
+        public IGenericRepository<Leaders> LeaderRepo
+        {
+            get => _leaderRepo ??= new GenericRepository<Leaders>(_context);
+        }
+
+        private IGenericRepository<Workers> _workerRepo;
+        public IGenericRepository<Workers> WorkerRepo
+        {
+            get => _workerRepo ??= new GenericRepository<Workers>(_context);
+        }
+
+        private IGenericRepository<Customers> _customerRepo;
+        public IGenericRepository<Customers> CustomerRepo
+        {
+            get => _customerRepo ??= new GenericRepository<Customers>(_context);
+        }
+
         private IGenericRepository<RefreshTokens> _refreshTokenRepo;
         public IGenericRepository<RefreshTokens> RefreshTokenRepo
         {

@@ -12,6 +12,9 @@ namespace Users.Application.Commands
 {
     public class SignInCommand : IRequest<object>
     {
-        public required string Uid { get; set; }
+        [EmailAddress]
+        public required string Email { get; set; }
+
+        public required string Password { get; set; }
     }
 }

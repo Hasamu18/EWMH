@@ -9,11 +9,11 @@ public partial class RequestDetails
 
     public string ProductId { get; set; } = null!;
 
-    public int? Quantity { get; set; }
+    public int Quantity { get; set; }
 
-    public bool? IsCustomerPaying { get; set; }
+    public bool IsCustomerPaying { get; set; }
 
-    public string? Description { get; set; }
+    public string Description { get; set; } = null!;
 
     public virtual Products Product { get; set; } = null!;
 

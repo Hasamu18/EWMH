@@ -20,7 +20,8 @@ namespace Users.Application.Handlers
 
         public async Task<string> Handle(LogoutCommand request, CancellationToken cancellationToken)
         {
-            await _uow.RefreshTokenRepo.DeleteFireStoreAsync(request.Uid);
+            var existingUser = (await _uow.RefreshTokenRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
+            await _uow.RefreshTokenRepo.RemoveAsync(existingUser[0]);
             return "You logged out successfully";
         }
     }

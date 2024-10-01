@@ -10,11 +10,11 @@ namespace Users.Application.Commands
 {
     public class DisableAccountCommand : IRequest<string>
     {
-        public required string Uid { get; set; }
+        public required string AccountId { get; set; }
 
         public bool Disable { get; set; }
 
-        [StringLength(100, MinimumLength = 6)]
-        public required string StatusInText { get; set; }
+        [StringLength(100, MinimumLength = 1)]
+        public required string DisabledReason { get; set; }
     }
 }

@@ -11,15 +11,15 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Commands
 {
-    public class UpdatePhotoAccountCommand : IRequest<TResponse<Account>>
+    public class UpdatePhotoAccountCommand : IRequest<string>
     {
-        public string Uid { get; set; }
+        public string AccountId { get; set; }
 
-        public IFormFile Photo { get; set; }
-        public UpdatePhotoAccountCommand(string uid, IFormFile photo)
+        public IFormFile Image { get; set; }
+        public UpdatePhotoAccountCommand(string accountId, IFormFile image)
         {
-            Uid = uid;
-            Photo = photo;
+            AccountId = accountId;
+            Image = image;
         }
     }
 }

@@ -9,9 +9,9 @@ public partial class Orders
 
     public string CustomerId { get; set; } = null!;
 
-    public DateTime? PurchaseTime { get; set; }
+    public DateTime PurchaseTime { get; set; }
 
-    public bool? Status { get; set; }
+    public bool Status { get; set; }
 
     public string? FileUrl { get; set; }
 

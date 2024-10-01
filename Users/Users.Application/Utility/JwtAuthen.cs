@@ -44,11 +44,6 @@ namespace Users.Application.Utility
             return (accessToken, refreshToken);
         }
 
-        private static string GenerateRefreshToken()
-        {
-            return Guid.NewGuid().ToString().Replace("-", "");
-        }
-
         public (string uid, string role) ReadClaimsFromExpiredToken(string accessToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

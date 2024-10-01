@@ -19,7 +19,6 @@ namespace Users.Api
             // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IAuthenRepository, AuthenRepository>();
             builder.Services.AddAutoMapper(typeof(MapperProfile));
             builder.Services.AddMediatR(config => {
                 config.RegisterServicesFromAssemblies(

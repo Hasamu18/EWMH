@@ -10,6 +10,9 @@ namespace Users.Domain.IRepositories
     public interface IUnitOfWork
     {
         IGenericRepository<Accounts> AccountRepo { get; }
+        IGenericRepository<Leaders> LeaderRepo { get; }
+        IGenericRepository<Workers> WorkerRepo { get; }
+        IGenericRepository<Customers> CustomerRepo { get; }
         IGenericRepository<RefreshTokens> RefreshTokenRepo { get; }
     }
 }

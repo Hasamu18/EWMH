@@ -9,9 +9,9 @@ public partial class ProductPrices
 
     public string ProductId { get; set; } = null!;
 
-    public DateTime? Date { get; set; }
+    public DateTime Date { get; set; }
 
-    public int? PriceByDate { get; set; }
+    public int PriceByDate { get; set; }
 
     public virtual Products Product { get; set; } = null!;
 }

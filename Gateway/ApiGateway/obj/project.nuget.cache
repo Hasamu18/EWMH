@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "1Qzqp1T7hOQ=",
+  "dgSpecHash": "1VNlBsW48F8=",
   "success": true,
-  "projectFilePath": "D:\\C#\\SEP490\\Sep490\\Gateway\\ApiGateway\\ApiGateway.csproj",
+  "projectFilePath": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ApiGateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MSI BH\\.nuget\\packages\\automapper\\13.0.1\\automapper.13.0.1.nupkg.sha512",
     "C:\\Users\\MSI BH\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",

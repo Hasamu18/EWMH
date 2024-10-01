@@ -1,4 +1,5 @@
 ﻿using FirebaseAdmin.Auth;
+using Google.Api;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -18,74 +19,63 @@ using static Users.Application.Utility.Constants;
 
 namespace Users.Application.Handlers
 {
-    public class CreatePersonnelHandler : IRequestHandler<CreatePersonnelCommand, TResponse<Account>>
+    public class CreatePersonnelHandler : IRequestHandler<CreatePersonnelCommand, string>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IAuthenRepository _authen;
         private readonly IConfiguration _config;
-        public CreatePersonnelHandler(IUnitOfWork uow, IConfiguration config, IAuthenRepository authen)
+        public CreatePersonnelHandler(IUnitOfWork uow, IConfiguration config)
         {
             _uow = uow;
             _config = config;
-            _authen = authen;
         }
 
-        public async Task<TResponse<Account>> Handle(CreatePersonnelCommand request, CancellationToken cancellationToken)
+        public async Task<string> Handle(CreatePersonnelCommand request, CancellationToken cancellationToken)
         {
-            var existingEmail = await _authen.GetAuthenDbAsync(email: request.Email);
-            if (existingEmail is not null)
-                return new TResponse<Account>
-                {
-                    Message = "This email is existing",
-                    Response = null
-                };
-            var existingPhone = await _authen.GetAuthenDbAsync(phone: request.PhoneNumber);
-            if (existingPhone is not null)
-                return new TResponse<Account>
-                {
-                    Message = "This phone number is existing",
-                    Response = null
-                };
-
+            var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
+            if (existingEmail.Any())
+                return $"{request.Email} is existing";
+                    
             var roles = await Tools.GetAllRole();
             var role = roles.Contains(request.Role);
-            if (!role) return new TResponse<Account>
+            if (!role) return $"{request.Role} role is not supported";
+            if (request.Role.Equals(Constants.Role.AdminRole) ||
+                request.Role.Equals(Constants.Role.ManagerRole) ||
+                request.Role.Equals(Constants.Role.CustomerRole))
+                return $"You can not create {request.Role} account";
+
+            string password = Tools.GenerateRandomString(10);
+            var account = UserMapper.Mapper.Map<Accounts>(request);
+            account.AccountId = Tools.GenerateIdFormat32();
+            account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
+            account.IsDisabled = false;
+            await _uow.AccountRepo.AddAsync(account);
+
+            if (request.Role.Equals(Constants.Role.TeamLeaderRole))
             {
-                Message = $"{request.Role} role is not supported",
-                Response = null
-            };
-
-            UserRecordArgs userRecordArgs = new()
+                Leaders leader = new Leaders()
+                {
+                    LeaderId = account.AccountId
+                };
+                await _uow.LeaderRepo.AddAsync(leader);
+            }
+            else
             {
-                Email = request.Email,
-                Password = Tools.GenerateRandomString(8),
-                PhoneNumber = request.PhoneNumber
-            };
-            var userRecord = await _authen.CreateAuthenDbAsync(userRecordArgs);
-
-            var time = Tools.GetDynamicTimeZone();
-            string timeString = time.ToString("dd/MM/yyyy HH:mm:ss");
-
-            var account = UserMapper.Mapper.Map<Account>(userRecord);
-            account.DisplayName = request.DisplayName;
-            account.PhotoUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
-            account.Role = request.Role;
-            account.CreatedAt = timeString;
-            var userInfo = await _uow.AccountRepo.CreateFireStoreAsync(account.Uid, account);
+                Workers worker = new Workers()
+                {
+                    WorkerId = account.AccountId
+                };
+                await _uow.WorkerRepo.AddAsync(worker);
+            }
 
             EmailSender emailSender = new(_config);
-            var link = await _authen.GetPasswordResetLinkAsync(request.Email);
+            var link = $"http://localhost:3000/?reset-password={Tools.EncryptString(request.Email)}";
             string subject = "Reset password";
             string body = $"<p>Click here to reset your password:</p>" +
             $"<a href=\"{link}\" style=\"padding: 10px; color: white; background-color: #007BFF; text-decoration: none;\">" +
             $"Reset password</a>";
             await emailSender.SendEmailAsync(request.Email, subject, body);
 
-            return new TResponse<Account>
-            {
-                Message = $"The personnel with {request.Role} role has been created",
-                Response = userInfo
-            };
+            return $"The personnel with {request.Role} role has been created";
         }
     }
 }

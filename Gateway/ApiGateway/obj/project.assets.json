@@ -11500,11 +11500,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\C#\\SEP490\\Sep490\\Gateway\\ApiGateway\\ApiGateway.csproj",
+      "projectUniqueName": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ApiGateway.csproj",
       "projectName": "ApiGateway",
-      "projectPath": "D:\\C#\\SEP490\\Sep490\\Gateway\\ApiGateway\\ApiGateway.csproj",
+      "projectPath": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ApiGateway.csproj",
       "packagesPath": "C:\\Users\\MSI BH\\.nuget\\packages\\",
-      "outputPath": "D:\\C#\\SEP490\\Sep490\\Gateway\\ApiGateway\\obj\\",
+      "outputPath": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -11526,8 +11526,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\C#\\SEP490\\Sep490\\Infrastructure\\Logger\\Logger.csproj": {
-              "projectPath": "D:\\C#\\SEP490\\Sep490\\Infrastructure\\Logger\\Logger.csproj"
+            "D:\\C#\\SEP490\\EWMH\\Infrastructure\\Logger\\Logger.csproj": {
+              "projectPath": "D:\\C#\\SEP490\\EWMH\\Infrastructure\\Logger\\Logger.csproj"
             }
           }
         }

@@ -13,24 +13,24 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class GetAccountHandler : IRequestHandler<GetAccountQuery, TResponse<Account>>
+    public class GetAccountHandler : IRequestHandler<GetAccountQuery, TResponse<Accounts>>
     {
         private readonly IUnitOfWork _uow;
         public GetAccountHandler(IUnitOfWork uow)
         {
             _uow = uow;
         }
-        public async Task<TResponse<Account>> Handle(GetAccountQuery request, CancellationToken cancellationToken)
+        public async Task<TResponse<Accounts>> Handle(GetAccountQuery request, CancellationToken cancellationToken)
         {
-            var existingUser = await _uow.AccountRepo.GetFireStoreAsync(request.Uid);
-            if (existingUser is not null)
-                return new TResponse<Account>
+            var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
+            if (existingUser.Any())
+                return new TResponse<Accounts>
                 {
                     Message = "Get account successfully",
-                    Response = existingUser
+                    Response = existingUser[0]
                 };
 
-            return new TResponse<Account>
+            return new TResponse<Accounts>
             {
                 Message = "The user does not exist",
                 Response = null

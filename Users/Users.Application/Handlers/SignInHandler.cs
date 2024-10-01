@@ -18,59 +18,37 @@ namespace Users.Application.Handlers
     public class SignInHandler : IRequestHandler<SignInCommand, object>
     {
         private readonly IUnitOfWork _uow;
-        private readonly IAuthenRepository _authen;
         private readonly IConfiguration _config;
-        public SignInHandler(IUnitOfWork uow, IConfiguration config, IAuthenRepository authen)
+        public SignInHandler(IUnitOfWork uow, IConfiguration config)
         {
             _uow = uow;
             _config = config;
-            _authen = authen;
         }
         public async Task<object> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
-            var existingUser = await _authen.GetAuthenDbAsync(uid: request.Uid);
-            if (existingUser is null)
-                return "The customer does not exist";
+            var existingUser = (await _uow.AccountRepo.GetAsync(e => e.Email.Equals(request.Email) &&
+                                e.Password.Equals(Tools.HashString(request.Password)))).ToList();
+            if (!existingUser.Any())
+                return "The user does not exist";
 
-            var getUserFireStore = await _uow.AccountRepo.GetFireStoreAsync(request.Uid);
-            if (getUserFireStore is not null && existingUser.Disabled)
+            if (existingUser.Any() && existingUser[0].IsDisabled)
                 return $"Your account has been disabled " +
-                    $"by admin for reason {getUserFireStore.StatusInText}";
-
-            var time = Tools.GetDynamicTimeZone();
-            string timeString = time.ToString("dd/MM/yyyy HH:mm:ss");
-            if (getUserFireStore is null)
-            {
-                var account = UserMapper.Mapper.Map<Account>(existingUser);
-                account.DisplayName = "user " + Tools.GenerateRandomString(8);
-                account.PhotoUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
-                account.Role = Constants.Role.CustomerRole;
-                account.CreatedAt = timeString;
-                getUserFireStore = await _uow.AccountRepo.CreateFireStoreAsync(account.Uid, account);
-            }
-
-            //if (existingUser.EmailVerified is false)
-            //{
-            //    EmailSender emailSender = new(_config);
-            //    string subject = "Verify your email";
-            //    string body = await _uow.AccountRepo.GetEmailVerificationLinkAsync(existingUser.Email);
-            //    await emailSender.SendEmailAsync(existingUser.Email, subject, body);
-            //}
-
+                    $"for reason {existingUser[0].DisabledReason}";
+            
             JwtAuthen jwtAuthen = new(_config);
-            var token = jwtAuthen.GenerateJwtToken(getUserFireStore.Uid, getUserFireStore.Role);
+            var token = jwtAuthen.GenerateJwtToken(existingUser[0].AccountId, existingUser[0].Role);
 
             RefreshTokens refreshToken = new()
             {
-                Uid = getUserFireStore.Uid,
+                AccountId = existingUser[0].AccountId,
                 Token = token.Item2,
-                ExpiredAt = time.AddYears(1).ToString("dd/MM/yyyy HH:mm:ss")
+                ExpiredAt = Tools.GetDynamicTimeZone().AddYears(1)
             };
 
-            var getRefreshToken = await _uow.RefreshTokenRepo.GetFireStoreAsync(getUserFireStore.Uid);
-            if (getRefreshToken is null)
-                await _uow.RefreshTokenRepo.CreateFireStoreAsync(getUserFireStore.Uid, refreshToken);
-            await _uow.RefreshTokenRepo.UpdateFireStoreAsync(getUserFireStore.Uid, refreshToken);
+            var getRefreshToken = (await _uow.RefreshTokenRepo.GetAsync(g => g.AccountId.Equals(existingUser[0].AccountId))).ToList();
+            if (!getRefreshToken.Any())
+                await _uow.RefreshTokenRepo.AddAsync(refreshToken);
+            await _uow.RefreshTokenRepo.UpdateAsync(refreshToken);
 
             return new
             {

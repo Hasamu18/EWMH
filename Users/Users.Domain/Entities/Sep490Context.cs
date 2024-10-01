@@ -55,49 +55,53 @@ public partial class Sep490Context : DbContext
     {
         modelBuilder.Entity<Accounts>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__Accounts__349DA5A68C0F63CB");
+            entity.HasKey(e => e.AccountId).HasName("PK__Accounts__349DA5A6C479158C");
+
+            entity.HasIndex(e => e.Email, "UQ__Accounts__A9D10534ACC32919").IsUnique();
 
             entity.Property(e => e.AccountId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.AvatarUrl).HasMaxLength(255);
-            entity.Property(e => e.DisabledReason).HasColumnType("text");
-            entity.Property(e => e.Email)
-                .HasMaxLength(50)
+            entity.Property(e => e.AvatarUrl)
+                .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e => e.FullName).HasMaxLength(50);
-            entity.Property(e => e.Password).HasMaxLength(255);
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FullName).HasMaxLength(255);
+            entity.Property(e => e.Password)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.PhoneNumber)
                 .HasMaxLength(11)
                 .IsUnicode(false);
-            entity.Property(e => e.Role).HasMaxLength(255);
+            entity.Property(e => e.Role)
+                .HasMaxLength(20)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<ApartmentAreas>(entity =>
         {
-            entity.HasKey(e => e.AreaId).HasName("PK__Apartmen__70B8204838EA211B");
-
-            entity.HasIndex(e => e.Name, "UQ__Apartmen__737584F6222E7E0B").IsUnique();
+            entity.HasKey(e => e.AreaId).HasName("PK__Apartmen__70B82048E022DC02");
 
             entity.Property(e => e.AreaId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.Address).HasMaxLength(255);
-            entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.LeaderId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.ManagementCompany).HasMaxLength(50);
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.ManagementCompany).HasMaxLength(255);
+            entity.Property(e => e.Name).HasMaxLength(255);
 
             entity.HasOne(d => d.Leader).WithMany(p => p.ApartmentAreas)
                 .HasForeignKey(d => d.LeaderId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Apartment__Leade__71D1E811");
         });
 
         modelBuilder.Entity<Contracts>(entity =>
         {
-            entity.HasKey(e => e.ContractId).HasName("PK__Contract__C90D3469AFA16E4F");
+            entity.HasKey(e => e.ContractId).HasName("PK__Contract__C90D34694CE1509D");
 
             entity.Property(e => e.ContractId)
                 .HasMaxLength(32)
@@ -126,7 +130,7 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<Customers>(entity =>
         {
-            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D872419D93");
+            entity.HasKey(e => e.CustomerId).HasName("PK__Customer__A4AE64D85D28D288");
 
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(32)
@@ -142,29 +146,30 @@ public partial class Sep490Context : DbContext
 
             entity.HasOne(d => d.Room).WithMany(p => p.Customers)
                 .HasForeignKey(d => d.RoomId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Customers__RoomI__6EF57B66");
         });
 
         modelBuilder.Entity<Feedbacks>(entity =>
         {
-            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDD678559311");
+            entity.HasKey(e => e.FeedbackId).HasName("PK__Feedback__6A4BEDD6268B547F");
 
             entity.Property(e => e.FeedbackId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.Content).HasColumnType("text");
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.CustomerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Feedbacks__Custo__72C60C4A");
         });
 
         modelBuilder.Entity<Leaders>(entity =>
         {
-            entity.HasKey(e => e.LeaderId).HasName("PK__Leaders__FCCA651679DA174D");
+            entity.HasKey(e => e.LeaderId).HasName("PK__Leaders__FCCA6516135ED4CB");
 
             entity.Property(e => e.LeaderId)
                 .HasMaxLength(32)
@@ -178,7 +183,7 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<OrderDetails>(entity =>
         {
-            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("PK__OrderDet__08D097A3978BE9A3");
+            entity.HasKey(e => new { e.OrderId, e.ProductId }).HasName("PK__OrderDet__08D097A3166A9894");
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(32)
@@ -200,7 +205,7 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<Orders>(entity =>
         {
-            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCF948BA272");
+            entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BCF5BEB50DE");
 
             entity.Property(e => e.OrderId)
                 .HasMaxLength(32)
@@ -208,7 +213,9 @@ public partial class Sep490Context : DbContext
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.FileUrl).HasMaxLength(255);
+            entity.Property(e => e.FileUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.PurchaseTime).HasColumnType("datetime");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.Orders)
@@ -219,7 +226,7 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<PriceRequests>(entity =>
         {
-            entity.HasKey(e => e.PriceRequestId).HasName("PK__PriceReq__082B9AAA0752DA67");
+            entity.HasKey(e => e.PriceRequestId).HasName("PK__PriceReq__082B9AAA6EDEBA8D");
 
             entity.Property(e => e.PriceRequestId)
                 .HasMaxLength(32)
@@ -232,7 +239,7 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<ProductPrices>(entity =>
         {
-            entity.HasKey(e => e.ProductPriceId).HasName("PK__ProductP__92B9436F9F076212");
+            entity.HasKey(e => e.ProductPriceId).HasName("PK__ProductP__92B9436F115BFCA4");
 
             entity.Property(e => e.ProductPriceId)
                 .HasMaxLength(32)
@@ -250,20 +257,21 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<Products>(entity =>
         {
-            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CD3AC9DE36");
+            entity.HasKey(e => e.ProductId).HasName("PK__Products__B40CC6CD5788F154");
 
             entity.Property(e => e.ProductId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.Description).HasColumnType("text");
-            entity.Property(e => e.ImageUrl).IsUnicode(false);
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.InOfStock).HasColumnName("In_Of_Stock");
-            entity.Property(e => e.Name).HasMaxLength(50);
+            entity.Property(e => e.Name).HasMaxLength(255);
         });
 
         modelBuilder.Entity<RequestDetails>(entity =>
         {
-            entity.HasKey(e => new { e.RequestId, e.ProductId }).HasName("PK__RequestD__F8E89D16A9577530");
+            entity.HasKey(e => new { e.RequestId, e.ProductId }).HasName("PK__RequestD__F8E89D163DF45E20");
 
             entity.Property(e => e.RequestId)
                 .HasMaxLength(32)
@@ -271,7 +279,6 @@ public partial class Sep490Context : DbContext
             entity.Property(e => e.ProductId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.Description).HasColumnType("text");
 
             entity.HasOne(d => d.Product).WithMany(p => p.RequestDetails)
                 .HasForeignKey(d => d.ProductId)
@@ -286,18 +293,18 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<Requests>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8517AD064012D");
+            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8517A672062B1");
 
             entity.Property(e => e.RequestId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.Conclusion).HasColumnType("text");
             entity.Property(e => e.CustomerId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.CustomerProblem).HasColumnType("text");
             entity.Property(e => e.End).HasColumnType("datetime");
-            entity.Property(e => e.FileUrl).HasMaxLength(255);
+            entity.Property(e => e.FileUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
             entity.Property(e => e.LeaderId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
@@ -334,7 +341,7 @@ public partial class Sep490Context : DbContext
                         .HasConstraintName("FK__RequestWo__Reque__7B5B524B"),
                     j =>
                     {
-                        j.HasKey("RequestId", "WorkerId").HasName("PK__RequestW__43DF99F85F2E3D1C");
+                        j.HasKey("RequestId", "WorkerId").HasName("PK__RequestW__43DF99F8854E7683");
                         j.IndexerProperty<string>("RequestId")
                             .HasMaxLength(32)
                             .IsUnicode(false);
@@ -346,9 +353,9 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<Rooms>(entity =>
         {
-            entity.HasKey(e => e.RoomId).HasName("PK__Rooms__3286393969D291C6");
+            entity.HasKey(e => e.RoomId).HasName("PK__Rooms__32863939364A0AA2");
 
-            entity.HasIndex(e => e.RoomCode, "UQ__Rooms__4F9D523106920F82").IsUnique();
+            entity.HasIndex(e => e.RoomCode, "UQ__Rooms__4F9D52318D162697").IsUnique();
 
             entity.Property(e => e.RoomId)
                 .HasMaxLength(32)
@@ -368,7 +375,7 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<ServicePackagePrices>(entity =>
         {
-            entity.HasKey(e => e.ServicePackagePriceId).HasName("PK__ServiceP__290654CC09F8ABDD");
+            entity.HasKey(e => e.ServicePackagePriceId).HasName("PK__ServiceP__290654CC961DEFA8");
 
             entity.Property(e => e.ServicePackagePriceId)
                 .HasMaxLength(32)
@@ -386,20 +393,21 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<ServicePackages>(entity =>
         {
-            entity.HasKey(e => e.ServicePackageId).HasName("PK__ServiceP__0747A82F303326E8");
+            entity.HasKey(e => e.ServicePackageId).HasName("PK__ServiceP__0747A82F640821C3");
 
             entity.Property(e => e.ServicePackageId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.Description).HasColumnType("text");
-            entity.Property(e => e.ImageUrl).IsUnicode(false);
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.Policy).HasColumnType("text");
+            entity.Property(e => e.Description).HasMaxLength(255);
+            entity.Property(e => e.ImageUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.Name).HasMaxLength(255);
         });
 
         modelBuilder.Entity<WarrantyCards>(entity =>
         {
-            entity.HasKey(e => e.WarrantyCardId).HasName("PK__Warranty__3C3D834A7D59DD83");
+            entity.HasKey(e => e.WarrantyCardId).HasName("PK__Warranty__3C3D834A87138BCB");
 
             entity.Property(e => e.WarrantyCardId)
                 .HasMaxLength(32)
@@ -408,7 +416,9 @@ public partial class Sep490Context : DbContext
             entity.Property(e => e.OrderId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-            entity.Property(e => e.ProductId).HasMaxLength(255);
+            entity.Property(e => e.ProductId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Order).WithMany(p => p.WarrantyCards)
@@ -419,7 +429,7 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<Workers>(entity =>
         {
-            entity.HasKey(e => e.WorkerId).HasName("PK__Workers__077C88266E3C2199");
+            entity.HasKey(e => e.WorkerId).HasName("PK__Workers__077C8826890163ED");
 
             entity.Property(e => e.WorkerId)
                 .HasMaxLength(32)

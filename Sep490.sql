@@ -1,9 +1,10 @@
+create database Sep490
 CREATE TABLE [Contracts] (
   [ContractId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
   [ServicePackageId] varchar(32) NOT NULL,
-  [FileUrl] varchar(255),
-  [PurchaseTime] datetime,
+  [FileUrl] varchar(255) NOT NULL,
+  [PurchaseTime] datetime NOT NULL,
   PRIMARY KEY ([ContractId])
 )
 GO
@@ -11,9 +12,9 @@ GO
 CREATE TABLE [Orders] (
   [OrderId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
-  [PurchaseTime] datetime,
-  [Status] bit,
-  [FileUrl] nvarchar(255),
+  [PurchaseTime] datetime NOT NULL,
+  [Status] bit NOT NULL,
+  [FileUrl] varchar(255),
   PRIMARY KEY ([OrderId])
 )
 GO
@@ -21,21 +22,21 @@ GO
 CREATE TABLE [WarrantyCards] (
   [WarrantyCardId] varchar(32) NOT NULL,
   [OrderId] varchar(32) NOT NULL,
-  [ProductId] nvarchar(255) NOT NULL,
-  [StartDate] datetime,
-  [ExpireDate] datetime,
+  [ProductId] varchar(32) NOT NULL,
+  [StartDate] datetime NOT NULL,
+  [ExpireDate] datetime NOT NULL,
   PRIMARY KEY ([WarrantyCardId])
 )
 GO
 
 CREATE TABLE [Products] (
   [ProductId] varchar(32) NOT NULL,
-  [Name] nvarchar(50),
-  [Description] text,
-  [ImageUrl] varchar(max),
-  [In_Of_Stock] int,
-  [WarantyMonths] int,
-  [Status] bit,
+  [Name] nvarchar(255) NOT NULL,
+  [Description] nvarchar(max) NOT NULL,
+  [ImageUrl] varchar(255) NOT NULL,
+  [In_Of_Stock] int NOT NULL,
+  [WarantyMonths] int NOT NULL,
+  [Status] bit NOT NULL,
   PRIMARY KEY ([ProductId])
 )
 GO
@@ -45,72 +46,72 @@ CREATE TABLE [Requests] (
   [PriceRequestId] varchar(32) NOT NULL,
   [LeaderId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
-  [Start] datetime,
+  [Start] datetime NOT NULL,
   [End] datetime,
-  [CustomerProblem] text,
-  [Conclusion] text,
-  [Status] int,
-  [CategoryRequest] int,
+  [CustomerProblem] nvarchar(max) NOT NULL,
+  [Conclusion] nvarchar(max),
+  [Status] int NOT NULL,
+  [CategoryRequest] int NOT NULL,
   [TotalPrice] int,
-  [FileUrl] nvarchar(255),
+  [FileUrl] varchar(255),
   PRIMARY KEY ([RequestId])
 )
 GO
 
 CREATE TABLE [ServicePackages] (
   [ServicePackageId] varchar(32) NOT NULL,
-  [Name] nvarchar(50),
-  [Description] text,
-  [ImageUrl] varchar(max),
-  [NumOfRequest] int,
-  [Policy] text,
-  [Status] bit,
+  [Name] nvarchar(255) NOT NULL,
+  [Description] nvarchar(255) NOT NULL,
+  [ImageUrl] varchar(255) NOT NULL,
+  [NumOfRequest] int NOT NULL,
+  [Policy] nvarchar(max) NOT NULL,
+  [Status] bit NOT NULL,
   PRIMARY KEY ([ServicePackageId])
 )
 GO
 
 CREATE TABLE [Customers] (
-  [CustomerId] varchar(32),
-  [RoomId] varchar(32),
+  [CustomerId] varchar(32) NOT NULL,
+  [RoomId] varchar(32) NOT NULL,
   PRIMARY KEY ([CustomerId])
 )
 GO
 
 CREATE TABLE [Workers] (
-  [WorkerId] varchar(32),
-  [LeaderId] varchar(32) NOT NULL,
+  [WorkerId] varchar(32) NOT NULL,
+  [LeaderId] varchar(32),
   PRIMARY KEY ([WorkerId])
 )
 GO
 
 CREATE TABLE [Leaders] (
-  [LeaderId] varchar(32),
+  [LeaderId] varchar(32) NOT NULL,
   PRIMARY KEY ([LeaderId])
 )
 GO
 
 CREATE TABLE [Accounts] (
   [AccountId] varchar(32) NOT NULL,
-  [FullName] nvarchar(50),
-  [Email] varchar(50),
-  [Password] nvarchar(255),
-  [PhoneNumber] varchar(11),
-  [AvatarUrl] nvarchar(255),
-  [DateOfBirth] date,
-  [IsDisabled] bit,
-  [DisabledReason] text,
-  [Role] nvarchar(255),
+  [FullName] nvarchar(255) NOT NULL,
+  [Email] varchar(255) UNIQUE NOT NULL,
+  [Password] varchar(255) NOT NULL,
+  [PhoneNumber] varchar(11) NOT NULL,
+  [AvatarUrl] varchar(255) NOT NULL,
+  [DateOfBirth] date NOT NULL,
+  [IsDisabled] bit NOT NULL,
+  [DisabledReason] nvarchar(max),
+  [Role] varchar(20) NOT NULL,
   PRIMARY KEY ([AccountId])
 )
 GO
 
 CREATE TABLE [ApartmentAreas] (
   [AreaId] varchar(32) NOT NULL,
-  [LeaderId] varchar(32),
-  [Name] nvarchar(50) UNIQUE NOT NULL,
-  [Description] text,
-  [Address] nvarchar(255),
-  [ManagementCompany] nvarchar(50),
+  [LeaderId] varchar(32) NOT NULL,
+  [Name] nvarchar(255) NOT NULL,
+  [Description] nvarchar(max) NOT NULL,
+  [Address] nvarchar(max) NOT NULL,
+  [ManagementCompany] nvarchar(255) NOT NULL,
   PRIMARY KEY ([AreaId])
 )
 GO
@@ -126,9 +127,9 @@ GO
 CREATE TABLE [OrderDetails] (
   [OrderId] varchar(32) NOT NULL,
   [ProductId] varchar(32) NOT NULL,
-  [Quantity] int,
-  [Price] int,
-  [TotalPrice] int,
+  [Quantity] int NOT NULL,
+  [Price] int NOT NULL,
+  [TotalPrice] int NOT NULL,
   PRIMARY KEY ([OrderId], [ProductId])
 )
 GO
@@ -136,9 +137,9 @@ GO
 CREATE TABLE [RequestDetails] (
   [RequestId] varchar(32) NOT NULL,
   [ProductId] varchar(32) NOT NULL,
-  [Quantity] int,
-  [IsCustomerPaying] bit,
-  [Description] text,
+  [Quantity] int NOT NULL,
+  [IsCustomerPaying] bit NOT NULL,
+  [Description] nvarchar(max) NOT NULL,
   PRIMARY KEY ([RequestId], [ProductId])
 )
 GO
@@ -146,8 +147,8 @@ GO
 CREATE TABLE [ProductPrices] (
   [ProductPriceId] varchar(32) NOT NULL,
   [ProductId] varchar(32) NOT NULL,
-  [Date] datetime,
-  [PriceByDate] int,
+  [Date] datetime NOT NULL,
+  [PriceByDate] int NOT NULL,
   PRIMARY KEY ([ProductPriceId])
 )
 GO
@@ -155,8 +156,8 @@ GO
 CREATE TABLE [PriceRequests] (
   [PriceRequestId] varchar(32) NOT NULL,
   [Description] varchar(32) NOT NULL,
-  [Date] datetime,
-  [PriceByDate] int,
+  [Date] datetime NOT NULL,
+  [PriceByDate] int NOT NULL,
   PRIMARY KEY ([PriceRequestId])
 )
 GO
@@ -164,8 +165,8 @@ GO
 CREATE TABLE [ServicePackagePrices] (
   [ServicePackagePriceId] varchar(32) NOT NULL,
   [ServicePackageId] varchar(32) NOT NULL,
-  [Date] datetime,
-  [PriceByDate] int,
+  [Date] datetime NOT NULL,
+  [PriceByDate] int NOT NULL,
   PRIMARY KEY ([ServicePackagePriceId])
 )
 GO
@@ -179,10 +180,10 @@ GO
 
 CREATE TABLE [Feedbacks] (
   [FeedbackId] varchar(32) NOT NULL,
-  [CustomerId] varchar(32),
-  [Content] text,
-  [Rate] int,
-  [Status] bit,
+  [CustomerId] varchar(32) NOT NULL,
+  [Content] nvarchar(max) NOT NULL,
+  [Rate] int NOT NULL,
+  [Status] bit NOT NULL,
   PRIMARY KEY ([FeedbackId])
 )
 GO

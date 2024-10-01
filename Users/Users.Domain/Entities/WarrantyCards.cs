@@ -11,9 +11,9 @@ public partial class WarrantyCards
 
     public string ProductId { get; set; } = null!;
 
-    public DateTime? StartDate { get; set; }
+    public DateTime StartDate { get; set; }
 
-    public DateTime? ExpireDate { get; set; }
+    public DateTime ExpireDate { get; set; }
 
     public virtual Orders Order { get; set; } = null!;
 }

@@ -10,16 +10,18 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Commands
 {
-    public class CreatePersonnelCommand : IRequest<TResponse<Account>>
+    public class CreatePersonnelCommand : IRequest<string>
     {
+        [StringLength(20, MinimumLength = 2)]
+        public required string FullName { get; set; }
+
         [EmailAddress]
         public required string Email { get; set; }
 
         [Phone]
         public required string PhoneNumber { get; set; }
 
-        [StringLength(20, MinimumLength = 6)]
-        public required string DisplayName { get; set; }
+        public DateOnly DateOfBirth { get; set; }
 
         public required string Role { get; set; }
     }

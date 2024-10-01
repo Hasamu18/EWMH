@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cD9LJ88NaXQ=",
+  "dgSpecHash": "fFhWZmsOuJs=",
   "success": true,
-  "projectFilePath": "D:\\C#\\SEP490\\Sep490\\Users\\Users.Api\\Users.Api.csproj",
+  "projectFilePath": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Users.Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MSI BH\\.nuget\\packages\\aspnetcore.healthchecks.sqlserver\\8.0.2\\aspnetcore.healthchecks.sqlserver.8.0.2.nupkg.sha512",
     "C:\\Users\\MSI BH\\.nuget\\packages\\aspnetcore.healthchecks.ui.client\\8.0.1\\aspnetcore.healthchecks.ui.client.8.0.1.nupkg.sha512",

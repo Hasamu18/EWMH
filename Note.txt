@@ -1,0 +1,1 @@
+dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;uid=sa;pwd=12345;database=Sep490;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir Entities --no-pluralize --force

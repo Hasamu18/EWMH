@@ -10,15 +10,21 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Commands
 {
-    public class UpdateAccountCommand : IRequest<TResponse<Account>>
+    public class UpdateAccountCommand : IRequest<string>
     {
-        public string Uid { get; set; }
-        
-        public string DisplayName { get; set; }
-        public UpdateAccountCommand(string uid, string displayName)
+        public string AccountId { get; set; }
+
+        [StringLength(20, MinimumLength = 2)]
+        public string FullName { get; set; }
+        [Phone]
+        public string PhoneNumber { get; set; }
+        public DateOnly DateOfBirth { get; set; }
+        public UpdateAccountCommand(string accountId, string fullName, string phoneNumber, DateOnly dateOfBirth)
         {
-            Uid = uid;
-            DisplayName = displayName;
+            AccountId = accountId;
+            FullName = fullName;
+            PhoneNumber = phoneNumber;
+            DateOfBirth = dateOfBirth;
         }
     }
 }
