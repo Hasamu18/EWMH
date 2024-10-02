@@ -7,7 +7,7 @@ public partial class ApartmentAreas
 {
     public string AreaId { get; set; } = null!;
 
-    public string LeaderId { get; set; } = null!;
+    public string? LeaderId { get; set; }
 
     public string Name { get; set; } = null!;
 

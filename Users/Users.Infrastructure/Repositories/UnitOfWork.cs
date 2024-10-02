@@ -51,5 +51,17 @@ namespace Users.Infrastructure.Repositories
         {
             get => _refreshTokenRepo ??= new GenericRepository<RefreshTokens>(_context);
         }
+
+        private IGenericRepository<ApartmentAreas> _apartmentAreaRepo;
+        public IGenericRepository<ApartmentAreas> ApartmentAreaRepo
+        {
+            get => _apartmentAreaRepo ??= new GenericRepository<ApartmentAreas>(_context);
+        }
+
+        private IGenericRepository<Rooms> _roomRepo;
+        public IGenericRepository<Rooms> RoomRepo
+        {
+            get => _roomRepo ??= new GenericRepository<Rooms>(_context);
+        }
     }
 }

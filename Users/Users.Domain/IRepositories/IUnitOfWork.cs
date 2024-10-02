@@ -14,5 +14,7 @@ namespace Users.Domain.IRepositories
         IGenericRepository<Workers> WorkerRepo { get; }
         IGenericRepository<Customers> CustomerRepo { get; }
         IGenericRepository<RefreshTokens> RefreshTokenRepo { get; }
+        IGenericRepository<ApartmentAreas> ApartmentAreaRepo { get; }
+        IGenericRepository<Rooms> RoomRepo { get; }
     }
 }
