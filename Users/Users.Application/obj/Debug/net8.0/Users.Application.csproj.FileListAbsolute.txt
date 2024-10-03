@@ -28,3 +28,4 @@ D:\C#\SEP490\Sep490\Users\Users.Application\obj\Debug\net8.0\Users.Application.d
 D:\C#\SEP490\Sep490\Users\Users.Application\obj\Debug\net8.0\refint\Users.Application.dll
 D:\C#\SEP490\Sep490\Users\Users.Application\obj\Debug\net8.0\Users.Application.pdb
 D:\C#\SEP490\Sep490\Users\Users.Application\obj\Debug\net8.0\ref\Users.Application.dll
+D:\C#\SEP490\EWMH\Users\Users.Application\obj\Debug\net8.0\Users.Application.sourcelink.json

@@ -9,7 +9,7 @@ public partial class Workers
 
     public string? LeaderId { get; set; }
 
-    public virtual Leaders Leader { get; set; } = null!;
+    public virtual Leaders? Leader { get; set; }
 
     public virtual Accounts Worker { get; set; } = null!;
 

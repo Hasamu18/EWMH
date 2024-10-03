@@ -40,7 +40,7 @@ namespace Users.Application.Utility
                 signingCredentials: signingCredentials
                 );
             var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
-            var refreshToken = GenerateRefreshToken();
+            var refreshToken = Tools.GenerateIdFormat32();
             return (accessToken, refreshToken);
         }
 

@@ -21,17 +21,20 @@ namespace Users.Application.Handlers
 
         public async Task<string> Handle(AddRoomsCommand request, CancellationToken cancellationToken)
         {
-            var existingApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.AreaId.Equals(request.AreaId))).ToList();
+            var existingApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.AreaId.Equals(request.AreaId),
+                                                                           includeProperties: "Rooms")).ToList();
             if (existingApartment.Count == 0)
                 return "Unexisted apartment";
 
-            var duplicateRooms = request.Rooms
+            var roomsInApartmentCurrent = existingApartment[0].Rooms.Select(r => r.RoomCode).ToList();
+            var allRoomCurrent = roomsInApartmentCurrent.Concat(request.Rooms).ToList();
+            var duplicateRooms = allRoomCurrent
                 .GroupBy(room => room)
                 .Where(group => group.Count() > 1)
                 .Select(group => group.Key)
                 .ToList();
 
-            if (duplicateRooms.Any())
+            if (duplicateRooms.Count != 0)
                 return $"The following rooms are duplicated: {string.Join(", ", duplicateRooms)}";
 
             foreach (var room in request.Rooms)

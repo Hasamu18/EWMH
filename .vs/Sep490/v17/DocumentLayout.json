@@ -3,80 +3,32 @@
   "WorkspaceRootPath": "D:\\C#\\SEP490\\EWMH\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\updateroomhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\updateroomhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\commands\\updateroomcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\commands\\updateroomcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\addroomshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\addroomshandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\commands\\addroomscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\commands\\addroomscommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\entities\\rooms.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\entities\\rooms.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\updateapartmenthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\updateapartmenthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\commands\\updateapartmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\commands\\updateapartmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\commands\\addapartmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\commands\\addapartmentcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\addapartmenthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\addapartmenthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\entities\\apartmentareas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\entities\\apartmentareas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\createcustomerhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\createcustomerhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\queries\\getpagedaccountquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\queries\\getpagedaccountquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|d:\\c#\\sep490\\ewmh\\users\\users.infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|solutionrelative:users\\users.infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\getpagedaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\getpagedaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\entities\\accounts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\entities\\accounts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7AD713DE-3507-4AE4-8335-63DFAC9BEB0F}|Users\\Users.Api\\Users.Api.csproj|d:\\c#\\sep490\\ewmh\\users\\users.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7AD713DE-3507-4AE4-8335-63DFAC9BEB0F}|Users\\Users.Api\\Users.Api.csproj|solutionrelative:users\\users.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\queries\\getpagedaccountquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\queries\\getpagedaccountquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|d:\\c#\\sep490\\ewmh\\users\\users.infrastructure\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|solutionrelative:users\\users.infrastructure\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|d:\\c#\\sep490\\ewmh\\users\\users.infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|solutionrelative:users\\users.infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|d:\\c#\\sep490\\ewmh\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
@@ -151,193 +103,38 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UpdateRoomHandler.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\UpdateRoomHandler.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\UpdateRoomHandler.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\UpdateRoomHandler.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Handlers\\UpdateRoomHandler.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAgwB0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T04:40:37.939Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UpdateRoomCommand.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\UpdateRoomCommand.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Commands\\UpdateRoomCommand.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\UpdateRoomCommand.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Commands\\UpdateRoomCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T04:27:13.771Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "AddRoomsHandler.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\AddRoomsHandler.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\AddRoomsHandler.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\AddRoomsHandler.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Handlers\\AddRoomsHandler.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAcwBsAAAAuAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T04:13:49.604Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AddRoomsCommand.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\AddRoomsCommand.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Commands\\AddRoomsCommand.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\AddRoomsCommand.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Commands\\AddRoomsCommand.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAwAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T04:12:04.532Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "UpdateApartmentHandler.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\UpdateApartmentHandler.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\UpdateApartmentHandler.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\UpdateApartmentHandler.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Handlers\\UpdateApartmentHandler.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T03:22:51.434Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UpdateApartmentCommand.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\UpdateApartmentCommand.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Commands\\UpdateApartmentCommand.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\UpdateApartmentCommand.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Commands\\UpdateApartmentCommand.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAcwAwAAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T03:18:55.219Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Rooms.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Entities\\Rooms.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Domain\\Entities\\Rooms.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Entities\\Rooms.cs",
-              "RelativeToolTip": "Users\\Users.Domain\\Entities\\Rooms.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T03:07:06.619Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ApartmentAreas.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Entities\\ApartmentAreas.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Domain\\Entities\\ApartmentAreas.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Entities\\ApartmentAreas.cs",
-              "RelativeToolTip": "Users\\Users.Domain\\Entities\\ApartmentAreas.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAcAAAAvAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T03:02:02.473Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AddApartmentHandler.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAgwB8AAABBAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T02:44:34.686Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "AddApartmentCommand.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\AddApartmentCommand.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Commands\\AddApartmentCommand.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Commands\\AddApartmentCommand.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Commands\\AddApartmentCommand.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAQwBYAAAA+AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-02T02:40:04.242Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "CreateCustomerHandler.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\CreateCustomerHandler.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\CreateCustomerHandler.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\CreateCustomerHandler.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Handlers\\CreateCustomerHandler.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAgwB0AAAA2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T14:20:37.747Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
               "Title": "GetPagedAccountHandler.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
               "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
               "RelativeToolTip": "Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABIAAAAJAAAA",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAtwBoAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T08:41:37.487Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 2,
               "Title": "GetPagedAccountQuery.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
               "RelativeDocumentMoniker": "Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
               "RelativeToolTip": "Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAABsAAAAAAAAAAAAAABMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T08:41:34.642Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "Accounts.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Entities\\Accounts.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Domain\\Entities\\Accounts.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\Entities\\Accounts.cs",
-              "RelativeToolTip": "Users\\Users.Domain\\Entities\\Accounts.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAwwBcAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T04:53:06.733Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 3,
               "Title": "IGenericRepository.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
               "RelativeDocumentMoniker": "Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
               "RelativeToolTip": "Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAwwBcAAAAAAAAA",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAuwA8AAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T04:18:10.098Z",
               "EditorCaption": ""
@@ -350,14 +147,14 @@
               "RelativeDocumentMoniker": "Users\\Users.Domain\\IRepositories\\IUnitOfWork.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\IRepositories\\IUnitOfWork.cs",
               "RelativeToolTip": "Users\\Users.Domain\\IRepositories\\IUnitOfWork.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABEAAAAqAAAA",
+              "ViewState": "AQIAAAwAAAAAAAAAAAA5wBEAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-09-30T07:46:55.359Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 6,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Repositories\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "Users\\Users.Infrastructure\\Repositories\\UnitOfWork.cs",
@@ -365,12 +162,11 @@
               "RelativeToolTip": "Users\\Users.Infrastructure\\Repositories\\UnitOfWork.cs",
               "ViewState": "AQIAADEAAAAAAAAAAAA0wDsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T07:31:22.537Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T07:31:22.537Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 8,
               "Title": "docker-compose.override.yml",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\docker-compose.override.yml",
               "RelativeDocumentMoniker": "docker-compose.override.yml",
@@ -382,7 +178,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 7,
               "Title": "docker-compose.yml",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\docker-compose.yml",
               "RelativeDocumentMoniker": "docker-compose.yml",
@@ -394,7 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 9,
               "Title": "ocelot.Docker.json",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Docker.json",
               "RelativeDocumentMoniker": "Gateway\\ApiGateway\\ocelot.Docker.json",
@@ -406,7 +202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 10,
               "Title": "ocelot.Development.json",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Development.json",
               "RelativeDocumentMoniker": "Gateway\\ApiGateway\\ocelot.Development.json",
@@ -418,25 +214,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 1,
               "Title": "AccountController.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Users\\Users.Api\\Controllers\\AccountController.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\AccountController.cs",
               "RelativeToolTip": "Users\\Users.Api\\Controllers\\AccountController.cs",
-              "ViewState": "AQIAAHYAAAAAAAAAAAAiwIMAAAAiAAAA",
+              "ViewState": "AQIAAK4AAAAAAAAAAAAWwLgAAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-28T03:12:22.161Z"
+              "WhenOpened": "2024-08-28T03:12:22.161Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 5,
               "Title": "GenericRepository.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
               "RelativeDocumentMoniker": "Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
               "RelativeToolTip": "Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
-              "ViewState": "AQIAAMEAAAAAAAAAAAAswJ8AAAAAAAAA",
+              "ViewState": "AQIAACkAAAAAAAAAAAAWwDMAAABWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-08-27T03:37:14.84Z"
             }

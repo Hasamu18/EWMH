@@ -1,1 +1,9 @@
+username: sep490
+password: Khoi@123
+
+DB first
+LocalHost
 dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;uid=sa;pwd=12345;database=Sep490;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir Entities --no-pluralize --force
+
+Deplayed DB
+dotnet ef dbcontext scaffold "Server=tcp:sep490server.database.windows.net,1433;Initial Catalog=Sep490;Persist Security Info=False;User ID=sep490;Password=Khoi@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Entities --no-pluralize --force

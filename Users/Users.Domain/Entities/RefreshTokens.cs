@@ -1,18 +1,13 @@
-﻿using Google.Cloud.Firestore;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Users.Domain.Entities
+namespace Users.Domain.Entities;
+
+public partial class RefreshTokens
 {
-    public sealed class RefreshTokens
-    {
-        public required string AccountId { get; set; }
+    public string AccountId { get; set; } = null!;
 
-        public required string Token { get; set; }
+    public string Token { get; set; } = null!;
 
-        public DateTime ExpiredAt { get; set; }
-    }
+    public DateTime ExpiredAt { get; set; }
 }

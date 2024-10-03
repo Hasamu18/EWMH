@@ -7,8 +7,6 @@ public partial class Requests
 {
     public string RequestId { get; set; } = null!;
 
-    public string PriceRequestId { get; set; } = null!;
-
     public string LeaderId { get; set; } = null!;
 
     public string CustomerId { get; set; } = null!;
@@ -33,7 +31,7 @@ public partial class Requests
 
     public virtual Leaders Leader { get; set; } = null!;
 
-    public virtual PriceRequests PriceRequest { get; set; } = null!;
+    public virtual ICollection<PriceRequests> PriceRequests { get; set; } = new List<PriceRequests>();
 
     public virtual ICollection<RequestDetails> RequestDetails { get; set; } = new List<RequestDetails>();
 

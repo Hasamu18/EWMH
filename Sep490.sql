@@ -1,10 +1,10 @@
-create database Sep490
 CREATE TABLE [Contracts] (
   [ContractId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
   [ServicePackageId] varchar(32) NOT NULL,
   [FileUrl] varchar(255) NOT NULL,
   [PurchaseTime] datetime NOT NULL,
+  [RemainingNumOfRequests] int NOT NULL,
   PRIMARY KEY ([ContractId])
 )
 GO
@@ -43,7 +43,6 @@ GO
 
 CREATE TABLE [Requests] (
   [RequestId] varchar(32) NOT NULL,
-  [PriceRequestId] varchar(32) NOT NULL,
   [LeaderId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
   [Start] datetime NOT NULL,
@@ -100,7 +99,7 @@ CREATE TABLE [Accounts] (
   [DateOfBirth] date NOT NULL,
   [IsDisabled] bit NOT NULL,
   [DisabledReason] nvarchar(max),
-  [Role] varchar(20) NOT NULL,
+  [Role] varchar(10) NOT NULL,
   PRIMARY KEY ([AccountId])
 )
 GO
@@ -108,10 +107,11 @@ GO
 CREATE TABLE [ApartmentAreas] (
   [AreaId] varchar(32) NOT NULL,
   [LeaderId] varchar(32) NOT NULL,
-  [Name] nvarchar(255) NOT NULL,
+  [Name] nvarchar(255) UNIQUE NOT NULL,
   [Description] nvarchar(max) NOT NULL,
   [Address] nvarchar(max) NOT NULL,
   [ManagementCompany] nvarchar(255) NOT NULL,
+  [AvatarUrl] varchar(255) NOT NULL,
   PRIMARY KEY ([AreaId])
 )
 GO
@@ -119,8 +119,16 @@ GO
 CREATE TABLE [Rooms] (
   [RoomId] varchar(32) NOT NULL,
   [AreaId] varchar(32) NOT NULL,
-  [RoomCode] varchar(10) UNIQUE NOT NULL,
+  [RoomCode] varchar(10) NOT NULL,
   PRIMARY KEY ([RoomId])
+)
+GO
+
+CREATE TABLE [RefreshTokens] (
+  [AccountId] varchar(32) NOT NULL,
+  [Token] varchar(32) NOT NULL,
+  [ExpiredAt] datetime NOT NULL,
+  PRIMARY KEY ([AccountId])
 )
 GO
 
@@ -155,7 +163,7 @@ GO
 
 CREATE TABLE [PriceRequests] (
   [PriceRequestId] varchar(32) NOT NULL,
-  [Description] varchar(32) NOT NULL,
+  [RequestId] varchar(32) NOT NULL,
   [Date] datetime NOT NULL,
   [PriceByDate] int NOT NULL,
   PRIMARY KEY ([PriceRequestId])
@@ -206,7 +214,7 @@ GO
 ALTER TABLE [Feedbacks] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Customers] ([CustomerId])
 GO
 
-ALTER TABLE [Requests] ADD FOREIGN KEY ([PriceRequestId]) REFERENCES [PriceRequests] ([PriceRequestId])
+ALTER TABLE [PriceRequests] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] ([RequestId])
 GO
 
 ALTER TABLE [RequestDetails] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] ([RequestId])

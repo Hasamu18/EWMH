@@ -15,6 +15,8 @@ public partial class Contracts
 
     public DateTime PurchaseTime { get; set; }
 
+    public int RemainingNumOfRequests { get; set; }
+
     public virtual Customers Customer { get; set; } = null!;
 
     public virtual ServicePackages ServicePackage { get; set; } = null!;

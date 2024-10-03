@@ -30,8 +30,12 @@ namespace Users.Application.Handlers
             if (!existingUser.Any())
                 return "The user does not exist";
 
-            var bucketAndPath = await _uow.AccountRepo.UploadFileToStorageAsync(request.AccountId, request.Image, _config);
+            var extensionFile = Path.GetExtension(request.Image.FileName);
+            string[] extensionSupport = { ".png", ".jpg" };
+            if (extensionSupport.Contains(extensionFile.ToLower()))
+                return "Avatar should be .png or .jpg";
 
+            var bucketAndPath = await _uow.AccountRepo.UploadFileToStorageAsync(request.AccountId, request.Image, _config);
             existingUser[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 

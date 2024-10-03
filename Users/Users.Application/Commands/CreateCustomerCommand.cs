@@ -23,5 +23,7 @@ namespace Users.Application.Commands
         public required string PhoneNumber { get; set; }
 
         public DateOnly DateOfBirth { get; set; }
+
+        public required string RoomId { get; set; }
     }
 }

@@ -35,7 +35,13 @@ namespace Users.Application.Handlers
             account.IsDisabled = false;
             account.Role = Constants.Role.CustomerRole;
             await _uow.AccountRepo.AddAsync(account);
-            await _uow.CustomerRepo.AddAsync();
+
+            Customers customer = new Customers()
+            {
+                CustomerId = account.AccountId,
+                RoomId = request.RoomId
+            };
+            await _uow.CustomerRepo.AddAsync(customer);
 
             return $"The account is created";
         }

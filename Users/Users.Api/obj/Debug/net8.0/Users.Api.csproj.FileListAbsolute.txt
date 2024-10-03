@@ -235,3 +235,4 @@ D:\C#\SEP490\Sep490\Users\Users.Api\obj\Debug\net8.0\Users.Api.xml
 D:\C#\SEP490\Sep490\Users\Users.Api\obj\Debug\net8.0\Users.Api.pdb
 D:\C#\SEP490\Sep490\Users\Users.Api\obj\Debug\net8.0\Users.Api.genruntimeconfig.cache
 D:\C#\SEP490\Sep490\Users\Users.Api\obj\Debug\net8.0\ref\Users.Api.dll
+D:\C#\SEP490\EWMH\Users\Users.Api\obj\Debug\net8.0\Users.Api.sourcelink.json

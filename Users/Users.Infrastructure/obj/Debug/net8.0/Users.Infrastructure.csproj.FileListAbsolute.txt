@@ -32,3 +32,4 @@ D:\C#\SEP490\Sep490\Users\Users.Infrastructure\obj\Debug\net8.0\Users.Infrastruc
 D:\C#\SEP490\Sep490\Users\Users.Infrastructure\obj\Debug\net8.0\refint\Users.Infrastructure.dll
 D:\C#\SEP490\Sep490\Users\Users.Infrastructure\obj\Debug\net8.0\Users.Infrastructure.pdb
 D:\C#\SEP490\Sep490\Users\Users.Infrastructure\obj\Debug\net8.0\ref\Users.Infrastructure.dll
+D:\C#\SEP490\EWMH\Users\Users.Infrastructure\obj\Debug\net8.0\Users.Infrastructure.sourcelink.json
