@@ -21,15 +21,15 @@ namespace Users.Infrastructure.Repositories
 {
     internal class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        //private readonly FirestoreDb _fireStore;
-        //private readonly CollectionReference _collection;
+        private readonly FirestoreDb _fireStore;
+        private readonly CollectionReference _collection;
         private readonly StorageClient _storage;
         private readonly Sep490Context _context;
         private readonly DbSet<T> _dbSet;
-        public GenericRepository(Sep490Context context/*, FirestoreDb fireStore*/)
+        public GenericRepository(Sep490Context context, FirestoreDb fireStore)
         {
-            //_fireStore = fireStore;
-            //_collection = _fireStore.Collection(typeof(T).Name);
+            _fireStore = fireStore;
+            _collection = _fireStore.Collection(typeof(T).Name);
             _context = context;
             _storage = StorageClient.Create();
             _dbSet = _context.Set<T>();

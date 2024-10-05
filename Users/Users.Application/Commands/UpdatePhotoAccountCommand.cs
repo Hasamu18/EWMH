@@ -11,7 +11,7 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Commands
 {
-    public class UpdatePhotoAccountCommand : IRequest<string>
+    public class UpdatePhotoAccountCommand : IRequest<(int, string)>
     {
         public string AccountId { get; set; }
 

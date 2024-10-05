@@ -12,7 +12,7 @@ namespace Users.Application.Utility
         {
             public const string AdminRole = "ADMIN";
             public const string ManagerRole = "MANAGER";
-            public const string TeamLeaderRole = "TEAMLEADER";
+            public const string TeamLeaderRole = "LEADER";
             public const string WorkerRole = "WORKER";
             public const string CustomerRole = "CUSTOMER";
         }

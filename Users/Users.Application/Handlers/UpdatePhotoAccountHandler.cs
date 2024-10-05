@@ -14,7 +14,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class UpdatePhotoAccountHandler : IRequestHandler<UpdatePhotoAccountCommand, string>
+    public class UpdatePhotoAccountHandler : IRequestHandler<UpdatePhotoAccountCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _config;
@@ -24,22 +24,22 @@ namespace Users.Application.Handlers
             _config = config;
         }
 
-        public async Task<string> Handle(UpdatePhotoAccountCommand request, CancellationToken cancellationToken)
+        public async Task<(int, string)> Handle(UpdatePhotoAccountCommand request, CancellationToken cancellationToken)
         {
             var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
             if (!existingUser.Any())
-                return "The user does not exist";
+                return (404, "The user does not exist");
 
             var extensionFile = Path.GetExtension(request.Image.FileName);
             string[] extensionSupport = { ".png", ".jpg" };
-            if (extensionSupport.Contains(extensionFile.ToLower()))
-                return "Avatar should be .png or .jpg";
+            if (!extensionSupport.Contains(extensionFile.ToLower()))
+                return (400, "Avatar should be .png or .jpg");
 
             var bucketAndPath = await _uow.AccountRepo.UploadFileToStorageAsync(request.AccountId, request.Image, _config);
             existingUser[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 
-            return "Update avatar successfully";
+            return (200, "Updated avatar successfully");
         }
     }
 }

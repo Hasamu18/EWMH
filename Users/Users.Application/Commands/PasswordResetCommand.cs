@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class PasswordResetCommand : IRequest<string>
+    public class PasswordResetCommand : IRequest<(int, string)>
     {
         public required string Token { get; set; }
 

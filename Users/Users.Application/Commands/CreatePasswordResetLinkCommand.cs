@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class CreatePasswordResetLinkCommand : IRequest<string>
+    public class CreatePasswordResetLinkCommand : IRequest<(int, string)>
     {
         [EmailAddress]
         public required string Email { get; set; }

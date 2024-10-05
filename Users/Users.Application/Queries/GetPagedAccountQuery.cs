@@ -10,18 +10,16 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Queries
 {
-    public class GetPagedAccountQuery : IRequest<object>
+    public class GetPagedAccountQuery : IRequest<List<Accounts>>
     {
-        [Range(1, int.MaxValue)]
         public int PageIndex { get; set; } = 1;
 
-        [Range(1, int.MaxValue)]
-        public int Pagesize { get; set; } = 5;
+        public int Pagesize { get; set; } = 8;
 
-        public string? SearchValue { get; set; } = null;
+        public string? SearchByEmail { get; set; } = null;
 
-        public required string SortField { get; set; } = "Role";
+        public string? Role { get; set; } = null;
 
-        public bool IsAsc { get; set; } = true;
+        public bool? IsDisabled { get; set; } = null;
     }
 }

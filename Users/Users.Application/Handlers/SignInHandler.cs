@@ -15,7 +15,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class SignInHandler : IRequestHandler<SignInCommand, object>
+    public class SignInHandler : IRequestHandler<SignInCommand, (int, object)>
     {
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _config;
@@ -24,37 +24,42 @@ namespace Users.Application.Handlers
             _uow = uow;
             _config = config;
         }
-        public async Task<object> Handle(SignInCommand request, CancellationToken cancellationToken)
+        public async Task<(int, object)> Handle(SignInCommand request, CancellationToken cancellationToken)
         {
             var existingUser = (await _uow.AccountRepo.GetAsync(e => e.Email.Equals(request.Email) &&
                                 e.Password.Equals(Tools.HashString(request.Password)))).ToList();
             if (!existingUser.Any())
-                return "The user does not exist";
+                return (404, "The user does not exist");
 
             if (existingUser.Any() && existingUser[0].IsDisabled)
-                return $"Your account has been disabled " +
-                    $"for reason {existingUser[0].DisabledReason}";
+                return (200, $"Your account has been disabled " +
+                    $"for reason {existingUser[0].DisabledReason}");
             
             JwtAuthen jwtAuthen = new(_config);
             var token = jwtAuthen.GenerateJwtToken(existingUser[0].AccountId, existingUser[0].Role);
 
             RefreshTokens refreshToken = new()
             {
+                RefreshTokenId = Tools.GenerateIdFormat32(),
                 AccountId = existingUser[0].AccountId,
                 Token = token.Item2,
                 ExpiredAt = Tools.GetDynamicTimeZone().AddYears(1)
             };
 
             var getRefreshToken = (await _uow.RefreshTokenRepo.GetAsync(g => g.AccountId.Equals(existingUser[0].AccountId))).ToList();
-            if (!getRefreshToken.Any())
+            if (getRefreshToken.Count == 0)
                 await _uow.RefreshTokenRepo.AddAsync(refreshToken);
-            await _uow.RefreshTokenRepo.UpdateAsync(refreshToken);
+            else
+            {
+                getRefreshToken[0].Token = token.Item2;
+                await _uow.RefreshTokenRepo.UpdateAsync(getRefreshToken[0]);             
+            }
 
-            return new
+            return (200, new
             {
                 AT = token.at,
                 RT = token.rt
-            };
+            });
         }
     }
 }

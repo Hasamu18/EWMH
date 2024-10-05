@@ -3,24 +3,16 @@
   "WorkspaceRootPath": "D:\\C#\\SEP490\\EWMH\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\getpagedaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\getpagedaccounthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7AD713DE-3507-4AE4-8335-63DFAC9BEB0F}|Users\\Users.Api\\Users.Api.csproj|d:\\c#\\sep490\\ewmh\\users\\users.api\\controllers\\apartmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7AD713DE-3507-4AE4-8335-63DFAC9BEB0F}|Users\\Users.Api\\Users.Api.csproj|solutionrelative:users\\users.api\\controllers\\apartmentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\handlers\\addapartmenthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\handlers\\addapartmenthandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7AD713DE-3507-4AE4-8335-63DFAC9BEB0F}|Users\\Users.Api\\Users.Api.csproj|d:\\c#\\sep490\\ewmh\\users\\users.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7AD713DE-3507-4AE4-8335-63DFAC9BEB0F}|Users\\Users.Api\\Users.Api.csproj|solutionrelative:users\\users.api\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|d:\\c#\\sep490\\ewmh\\users\\users.application\\queries\\getpagedaccountquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E290CE49-D433-4C43-BB45-FA7A8B617AC7}|Users\\Users.Application\\Users.Application.csproj|solutionrelative:users\\users.application\\queries\\getpagedaccountquery.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|d:\\c#\\sep490\\ewmh\\users\\users.infrastructure\\repositories\\genericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,20 +23,28 @@
       "RelativeMoniker": "D:0:0:{737586D0-5323-48DC-8D1A-114784728E35}|Users\\Users.Infrastructure\\Users.Infrastructure.csproj|solutionrelative:users\\users.infrastructure\\repositories\\unitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|d:\\c#\\sep490\\ewmh\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|d:\\c#\\sep490\\ewmh\\docker-compose.override.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|solutionrelative:docker-compose.override.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{50825A75-AD9B-4022-A9F5-04F2AC0C2E6D}|Gateway\\ApiGateway\\ApiGateway.csproj|d:\\c#\\sep490\\ewmh\\gateway\\apigateway\\ocelot.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{50825A75-AD9B-4022-A9F5-04F2AC0C2E6D}|Gateway\\ApiGateway\\ApiGateway.csproj|solutionrelative:gateway\\apigateway\\ocelot.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{50825A75-AD9B-4022-A9F5-04F2AC0C2E6D}|Gateway\\ApiGateway\\ApiGateway.csproj|d:\\c#\\sep490\\ewmh\\gateway\\apigateway\\ocelot.docker.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{50825A75-AD9B-4022-A9F5-04F2AC0C2E6D}|Gateway\\ApiGateway\\ApiGateway.csproj|solutionrelative:gateway\\apigateway\\ocelot.docker.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{50825A75-AD9B-4022-A9F5-04F2AC0C2E6D}|Gateway\\ApiGateway\\ApiGateway.csproj|d:\\c#\\sep490\\ewmh\\gateway\\apigateway\\ocelot.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{50825A75-AD9B-4022-A9F5-04F2AC0C2E6D}|Gateway\\ApiGateway\\ApiGateway.csproj|solutionrelative:gateway\\apigateway\\ocelot.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\igenericrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|d:\\c#\\sep490\\ewmh\\docker-compose.override.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|solutionrelative:docker-compose.override.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|d:\\c#\\sep490\\ewmh\\docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{D9E8E8FE-FDE8-497B-9AA0-4E2F34D40EA9}|docker-compose.dcproj|solutionrelative:docker-compose.yml||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|d:\\c#\\sep490\\ewmh\\users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7946C35A-98A0-4A2D-8E78-19DB9CAB9147}|Users\\Users.Domain\\Users.Domain.csproj|solutionrelative:users\\users.domain\\irepositories\\iunitofwork.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -54,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 12,
           "Children": [
             {
               "$type": "Bookmark",
@@ -102,67 +102,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GetPagedAccountHandler.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Handlers\\GetPagedAccountHandler.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAtwBoAAAAJAAAA",
+              "DocumentIndex": 1,
+              "Title": "AddApartmentHandler.cs",
+              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
+              "RelativeDocumentMoniker": "Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
+              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
+              "RelativeToolTip": "Users\\Users.Application\\Handlers\\AddApartmentHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAEwAoAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T08:41:37.487Z",
+              "WhenOpened": "2024-10-05T03:15:17.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ApartmentController.cs",
+              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\ApartmentController.cs",
+              "RelativeDocumentMoniker": "Users\\Users.Api\\Controllers\\ApartmentController.cs",
+              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\ApartmentController.cs",
+              "RelativeToolTip": "Users\\Users.Api\\Controllers\\ApartmentController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-05T03:00:19.931Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "GetPagedAccountQuery.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
-              "RelativeToolTip": "Users\\Users.Application\\Queries\\GetPagedAccountQuery.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Title": "AccountController.cs",
+              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\AccountController.cs",
+              "RelativeDocumentMoniker": "Users\\Users.Api\\Controllers\\AccountController.cs",
+              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\AccountController.cs",
+              "RelativeToolTip": "Users\\Users.Api\\Controllers\\AccountController.cs",
+              "ViewState": "AQIAADUBAAAAAAAAAAAUwEkBAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-01T08:41:34.642Z",
+              "WhenOpened": "2024-10-04T13:22:01.587Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "IGenericRepository.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
               "RelativeDocumentMoniker": "Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
               "RelativeToolTip": "Users\\Users.Domain\\IRepositories\\IGenericRepository.cs",
-              "ViewState": "AQIAAAcAAAAAAAAAAAAuwA8AAAAmAAAA",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAuwA8AAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-01T04:18:10.098Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
               "Title": "IUnitOfWork.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\IRepositories\\IUnitOfWork.cs",
               "RelativeDocumentMoniker": "Users\\Users.Domain\\IRepositories\\IUnitOfWork.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Domain\\IRepositories\\IUnitOfWork.cs",
               "RelativeToolTip": "Users\\Users.Domain\\IRepositories\\IUnitOfWork.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAA5wBEAAAAqAAAA",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAxwBEAAAAqAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T07:46:55.359Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-09-30T07:46:55.359Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 4,
               "Title": "UnitOfWork.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Repositories\\UnitOfWork.cs",
               "RelativeDocumentMoniker": "Users\\Users.Infrastructure\\Repositories\\UnitOfWork.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Repositories\\UnitOfWork.cs",
               "RelativeToolTip": "Users\\Users.Infrastructure\\Repositories\\UnitOfWork.cs",
-              "ViewState": "AQIAADEAAAAAAAAAAAA0wDsAAAAAAAAA",
+              "ViewState": "AQIAADIAAAAAAAAAAAAIwD8AAABSAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T07:31:22.537Z"
+              "WhenOpened": "2024-09-30T07:31:22.537Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -172,70 +185,62 @@
               "RelativeDocumentMoniker": "docker-compose.override.yml",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\docker-compose.override.yml",
               "RelativeToolTip": "docker-compose.override.yml",
-              "ViewState": "AQIAAAMAAAAAAAAAAIBpwAcAAAAKAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAcAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2024-09-05T13:07:31.865Z"
+              "WhenOpened": "2024-09-05T13:07:31.865Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "docker-compose.yml",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\docker-compose.yml",
               "RelativeDocumentMoniker": "docker-compose.yml",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\docker-compose.yml",
               "RelativeToolTip": "docker-compose.yml",
-              "ViewState": "AQIAAAAAAAAAAAAAACBjwBYAAAAXAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003775|",
-              "WhenOpened": "2024-09-05T13:07:30.331Z"
+              "WhenOpened": "2024-09-05T13:07:30.331Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "ocelot.Docker.json",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Docker.json",
               "RelativeDocumentMoniker": "Gateway\\ApiGateway\\ocelot.Docker.json",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Docker.json",
               "RelativeToolTip": "Gateway\\ApiGateway\\ocelot.Docker.json",
-              "ViewState": "AQIAAHQAAAAAAAAAAAAiwIQAAAAIAAAA",
+              "ViewState": "AQIAAMkAAAAAAAAAAAAUwM0AAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-08-29T15:15:46.781Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ocelot.Development.json",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Development.json",
-              "RelativeDocumentMoniker": "Gateway\\ApiGateway\\ocelot.Development.json",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Development.json",
-              "RelativeToolTip": "Gateway\\ApiGateway\\ocelot.Development.json",
-              "ViewState": "AQIAAGUAAAAAAAAAADB0wI0AAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-08-29T15:15:45.826Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "Users\\Users.Api\\Controllers\\AccountController.cs",
-              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Api\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "Users\\Users.Api\\Controllers\\AccountController.cs",
-              "ViewState": "AQIAAK4AAAAAAAAAAAAWwLgAAAAvAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-28T03:12:22.161Z",
+              "WhenOpened": "2024-08-29T15:15:46.781Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "ocelot.Development.json",
+              "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Development.json",
+              "RelativeDocumentMoniker": "Gateway\\ApiGateway\\ocelot.Development.json",
+              "ToolTip": "D:\\C#\\SEP490\\EWMH\\Gateway\\ApiGateway\\ocelot.Development.json",
+              "RelativeToolTip": "Gateway\\ApiGateway\\ocelot.Development.json",
+              "ViewState": "AQIAAMMAAAAAAAAAAAAAAMkAAAAzAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-29T15:15:45.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "GenericRepository.cs",
               "DocumentMoniker": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
               "RelativeDocumentMoniker": "Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
               "ToolTip": "D:\\C#\\SEP490\\EWMH\\Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
               "RelativeToolTip": "Users\\Users.Infrastructure\\Repositories\\GenericRepository.cs",
-              "ViewState": "AQIAACkAAAAAAAAAAAAWwDMAAABWAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIAAAABWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-27T03:37:14.84Z"
+              "WhenOpened": "2024-08-27T03:37:14.84Z",
+              "EditorCaption": ""
             }
           ]
         }

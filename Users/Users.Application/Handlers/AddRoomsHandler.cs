@@ -11,7 +11,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class AddRoomsHandler : IRequestHandler<AddRoomsCommand, string>
+    public class AddRoomsHandler : IRequestHandler<AddRoomsCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         public AddRoomsHandler(IUnitOfWork uow)
@@ -19,12 +19,18 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<string> Handle(AddRoomsCommand request, CancellationToken cancellationToken)
+        public async Task<(int, string)> Handle(AddRoomsCommand request, CancellationToken cancellationToken)
         {
             var existingApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.AreaId.Equals(request.AreaId),
                                                                            includeProperties: "Rooms")).ToList();
             if (existingApartment.Count == 0)
-                return "Unexisted apartment";
+                return (404, "Unexisted apartment");
+
+            foreach (var room in request.Rooms)
+            {
+                if (room.Length > 10)
+                    return (404, $"{room} is invalid, room code must be less or than 10 letters");
+            }
 
             var roomsInApartmentCurrent = existingApartment[0].Rooms.Select(r => r.RoomCode).ToList();
             var allRoomCurrent = roomsInApartmentCurrent.Concat(request.Rooms).ToList();
@@ -35,7 +41,7 @@ namespace Users.Application.Handlers
                 .ToList();
 
             if (duplicateRooms.Count != 0)
-                return $"The following rooms are duplicated: {string.Join(", ", duplicateRooms)}";
+                return (409, $"The following rooms are duplicated: {string.Join(", ", duplicateRooms)}");
 
             foreach (var room in request.Rooms)
             {
@@ -48,7 +54,7 @@ namespace Users.Application.Handlers
                 await _uow.RoomRepo.AddAsync(rooms);
             }
 
-            return $"{existingApartment[0].Name} apartment has added {request.Rooms.Count} rooms";
+            return (201, $"{existingApartment[0].Name} apartment has added {request.Rooms.Count} rooms");
         }
     }
 }

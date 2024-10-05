@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class CreateCustomerCommand : IRequest<string>
+    public class CreateCustomerCommand : IRequest<(int, string)>
     {
         [StringLength(20, MinimumLength = 2)]
         public required string FullName { get; set; }
@@ -24,6 +24,8 @@ namespace Users.Application.Commands
 
         public DateOnly DateOfBirth { get; set; }
 
-        public required string RoomId { get; set; }
+        public required string AreaId { get; set; }
+
+        public required string RoomCode { get; set; }
     }
 }

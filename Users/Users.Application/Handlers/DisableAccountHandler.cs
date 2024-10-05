@@ -12,7 +12,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class DisableAccountHandler : IRequestHandler<DisableAccountCommand, string>
+    public class DisableAccountHandler : IRequestHandler<DisableAccountCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         public DisableAccountHandler(IUnitOfWork uow)
@@ -20,15 +20,15 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<string> Handle(DisableAccountCommand request, CancellationToken cancellationToken)
+        public async Task<(int, string)> Handle(DisableAccountCommand request, CancellationToken cancellationToken)
         {
             var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
             if (!existingUser.Any())
-                return "The user does not exist";
+                return (404, "The user does not exist");
 
             if (existingUser[0].Role.Equals(Constants.Role.AdminRole) ||
                 existingUser[0].Role.Equals(Constants.Role.ManagerRole))
-                return $"{existingUser[0].Role} role can not be disabled";
+                return (400, $"{existingUser[0].Role} role can not be disabled");
 
             existingUser[0].IsDisabled = true;
             existingUser[0].DisabledReason = request.DisabledReason;
@@ -36,8 +36,8 @@ namespace Users.Application.Handlers
             await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 
             if (request.Disable)
-                return $"{existingUser[0].FullName} has been disabled";
-            return $"{existingUser[0].FullName} has been activated";
+                return (200, $"{existingUser[0].FullName} has been disabled");
+            return (200, $"{existingUser[0].FullName} has been activated");
         }
     }
 }

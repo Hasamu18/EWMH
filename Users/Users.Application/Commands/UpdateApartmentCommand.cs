@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class UpdateApartmentCommand : IRequest<string>
+    public class UpdateApartmentCommand : IRequest<(int, string)>
     {
         public required string AreaId { get; set; }
 

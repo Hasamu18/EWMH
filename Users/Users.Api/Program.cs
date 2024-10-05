@@ -18,7 +18,7 @@ namespace Users.Api
 
             // Add services to the container.
             builder.Services.AddControllers();
-            builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(typeof(MapperProfile));
             builder.Services.AddMediatR(config => {
                 config.RegisterServicesFromAssemblies(
@@ -31,6 +31,7 @@ namespace Users.Api
             builder.Services.AddCustomSwaggerGen();
             builder.Services.AddCustomCors();
             builder.AddSqlServerDbContext();
+            builder.AddFireBaseConfig();
             builder.AddAppAuthetication();
             builder.Host.IncludeSerilog();
             builder.AddSqlServerHealthCheck();

@@ -9,7 +9,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class UpdateRoomHandler : IRequestHandler<UpdateRoomCommand, string>
+    public class UpdateRoomHandler : IRequestHandler<UpdateRoomCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         public UpdateRoomHandler(IUnitOfWork uow)
@@ -17,21 +17,21 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<string> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
+        public async Task<(int, string)> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
         {
             var existingRoom = (await _uow.RoomRepo.GetAsync(a => a.RoomId.Equals(request.RoomId))).ToList();
             if (existingRoom.Count == 0)
-                return "Unexisted room";
+                return (404, "Unexisted room");
 
             var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(existingRoom[0].AreaId) &&
                                                              a.RoomCode.Equals(request.RoomCode))).ToList();
             if (getRoom.Count != 0)
-                return "This room code is existing";
+                return (409, "This room code is existing");
 
             existingRoom[0].RoomCode = request.RoomCode;
             await _uow.RoomRepo.UpdateAsync(existingRoom[0]);
 
-            return "Updated successfully";
+            return (200, "Updated successfully");
         }
     }
 }

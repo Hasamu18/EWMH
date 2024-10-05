@@ -5,134 +5,60 @@
     </assembly>
     <members>
         <member name="M:Users.Api.Controllers.AccountController.SignIn(Users.Application.Commands.SignInCommand)">
-             <summary>
-             Signin by Email/Password or Google or PhoneNumber
-             </summary>
-             <remarks>
-             Sample request:
+            <summary>
+            Signin by Email/Password
+            </summary>
             
-                 {
-                    "uid": "TfSgaj8jscVFnJPhY8wGH6Xfkzw1"
-                 }
-                 
-             </remarks>
-             <response code="200">Return a message</response>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.DisableAccount(Users.Application.Commands.DisableAccountCommand)">
-             <summary>
-             (ADMIN) Disable an user
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 {
-                    "uid": "TfSgaj8jscVFnJPhY8wGH6Xfkzw1",
-                    "disable: true,
-                    "statusInText": "vi phạm ngôn từ"
-                 }
-             </remarks>
-             <response code="200">Return a message</response>
+            <summary>
+            (ADMIN, MANAGER) Disable an user
+            </summary>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.GetAccount">
             <summary>
-            (Authorize) Get an user
+            (Authentication) Get an account 
             </summary>
-            <response code="200">Return a message</response>
         </member>
-        <member name="M:Users.Api.Controllers.AccountController.UpdateAccount(System.String)">
-             <summary>
-             (Authorize) Update an user
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 {
-                    "displayName": "abcxyz"
-                 }
-                 
-             </remarks>
-             <response code="200">Return a message</response>
+        <member name="M:Users.Api.Controllers.AccountController.UpdateAccount(System.String,System.String,System.DateOnly)">
+            <summary>
+            (Authentication) Update an account
+            </summary>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.UpdatePhotoAccount(Microsoft.AspNetCore.Http.IFormFile)">
-             <summary>
-             (Authorize) Update user's photo
-             </summary>
-             <remarks>
-            
-               Warning: The image must be .jpg, .jpeg, .png
-             
-             </remarks>
-             <response code="200">Return a message</response>
+            <summary>
+            (Authentication) Update account's avatar
+            </summary>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.CreatePersonnel(Users.Application.Commands.CreatePersonnelCommand)">
-             <summary>
-             (ADMIN) Create personnel's account
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 {
-                    "email": "abc@gmail.com",
-                    "phoneNumber: "+84765689761",
-                    "role": "MANAGER"
-                 }
-               
-             </remarks>
-             <response code="200">Return a message</response>
+            <summary>
+            (ADMIN) Create a personnel's account
+            </summary>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.GetAllRole">
             <summary>
-            (Authorize) Get all role
+            Get all role
             </summary>
-            <response code="200">Return a message</response>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.CreatePasswordResetLink(Users.Application.Commands.CreatePasswordResetLinkCommand)">
-             <summary>
-             Send password reset link via email
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 {
-                    "email": "abc@gmail.com"
-                 }
-               
-             </remarks>
-             <response code="200">Return a message</response>
+            <summary>
+            Send password reset link via gmail
+            </summary>        
+        </member>
+        <member name="M:Users.Api.Controllers.AccountController.ResetPassword(Users.Application.Commands.PasswordResetCommand)">
+            <summary>
+            Reset password
+            </summary>        
         </member>
         <member name="M:Users.Api.Controllers.AccountController.GetPagedAccount(Users.Application.Queries.GetPagedAccountQuery)">
             <summary>
-            (ADMIN) Get all accounts paginated by SearchValue Email or DisplayName
+            (ADMIN) Get all accounts paginated by SearchValue Email
             </summary>
-            <remarks>
-            Sample request:
-                
-                PageIndex   = 1    (default)
-                Pagesize    = 5    (default)
-                
-                SearchValue == null (default) get all accounts paginated 
-                SearchValue != null search by Email or DisplayName
-                
-                SortField   = Role (default) recommended
-                IsAsc       = true (default) for SortField
-              
-            </remarks>
-            <response code="200">Return a message</response>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.ResetToken(Users.Application.Commands.ResetTokenCommand)">
-             <summary>
-             Reset token when access token expires
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 {
-                    "AT": "ufsdg9s8g98srgg98srtssrtstertettwetr",
-                    "RT": "696e5ce647464d8298100a790036e880"
-                 }
-               
-             </remarks>
-             <response code="200">Return a message</response>
+            <summary>
+            Renew access token when access token expires
+            </summary>
         </member>
         <member name="M:Users.Api.Controllers.AccountController.Logout">
             <summary>
@@ -143,7 +69,31 @@
             Warning: when user calls logout api, client side must delete cookie containing AT, RT
               
             </remarks>
-            <response code="200">Return a message</response>
+        </member>
+        <member name="M:Users.Api.Controllers.AccountController.CreateCustomer(Users.Application.Commands.CreateCustomerCommand)">
+            <summary>
+            Create a customer's account
+            </summary>
+        </member>
+        <member name="M:Users.Api.Controllers.ApartmentController.AddApartment(Users.Application.Commands.AddApartmentCommand)">
+            <summary>
+            (Manager) Add an apartment
+            </summary>
+        </member>
+        <member name="M:Users.Api.Controllers.ApartmentController.UpdateApartment(Users.Application.Commands.UpdateApartmentCommand)">
+            <summary>
+            (Manager) Update an apartment
+            </summary>
+        </member>
+        <member name="M:Users.Api.Controllers.ApartmentController.AddRooms(Users.Application.Commands.AddRoomsCommand)">
+            <summary>
+            (Manager) Add rooms
+            </summary>
+        </member>
+        <member name="M:Users.Api.Controllers.ApartmentController.UpdateRoom(Users.Application.Commands.UpdateRoomCommand)">
+            <summary>
+            (Manager) Update a room
+            </summary>
         </member>
     </members>
 </doc>

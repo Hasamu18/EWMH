@@ -13,7 +13,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, string>
+    public class CreateCustomerHandler : IRequestHandler<CreateCustomerCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _config;
@@ -23,14 +23,20 @@ namespace Users.Application.Handlers
             _config = config;
         }
 
-        public async Task<string> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+        public async Task<(int, string)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
             if (existingEmail.Any())
-                return $"{request.Email} is existing";
+                return (409, $"{request.Email} is existing");
+
+            var existingApartment = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
+                                                                      a.RoomCode.Equals(request.RoomCode))).ToList();
+            if (existingApartment.Count == 0)
+                return (404, "Unexisted apartment or room code");
 
             var account = UserMapper.Mapper.Map<Accounts>(request);
-            account.AccountId = Tools.GenerateIdFormat32();
+            account.AccountId = Tools.GenerateRandomString(32);
+            account.Password = Tools.HashString(request.Password);
             account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
             account.IsDisabled = false;
             account.Role = Constants.Role.CustomerRole;
@@ -39,11 +45,11 @@ namespace Users.Application.Handlers
             Customers customer = new Customers()
             {
                 CustomerId = account.AccountId,
-                RoomId = request.RoomId
+                RoomId = existingApartment[0].RoomId,
             };
             await _uow.CustomerRepo.AddAsync(customer);
 
-            return $"The account is created";
+            return (201, $"The account is created");
         }
     }
 }

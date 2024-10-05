@@ -53,10 +53,6 @@ public partial class Sep490Context : DbContext
 
     public virtual DbSet<Workers> Workers { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=tcp:sep490server.database.windows.net,1433;Initial Catalog=Sep490;Persist Security Info=False;User ID=sep490;Password=Khoi@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Vietnamese_CI_AS");
@@ -289,8 +285,10 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<RefreshTokens>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__RefreshT__349DA5A68C2F2BD3");
-
+            entity.HasKey(e => e.RefreshTokenId).HasName("PK__RefreshTokens__C62CC6CD40E0D98D");
+            entity.Property(e => e.RefreshTokenId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
             entity.Property(e => e.AccountId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
@@ -310,11 +308,6 @@ public partial class Sep490Context : DbContext
             entity.Property(e => e.ProductId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
-
-            entity.HasOne(d => d.Product).WithMany(p => p.RequestDetails)
-                .HasForeignKey(d => d.ProductId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RequestDe__Produ__0F624AF8");
 
             entity.HasOne(d => d.Request).WithMany(p => p.RequestDetails)
                 .HasForeignKey(d => d.RequestId)

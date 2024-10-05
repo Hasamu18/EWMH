@@ -10,20 +10,70 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class GetPagedAccountHandler : IRequestHandler<GetPagedAccountQuery, object>
+    public class GetPagedAccountHandler : IRequestHandler<GetPagedAccountQuery, List<Accounts>>
     {
         private readonly IUnitOfWork _uow;
         public GetPagedAccountHandler(IUnitOfWork uow)
         {
             _uow = uow;
         }
-        public async Task<object> Handle(GetPagedAccountQuery request, CancellationToken cancellationToken)
+        public async Task<List<Accounts>> Handle(GetPagedAccountQuery request, CancellationToken cancellationToken)
         {
-            List<string> searchFields = ["Email", "DisplayName"];
-            List<string> returnFields = [];
+            IEnumerable<Accounts> items;
+            if (request.SearchByEmail == null && request.Role == null && request.IsDisabled == null)
+            {
+                items = await _uow.AccountRepo.GetAsync(pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
+            else if (request.SearchByEmail == null && request.Role != null && request.IsDisabled == null)
+            {
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role),
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
+            else if (request.SearchByEmail == null && request.Role != null && request.IsDisabled != null)
+            {
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role) &&
+                                                                s.IsDisabled == request.IsDisabled,
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
+            else if (request.SearchByEmail == null && request.Role == null && request.IsDisabled != null)
+            {
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.IsDisabled == request.IsDisabled,
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
+            else if (request.SearchByEmail != null && request.Role == null && request.IsDisabled == null)
+            {
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail),
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
+            else if (request.SearchByEmail != null && request.Role != null && request.IsDisabled == null)
+            {
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
+                                                                s.Role.Equals(request.Role),
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
+            else if (request.SearchByEmail != null && request.Role != null && request.IsDisabled != null)
+            {
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
+                                                                s.Role.Equals(request.Role) &&
+                                                                s.IsDisabled == request.IsDisabled,
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
+            else
+            {
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
+                                                                s.IsDisabled == request.IsDisabled,
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+            }
 
-            var items = await _uow.AccountRepo.GetPagedListAsync(request.PageIndex, request.Pagesize, request.IsAsc, request.SortField, request.SearchValue, searchFields, returnFields);
-            return items;
+            return items.ToList();
         }
     }
 }

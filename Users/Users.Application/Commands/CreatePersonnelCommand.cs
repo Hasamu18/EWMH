@@ -10,7 +10,7 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Commands
 {
-    public class CreatePersonnelCommand : IRequest<string>
+    public class CreatePersonnelCommand : IRequest<(int, string)>
     {
         [StringLength(20, MinimumLength = 2)]
         public required string FullName { get; set; }

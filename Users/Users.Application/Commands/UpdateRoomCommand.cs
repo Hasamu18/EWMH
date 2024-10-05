@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class UpdateRoomCommand : IRequest<string>
+    public class UpdateRoomCommand : IRequest<(int, string)>
     {
         public required string RoomId { get; set; }
 

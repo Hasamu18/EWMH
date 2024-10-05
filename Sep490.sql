@@ -125,10 +125,11 @@ CREATE TABLE [Rooms] (
 GO
 
 CREATE TABLE [RefreshTokens] (
+  [RefreshTokenId] varchar(32) NOT NULL,
   [AccountId] varchar(32) NOT NULL,
   [Token] varchar(32) NOT NULL,
   [ExpiredAt] datetime NOT NULL,
-  PRIMARY KEY ([AccountId])
+  PRIMARY KEY (RefreshTokenId)
 )
 GO
 
@@ -218,9 +219,6 @@ ALTER TABLE [PriceRequests] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] 
 GO
 
 ALTER TABLE [RequestDetails] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] ([RequestId])
-GO
-
-ALTER TABLE [RequestDetails] ADD FOREIGN KEY ([ProductId]) REFERENCES [Products] ([ProductId])
 GO
 
 ALTER TABLE [Contracts] ADD FOREIGN KEY ([ServicePackageId]) REFERENCES [ServicePackages] ([ServicePackageId])

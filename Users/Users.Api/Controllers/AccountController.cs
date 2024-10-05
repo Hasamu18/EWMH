@@ -25,17 +25,9 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// Signin by Email/Password or Google or PhoneNumber
+        /// Signin by Email/Password
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///        "uid": "TfSgaj8jscVFnJPhY8wGH6Xfkzw1"
-        ///     }
-        ///     
-        /// </remarks>
-        /// <response code="200">Return a message</response>
+        /// 
         [HttpPost("1")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> SignIn([FromBody] SignInCommand command)
@@ -43,7 +35,10 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                return Ok(result);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {
@@ -53,19 +48,9 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (ADMIN) Disable an user
+        /// (ADMIN, MANAGER) Disable an user
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///        "uid": "TfSgaj8jscVFnJPhY8wGH6Xfkzw1",
-        ///        "disable: true,
-        ///        "statusInText": "vi phạm ngôn từ"
-        ///     }
-        /// </remarks>
-        /// <response code="200">Return a message</response>
-        [Authorize(Roles = Constants.Role.AdminRole)]
+        [Authorize(Roles = Constants.Role.AdminRole + "," + Constants.Role.ManagerRole)]
         [HttpPut("2")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DisableAccount([FromBody] DisableAccountCommand command)
@@ -73,7 +58,12 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                return Ok(result);
+                if (result.Item1 is 400)
+                    return BadRequest(result.Item2);
+                else if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {
@@ -83,20 +73,22 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (Authorize) Get an user
+        /// (Authentication) Get an account 
         /// </summary>
-        /// <response code="200">Return a message</response>
         [Authorize]
         [HttpGet("3")]
-        [ProducesResponseType(typeof(TResponse<Account>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TResponse<Accounts>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAccount()
         {
             try
             {
-                var uid = (HttpContext.User.FindFirst("uid")?.Value) ?? "";
-                var query = new GetAccountQuery(uid);
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetAccountQuery(accountId);
                 var result = await _mediator.Send(query);
-                return Ok(result);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {
@@ -106,30 +98,25 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (Authorize) Update an user
+        /// (Authentication) Update an account
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///        "displayName": "abcxyz"
-        ///     }
-        ///     
-        /// </remarks>
-        /// <response code="200">Return a message</response>
         [Authorize]
         [HttpPut("4")]
-        [ProducesResponseType(typeof(TResponse<Account>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateAccount(
-            [StringLength(20, MinimumLength = 6)]
-            [FromBody] string displayName)
+            [StringLength(20, MinimumLength = 2)][FromForm] string fullName,
+            [Phone][FromForm] string phoneNumber,
+            DateOnly dateOfBirth)
         {
             try
             {
-                var uid = (HttpContext.User.FindFirst("uid")?.Value) ?? "";
-                var command = new UpdateAccountCommand(uid, displayName);
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new UpdateAccountCommand(accountId, fullName, phoneNumber, dateOfBirth);
                 var result = await _mediator.Send(command);
-                return Ok(result);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {
@@ -139,25 +126,24 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (Authorize) Update user's photo
+        /// (Authentication) Update account's avatar
         /// </summary>
-        /// <remarks>
-        ///
-        ///   Warning: The image must be .jpg, .jpeg, .png
-        /// 
-        /// </remarks>
-        /// <response code="200">Return a message</response>
         [Authorize]
         [HttpPut("5")]
-        [ProducesResponseType(typeof(TResponse<Account>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdatePhotoAccount(IFormFile photo)
         {
             try
             {
-                var uid = (HttpContext.User.FindFirst("uid")?.Value) ?? "";
-                var command = new UpdatePhotoAccountCommand(uid, photo);
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new UpdatePhotoAccountCommand(accountId, photo);
                 var result = await _mediator.Send(command);
-                return Ok(result);
+                if (result.Item1 is 400)
+                    return BadRequest(result.Item2);
+                else if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {
@@ -167,28 +153,24 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (ADMIN) Create personnel's account
+        /// (ADMIN) Create a personnel's account
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///        "email": "abc@gmail.com",
-        ///        "phoneNumber: "+84765689761",
-        ///        "role": "MANAGER"
-        ///     }
-        ///   
-        /// </remarks>
-        /// <response code="200">Return a message</response>
         [Authorize(Roles = Constants.Role.AdminRole)]
         [HttpPost("6")]
-        [ProducesResponseType(typeof(TResponse<Account>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreatePersonnel([FromBody] CreatePersonnelCommand command)
         {
             try
             {
                 var result = await _mediator.Send(command);
-                return Ok(result);
+                if (result.Item1 is 400)
+                    return BadRequest(result.Item2);
+                else if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Created("", result.Item2);
             }
             catch (Exception ex)
             {
@@ -198,10 +180,8 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (Authorize) Get all role
+        /// Get all role
         /// </summary>
-        /// <response code="200">Return a message</response>
-        [Authorize]
         [HttpGet("7")]
         [ProducesResponseType(typeof(List<string?>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllRole()
@@ -220,17 +200,8 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// Send password reset link via email
-        /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///        "email": "abc@gmail.com"
-        ///     }
-        ///   
-        /// </remarks>
-        /// <response code="200">Return a message</response>
+        /// Send password reset link via gmail
+        /// </summary>        
         [HttpPost("8")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CreatePasswordResetLink([FromBody] CreatePasswordResetLinkCommand command)
@@ -238,7 +209,10 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                return Ok(result);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {
@@ -248,25 +222,33 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (ADMIN) Get all accounts paginated by SearchValue Email or DisplayName
+        /// Reset password
+        /// </summary>        
+        [HttpPost("9")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> ResetPassword([FromBody] PasswordResetCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (ADMIN) Get all accounts paginated by SearchValue Email
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///     
-        ///     PageIndex   = 1    (default)
-        ///     Pagesize    = 5    (default)
-        ///     
-        ///     SearchValue == null (default) get all accounts paginated 
-        ///     SearchValue != null search by Email or DisplayName
-        ///     
-        ///     SortField   = Role (default) recommended
-        ///     IsAsc       = true (default) for SortField
-        ///   
-        /// </remarks>
-        /// <response code="200">Return a message</response>
         [Authorize(Roles = Constants.Role.AdminRole)]
-        [HttpGet("9")]
-        [ProducesResponseType(typeof(List<Account>), (int)HttpStatusCode.OK)]
+        [HttpGet("10")]
+        [ProducesResponseType(typeof(List<Accounts>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedAccount([FromQuery] GetPagedAccountQuery query)
         {
             try
@@ -282,30 +264,19 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// Reset token when access token expires
+        /// Renew access token when access token expires
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///        "AT": "ufsdg9s8g98srgg98srtssrtstertettwetr",
-        ///        "RT": "696e5ce647464d8298100a790036e880"
-        ///     }
-        ///   
-        /// </remarks>
-        /// <response code="200">Return a message</response>
-        [HttpPost("10")]
+        [HttpPost("11")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ResetToken([FromBody] ResetTokenCommand command)
         {
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Equals("Unexisted refresh token"))
-                    return Unauthorized(result);
-                else if (result.Equals("You have been logged out of the system, you need to log in again"))
-                    return Unauthorized(result);
-                return Ok(result);
+                if (result.Item1 is 401)
+                    return Unauthorized(result.Item2);               
+
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {
@@ -322,16 +293,15 @@ namespace Users.Api.Controllers
         /// Warning: when user calls logout api, client side must delete cookie containing AT, RT
         ///   
         /// </remarks>
-        /// <response code="200">Return a message</response>
         [Authorize]
-        [HttpPost("11")]
+        [HttpPost("12")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Logout()
         {
             try
             {
-                var uid = (HttpContext.User.FindFirst("uid")?.Value) ?? "";
-                var command = new LogoutCommand(uid);
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new LogoutCommand(accountId);
                 var result = await _mediator.Send(command);
                 return Ok(result);
             }
@@ -343,25 +313,21 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// Password reset 
+        /// Create a customer's account
         /// </summary>
-        /// <remarks>
-        /// Sample request:
-        ///
-        ///     {
-        ///        "email": "abc@gmail.com"
-        ///     }
-        ///   
-        /// </remarks>
-        /// <response code="200">Return a message</response>
-        [HttpPost("12")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CreatePasswordResetLink([FromBody] CreatePasswordResetLinkCommand command)
+        [HttpPost("13")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerCommand command)
         {
             try
             {
                 var result = await _mediator.Send(command);
-                return Ok(result);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Created("", result.Item2);
             }
             catch (Exception ex)
             {

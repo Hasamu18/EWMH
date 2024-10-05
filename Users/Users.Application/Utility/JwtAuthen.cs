@@ -20,7 +20,7 @@ namespace Users.Application.Utility
             _configuration = configuration;
         }
 
-        public (string at, string rt) GenerateJwtToken(string uid, string role)
+        public (string at, string rt) GenerateJwtToken(string accountId, string role)
         {
             var jwtKey = _configuration["Jwt:Secret"];
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey ?? ""));
@@ -28,7 +28,7 @@ namespace Users.Application.Utility
 
             var claims = new[]
             {
-                new Claim("uid",uid),
+                new Claim("accountId",accountId),
                 new Claim("role", role.ToString())
             };
 
@@ -36,7 +36,7 @@ namespace Users.Application.Utility
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: Tools.GetDynamicTimeZone().AddMinutes(5),
+                expires: Tools.GetDynamicTimeZone().AddMinutes(60),
                 signingCredentials: signingCredentials
                 );
             var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
@@ -44,14 +44,14 @@ namespace Users.Application.Utility
             return (accessToken, refreshToken);
         }
 
-        public (string uid, string role) ReadClaimsFromExpiredToken(string accessToken)
+        public (string accountId, string role) ReadClaimsFromExpiredToken(string accessToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = tokenHandler.ReadJwtToken(accessToken);
 
-            var uid = jwtToken.Claims.FirstOrDefault(c => c.Type == "uid")!.Value;
+            var accountId = jwtToken.Claims.FirstOrDefault(c => c.Type == "accountId")!.Value;
             var role = jwtToken.Claims.FirstOrDefault(c => c.Type == "role")!.Value;
-            return (uid, role);
+            return (accountId, role);
         }
     }
 }
