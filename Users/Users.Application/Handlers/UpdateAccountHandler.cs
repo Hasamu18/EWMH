@@ -12,7 +12,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, string>
+    public class UpdateAccountHandler : IRequestHandler<UpdateAccountCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         public UpdateAccountHandler(IUnitOfWork uow)
@@ -20,18 +20,18 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<string> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
+        public async Task<(int, string)> Handle(UpdateAccountCommand request, CancellationToken cancellationToken)
         {
             var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
             if (!existingUser.Any())
-                return "The user does not exist";
+                return (404, "The user does not exist");
 
             existingUser[0].FullName = request.FullName;
             existingUser[0].PhoneNumber = request.PhoneNumber;
             existingUser[0].DateOfBirth = request.DateOfBirth;
             await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 
-            return "Update successfully";
+            return (200, "Updated successfully");
         }
     }
 }

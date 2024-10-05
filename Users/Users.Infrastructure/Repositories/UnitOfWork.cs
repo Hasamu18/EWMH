@@ -12,56 +12,56 @@ namespace Users.Infrastructure.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        //private readonly FirestoreDb _fireStore;
+        private readonly FirestoreDb _fireStore;
         private readonly Sep490Context _context;
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public UnitOfWork(Sep490Context context  /*, FirestoreDb fireStore*/)
+        public UnitOfWork(Sep490Context context, FirestoreDb fireStore)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
-            //_fireStore = firestore;
+            _fireStore = fireStore;
             _context = context;
         }
 
         private IGenericRepository<Accounts> _accountRepo;
         public IGenericRepository<Accounts> AccountRepo
         {
-            get => _accountRepo ??= new GenericRepository<Accounts>(_context);           
+            get => _accountRepo ??= new GenericRepository<Accounts>(_context, _fireStore);           
         }
 
         private IGenericRepository<Leaders> _leaderRepo;
         public IGenericRepository<Leaders> LeaderRepo
         {
-            get => _leaderRepo ??= new GenericRepository<Leaders>(_context);
+            get => _leaderRepo ??= new GenericRepository<Leaders>(_context, _fireStore);
         }
 
         private IGenericRepository<Workers> _workerRepo;
         public IGenericRepository<Workers> WorkerRepo
         {
-            get => _workerRepo ??= new GenericRepository<Workers>(_context);
+            get => _workerRepo ??= new GenericRepository<Workers>(_context, _fireStore);
         }
 
         private IGenericRepository<Customers> _customerRepo;
         public IGenericRepository<Customers> CustomerRepo
         {
-            get => _customerRepo ??= new GenericRepository<Customers>(_context);
+            get => _customerRepo ??= new GenericRepository<Customers>(_context, _fireStore);
         }
 
         private IGenericRepository<RefreshTokens> _refreshTokenRepo;
         public IGenericRepository<RefreshTokens> RefreshTokenRepo
         {
-            get => _refreshTokenRepo ??= new GenericRepository<RefreshTokens>(_context);
+            get => _refreshTokenRepo ??= new GenericRepository<RefreshTokens>(_context, _fireStore);
         }
 
         private IGenericRepository<ApartmentAreas> _apartmentAreaRepo;
         public IGenericRepository<ApartmentAreas> ApartmentAreaRepo
         {
-            get => _apartmentAreaRepo ??= new GenericRepository<ApartmentAreas>(_context);
+            get => _apartmentAreaRepo ??= new GenericRepository<ApartmentAreas>(_context, _fireStore);
         }
 
         private IGenericRepository<Rooms> _roomRepo;
         public IGenericRepository<Rooms> RoomRepo
         {
-            get => _roomRepo ??= new GenericRepository<Rooms>(_context);
+            get => _roomRepo ??= new GenericRepository<Rooms>(_context, _fireStore);
         }
     }
 }

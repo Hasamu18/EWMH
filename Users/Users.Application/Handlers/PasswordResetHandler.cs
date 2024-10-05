@@ -11,24 +11,24 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class PasswordResetHandler : IRequestHandler<PasswordResetCommand, string>
+    public class PasswordResetHandler : IRequestHandler<PasswordResetCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         public PasswordResetHandler(IUnitOfWork uow)
         {
             _uow = uow; ;
         }
-        public async Task<string> Handle(PasswordResetCommand request, CancellationToken cancellationToken)
+        public async Task<(int, string)> Handle(PasswordResetCommand request, CancellationToken cancellationToken)
         {
             var email = Tools.DecryptString(request.Token);
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(email));
             if (!existingEmail.Any())
-                return $"{email} is not registered account in our application";
+                return (404, $"{email} is not registered account in our application");
 
             existingEmail.ToList()[0].Password = Tools.HashString(request.Password);
             await _uow.AccountRepo.UpdateAsync(existingEmail.ToList()[0]);
 
-            return "Reset password successfully";
+            return (200, "Reseted password successfully");
         }
     }
 }

@@ -83,12 +83,11 @@ namespace Users.Application.Utility
 
         public static string DecryptString(string encryptedString)
         {
-            using (Aes aesAlg = Aes.Create())
+            try
             {
+                using Aes aesAlg = Aes.Create();
                 aesAlg.Key = Encoding.UTF8.GetBytes("9utjwQbRFAVj1Kt5lOVWi9tAwQbRFAVj");//SecretKey
-
                 byte[] fullCipher = Convert.FromBase64String(encryptedString);
-
                 // Extract IV from beginning of array
                 byte[] iv = new byte[aesAlg.BlockSize / 8];
                 byte[] cipherText = new byte[fullCipher.Length - iv.Length];
@@ -102,6 +101,11 @@ namespace Users.Application.Utility
 
                 return Encoding.UTF8.GetString(decryptedEmailBytes);
             }
+            catch
+            {
+                return "null";
+            }
+            
         }
     }
 }

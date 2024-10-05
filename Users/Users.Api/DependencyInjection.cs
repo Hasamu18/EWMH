@@ -27,19 +27,19 @@ namespace Users.Api
                 get.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
         }
 
-        //public static void AddFireBaseConfig(this WebApplicationBuilder builder)
-        //{
-        //    builder.Configuration.AddJsonFile("firebase.json", optional: true, reloadOnChange: true)
-        //              .AddEnvironmentVariables();
+        public static void AddFireBaseConfig(this WebApplicationBuilder builder)
+        {
+            builder.Configuration.AddJsonFile("firebase.json", optional: true, reloadOnChange: true)
+                      .AddEnvironmentVariables();
 
-        //    var firebaseFile = Path.Combine(Directory.GetCurrentDirectory(), "firebase.json");
-        //    Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", firebaseFile);
-        //    builder.Services.AddSingleton(FirestoreDb.Create(builder.Configuration["project_id"]));
-        //    FirebaseApp.Create(new AppOptions()
-        //    {
-        //        Credential = GoogleCredential.FromFile(firebaseFile)
-        //    });
-        //}
+            var firebaseFile = Path.Combine(Directory.GetCurrentDirectory(), "firebase.json");
+            Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", firebaseFile);
+            builder.Services.AddSingleton(FirestoreDb.Create(builder.Configuration["project_id"]));
+            FirebaseApp.Create(new AppOptions()
+            {
+                Credential = GoogleCredential.FromFile(firebaseFile)
+            });
+        }
 
         public static void AddCustomSwaggerGen(this IServiceCollection services)
         {

@@ -8,13 +8,12 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class DisableAccountCommand : IRequest<string>
+    public class DisableAccountCommand : IRequest<(int, string)>
     {
         public required string AccountId { get; set; }
 
         public bool Disable { get; set; }
 
-        [StringLength(100, MinimumLength = 1)]
-        public required string DisabledReason { get; set; }
+        public string? DisabledReason { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Commands
 {
-    public class SignInCommand : IRequest<object>
+    public class SignInCommand : IRequest<(int, object)>
     {
         [EmailAddress]
         public required string Email { get; set; }

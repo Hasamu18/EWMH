@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class AddRoomsCommand : IRequest<string>
+    public class AddRoomsCommand : IRequest<(int, string)>
     {
         public required string AreaId { get; set; }
 
-        [StringLength(10)]
         public required List<string> Rooms { get; set; }
     }
 }

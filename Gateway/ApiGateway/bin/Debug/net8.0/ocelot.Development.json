@@ -1,7 +1,7 @@
 ﻿{
   "Routes": [
     //Users API
-    //Account
+    //AccountController
     {
       "DownstreamPathTemplate": "/api/account/1",
       "DownstreamScheme": "https",
@@ -84,8 +84,7 @@
         }
       ],
       "UpstreamPathTemplate": "/account/7",
-      "UpstreamHttpMethod": [ "GET" ],
-      "FileCacheOptions": { "TtlSeconds": 30 }
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/account/8",
@@ -100,7 +99,7 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/account/9?{PageIndex}&{Pagesize}&{SearchValue}&{SortField}&{IsAsc}",
+      "DownstreamPathTemplate": "/api/account/9",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -108,11 +107,11 @@
           "Port": "8001"
         }
       ],
-      "UpstreamPathTemplate": "/account/9?{PageIndex}&{Pagesize}&{SearchValue}&{SortField}&{IsAsc}",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamPathTemplate": "/account/9",
+      "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/account/10",
+      "DownstreamPathTemplate": "/api/account/10?{PageIndex}&{Pagesize}&{SearchByEmail}&{Role}&{IsDisabled}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -120,8 +119,8 @@
           "Port": "8001"
         }
       ],
-      "UpstreamPathTemplate": "/account/10",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamPathTemplate": "/account/10?{PageIndex}&{Pagesize}&{SearchByEmail}&{Role}&{IsDisabled}",
+      "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/account/11",
@@ -134,6 +133,82 @@
       ],
       "UpstreamPathTemplate": "/account/11",
       "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/account/12",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/account/12",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/account/13",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/account/13",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+
+
+
+    //ApartmentController
+    {
+      "DownstreamPathTemplate": "/api/apartment/1",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/apartment/1",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/apartment/2",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/apartment/2",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/apartment/3",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/apartment/3",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/apartment/4",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/apartment/4",
+      "UpstreamHttpMethod": [ "PUT" ]
     }
   ],
   "GlobalConfiguration": {

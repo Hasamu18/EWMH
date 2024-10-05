@@ -9,7 +9,7 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Queries
 {
-    public class GetAccountQuery : IRequest<TResponse<Accounts>>
+    public class GetAccountQuery : IRequest<(int, TResponse<Accounts>)>
     {
         public string AccountId { get; set; }
         public GetAccountQuery(string accountId)

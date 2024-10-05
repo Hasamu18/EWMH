@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Commands
 {
-    public class AddApartmentCommand : IRequest<string>
+    public class AddApartmentCommand : IRequest<(int, string)>
     {
         [StringLength(255, MinimumLength = 4)]
         public required string Name { get; set; }

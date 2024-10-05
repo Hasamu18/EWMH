@@ -5,6 +5,8 @@ namespace Users.Domain.Entities;
 
 public partial class RefreshTokens
 {
+    public string RefreshTokenId { get; set; } = null!;
+
     public string AccountId { get; set; } = null!;
 
     public string Token { get; set; } = null!;
