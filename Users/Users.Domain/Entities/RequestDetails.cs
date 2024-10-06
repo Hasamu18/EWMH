@@ -5,6 +5,8 @@ namespace Users.Domain.Entities;
 
 public partial class RequestDetails
 {
+    public string RequestDetailId { get; set; } = null!;
+
     public string RequestId { get; set; } = null!;
 
     public string ProductId { get; set; } = null!;
@@ -14,8 +16,6 @@ public partial class RequestDetails
     public bool IsCustomerPaying { get; set; }
 
     public string Description { get; set; } = null!;
-
-    public virtual Products Product { get; set; } = null!;
 
     public virtual Requests Request { get; set; } = null!;
 }

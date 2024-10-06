@@ -11,7 +11,7 @@ public partial class Workers
 
     public virtual Leaders? Leader { get; set; }
 
-    public virtual Accounts Worker { get; set; } = null!;
+    public virtual ICollection<RequestWorkers> RequestWorkers { get; set; } = new List<RequestWorkers>();
 
-    public virtual ICollection<Requests> Request { get; set; } = new List<Requests>();
+    public virtual Accounts Worker { get; set; } = null!;
 }

@@ -22,6 +22,4 @@ public partial class Products
     public virtual ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
 
     public virtual ICollection<ProductPrices> ProductPrices { get; set; } = new List<ProductPrices>();
-
-    public virtual ICollection<RequestDetails> RequestDetails { get; set; } = new List<RequestDetails>();
 }
