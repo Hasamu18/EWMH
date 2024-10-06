@@ -13,8 +13,6 @@ public partial class Customers
 
     public virtual Accounts Customer { get; set; } = null!;
 
-    public virtual ICollection<Feedbacks> Feedbacks { get; set; } = new List<Feedbacks>();
-
     public virtual ICollection<Orders> Orders { get; set; } = new List<Orders>();
 
     public virtual ICollection<Requests> Requests { get; set; } = new List<Requests>();

@@ -29,11 +29,13 @@ public partial class Requests
 
     public virtual Customers Customer { get; set; } = null!;
 
+    public virtual ICollection<Feedbacks> Feedbacks { get; set; } = new List<Feedbacks>();
+
     public virtual Leaders Leader { get; set; } = null!;
 
     public virtual ICollection<PriceRequests> PriceRequests { get; set; } = new List<PriceRequests>();
 
     public virtual ICollection<RequestDetails> RequestDetails { get; set; } = new List<RequestDetails>();
 
-    public virtual ICollection<Workers> Worker { get; set; } = new List<Workers>();
+    public virtual ICollection<RequestWorkers> RequestWorkers { get; set; } = new List<RequestWorkers>();
 }

@@ -7,7 +7,7 @@ public partial class Feedbacks
 {
     public string FeedbackId { get; set; } = null!;
 
-    public string CustomerId { get; set; } = null!;
+    public string RequestId { get; set; } = null!;
 
     public string Content { get; set; } = null!;
 
@@ -15,5 +15,5 @@ public partial class Feedbacks
 
     public bool Status { get; set; }
 
-    public virtual Customers Customer { get; set; } = null!;
+    public virtual Requests Request { get; set; } = null!;
 }

@@ -244,8 +244,19 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (ADMIN) Get all accounts paginated by SearchValue Email
+        /// (ADMIN) Get all accounts paginated 
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex       = 1    (default)
+        ///     Pagesize        = 8    (default)
+        ///     SearchByEmail   = null (default)
+        ///     Role            = null (default)
+        ///     IsDisabled      = null (default)
+        ///   
+        ///     Get all accounts paginated
+        /// </remarks>
         [Authorize(Roles = Constants.Role.AdminRole)]
         [HttpGet("10")]
         [ProducesResponseType(typeof(List<Accounts>), (int)HttpStatusCode.OK)]

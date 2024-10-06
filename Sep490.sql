@@ -129,7 +129,7 @@ CREATE TABLE [RefreshTokens] (
   [AccountId] varchar(32) NOT NULL,
   [Token] varchar(32) NOT NULL,
   [ExpiredAt] datetime NOT NULL,
-  PRIMARY KEY (RefreshTokenId)
+  PRIMARY KEY ([RefreshTokenId])
 )
 GO
 
@@ -144,12 +144,13 @@ CREATE TABLE [OrderDetails] (
 GO
 
 CREATE TABLE [RequestDetails] (
+  [RequestDetailId] varchar(32) NOT NULL,
   [RequestId] varchar(32) NOT NULL,
   [ProductId] varchar(32) NOT NULL,
   [Quantity] int NOT NULL,
   [IsCustomerPaying] bit NOT NULL,
   [Description] nvarchar(max) NOT NULL,
-  PRIMARY KEY ([RequestId], [ProductId])
+  PRIMARY KEY ([RequestDetailId])
 )
 GO
 
@@ -183,13 +184,14 @@ GO
 CREATE TABLE [RequestWorkers] (
   [RequestId] varchar(32) NOT NULL,
   [WorkerId] varchar(32) NOT NULL,
+  [IsLead] bit NOT NULL,
   PRIMARY KEY ([RequestId], [WorkerId])
 )
 GO
 
 CREATE TABLE [Feedbacks] (
   [FeedbackId] varchar(32) NOT NULL,
-  [CustomerId] varchar(32) NOT NULL,
+  [RequestId] varchar(32) NOT NULL,
   [Content] nvarchar(max) NOT NULL,
   [Rate] int NOT NULL,
   [Status] bit NOT NULL,
@@ -212,7 +214,7 @@ GO
 ALTER TABLE [ApartmentAreas] ADD FOREIGN KEY ([LeaderId]) REFERENCES [Leaders] ([LeaderId])
 GO
 
-ALTER TABLE [Feedbacks] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Customers] ([CustomerId])
+ALTER TABLE [Feedbacks] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] ([RequestId])
 GO
 
 ALTER TABLE [PriceRequests] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] ([RequestId])
