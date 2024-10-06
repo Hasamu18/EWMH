@@ -2,18 +2,18 @@
 .vs/
 bin/
 obj/
-Gateway\ApiGateway\bin/
-Gateway\ApiGateway\obj/
-Infrastructure\Logger\.vs/
-Infrastructure\Logger\bin/
-Infrastructure\Logger\obj/
-Users\Users.Api\bin/
-Users\Users.Api\obj/
-Users\Users.Application\bin/
-Users\Users.Application\obj/
-Users\Users.Domain\bin/
-Users\Users.Domain\obj/
-Users\Users.Infrastructure\bin/
-Users\Users.Infrastructure\obj/
+Gateway/ApiGateway/bin/
+Gateway/ApiGateway/obj/
+Infrastructure/Logger/.vs/
+Infrastructure/Logger/bin/
+Infrastructure/Logger/obj/
+Users/Users.Api/bin/
+Users/Users.Api/obj/
+Users/Users.Application/bin/
+Users/Users.Application/obj/
+Users/Users.Domain/bin/
+Users/Users.Domain/obj/
+Users/Users.Infrastructure/bin/
+Users/Users.Infrastructure/obj/
 
 
