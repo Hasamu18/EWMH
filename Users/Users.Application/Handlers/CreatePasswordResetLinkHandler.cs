@@ -6,8 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Commands;
-using Users.Application.Utility;
+using Logger.Utility;
 using Users.Domain.IRepositories;
+using Constants.Utility;
 
 namespace Users.Application.Handlers
 {

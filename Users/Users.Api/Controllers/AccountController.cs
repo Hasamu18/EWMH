@@ -7,8 +7,8 @@ using System.Net;
 using Users.Application.Commands;
 using Users.Application.Queries;
 using Users.Application.Responses;
-using Users.Application.Utility;
 using Users.Domain.Entities;
+using static Logger.Utility.Constants;
 
 namespace Users.Api.Controllers
 {
@@ -50,7 +50,7 @@ namespace Users.Api.Controllers
         /// <summary>
         /// (ADMIN, MANAGER) Disable an user
         /// </summary>
-        [Authorize(Roles = Constants.Role.AdminRole + "," + Constants.Role.ManagerRole)]
+        [Authorize(Roles = Role.AdminRole + "," + Role.ManagerRole)]
         [HttpPut("2")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DisableAccount([FromBody] DisableAccountCommand command)
@@ -155,7 +155,7 @@ namespace Users.Api.Controllers
         /// <summary>
         /// (ADMIN) Create a personnel's account
         /// </summary>
-        [Authorize(Roles = Constants.Role.AdminRole)]
+        [Authorize(Roles = Role.AdminRole)]
         [HttpPost("6")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreatePersonnel([FromBody] CreatePersonnelCommand command)
@@ -257,7 +257,7 @@ namespace Users.Api.Controllers
         ///   
         ///     Get all accounts paginated
         /// </remarks>
-        [Authorize(Roles = Constants.Role.AdminRole)]
+        [Authorize(Roles = Role.AdminRole)]
         [HttpGet("10")]
         [ProducesResponseType(typeof(List<Accounts>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedAccount([FromQuery] GetPagedAccountQuery query)

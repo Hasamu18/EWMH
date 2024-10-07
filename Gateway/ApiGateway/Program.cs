@@ -27,7 +27,8 @@ namespace Gateway.ApiGateway
             {
                 endpoints.MapGet("/", async context => 
                 {
-                    await context.Response.WriteAsync("Api Gateway is running");
+                    await context.Response.WriteAsync("Api Gateway is running\n");
+                    await context.Response.WriteAsync($"Environment: {builder.Environment.EnvironmentName}");
                 });
             });
 #pragma warning restore ASP0014 // Suggest using top level route registrations

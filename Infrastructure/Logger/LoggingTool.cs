@@ -4,7 +4,6 @@ using Serilog.Events;
 using Serilog;
 using Serilog.Exceptions;
 using System.Reflection;
-using Users.Application.Utility;
 namespace Logger.LoggingTool
 {
     public static class LoggingTool

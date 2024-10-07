@@ -20,7 +20,8 @@ namespace Users.Api
             builder.Services.AddControllers();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddAutoMapper(typeof(MapperProfile));
-            builder.Services.AddMediatR(config => {
+            builder.Services.AddMediatR(config =>
+            {
                 config.RegisterServicesFromAssemblies(
                     typeof(GetAllRoleHandler).GetTypeInfo().Assembly
                 );
@@ -39,13 +40,12 @@ namespace Users.Api
             // Configure the HTTP request pipeline.
             var app = builder.Build();
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "User.Api.v1"));
-            }
-            
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => 
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "User.Api.v1"));
+
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseCors("CorsPolicy");
