@@ -8,7 +8,7 @@ using MailKit.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Users.Application.Utility
+namespace Constants.Utility
 {
     public class EmailSender
     {

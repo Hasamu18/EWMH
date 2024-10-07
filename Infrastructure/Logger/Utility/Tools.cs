@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using static Users.Application.Utility.Constants;
+using static Logger.Utility.Constants;
 
-namespace Users.Application.Utility
+namespace Logger.Utility
 {
     public static class Tools
     {

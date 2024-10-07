@@ -7,8 +7,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Commands;
-using Users.Application.Utility;
 using Users.Domain.IRepositories;
+using static Logger.Utility.Constants;
 
 namespace Users.Application.Handlers
 {
@@ -26,8 +26,8 @@ namespace Users.Application.Handlers
             if (!existingUser.Any())
                 return (404, "The user does not exist");
 
-            if (existingUser[0].Role.Equals(Constants.Role.AdminRole) ||
-                existingUser[0].Role.Equals(Constants.Role.ManagerRole))
+            if (existingUser[0].Role.Equals(Role.AdminRole) ||
+                existingUser[0].Role.Equals(Role.ManagerRole))
                 return (400, $"{existingUser[0].Role} role can not be disabled");
 
             existingUser[0].IsDisabled = true;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Users.Application.Commands;
 using Users.Application.Mappers;
 using Users.Application.Queries;
-using Users.Application.Utility;
+using Logger.Utility;
 using Users.Domain.Entities;
 using Users.Domain.IRepositories;
 

@@ -12,10 +12,11 @@ using System.Threading.Tasks;
 using Users.Application.Commands;
 using Users.Application.Mappers;
 using Users.Application.Responses;
-using Users.Application.Utility;
+using Logger.Utility;
 using Users.Domain.Entities;
 using Users.Domain.IRepositories;
-using static Users.Application.Utility.Constants;
+using static Logger.Utility.Constants;
+using Constants.Utility;
 
 namespace Users.Application.Handlers
 {
@@ -40,9 +41,9 @@ namespace Users.Application.Handlers
             if (!role) 
                 return (404, $"{request.Role} role is not supported");
 
-            if (request.Role.ToUpper().Equals(Constants.Role.AdminRole) ||
-                request.Role.ToUpper().Equals(Constants.Role.ManagerRole) ||
-                request.Role.ToUpper().Equals(Constants.Role.CustomerRole))
+            if (request.Role.ToUpper().Equals(Role.AdminRole) ||
+                request.Role.ToUpper().Equals(Role.ManagerRole) ||
+                request.Role.ToUpper().Equals(Role.CustomerRole))
                 return (400, $"You can not create {request.Role} account");
 
             string password = Tools.GenerateRandomString(10);
@@ -54,7 +55,7 @@ namespace Users.Application.Handlers
             account.Role = request.Role.ToUpper();
             await _uow.AccountRepo.AddAsync(account);
 
-            if (request.Role.ToUpper().Equals(Constants.Role.TeamLeaderRole))
+            if (request.Role.ToUpper().Equals(Role.TeamLeaderRole))
             {
                 Leaders leader = new Leaders()
                 {
@@ -62,7 +63,7 @@ namespace Users.Application.Handlers
                 };
                 await _uow.LeaderRepo.AddAsync(leader);
             }
-            else if (request.Role.ToUpper().Equals(Constants.Role.WorkerRole))
+            else if (request.Role.ToUpper().Equals(Role.WorkerRole))
             {
                 Workers worker = new Workers()
                 {

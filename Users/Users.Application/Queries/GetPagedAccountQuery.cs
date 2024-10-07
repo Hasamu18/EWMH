@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Users.Application.Utility;
+using Logger.Utility;
 using Users.Domain.Entities;
 
 namespace Users.Application.Queries

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Commands;
-using Users.Application.Utility;
+using Logger.Utility;
 using Users.Domain.Entities;
 using Users.Domain.IRepositories;
 

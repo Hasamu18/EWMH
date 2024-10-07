@@ -12,7 +12,6 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Domain.IRepositories;
-using Users.Application.Utility;
 using Users.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -102,7 +101,7 @@ namespace Users.Infrastructure.Repositories
         {
             string bucketName = config["bucket_name"]!;
             string path = $"{typeof(T).Name}/{documentId}";//file path in bucket storage
-            new FileExtensionContentTypeProvider().TryGetContentType(file.FileName, out string contentType);
+            new FileExtensionContentTypeProvider().TryGetContentType(file.FileName, out string? contentType);
             using var memoryStream = new MemoryStream();
             await file.CopyToAsync(memoryStream);
             memoryStream.Position = 0;

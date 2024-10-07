@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using Users.Application.Commands;
-using Users.Application.Utility;
+using Logger.Utility;
 using Users.Domain.Entities;
+using static Logger.Utility.Constants;
 
 namespace Users.Api.Controllers
 {
@@ -24,7 +25,7 @@ namespace Users.Api.Controllers
         /// <summary>
         /// (Manager) Add an apartment
         /// </summary>
-        [Authorize(Roles = Constants.Role.ManagerRole)]
+        [Authorize(Roles = Role.ManagerRole)]
         [HttpPost("1")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> AddApartment([FromForm] AddApartmentCommand command)
@@ -51,7 +52,7 @@ namespace Users.Api.Controllers
         /// <summary>
         /// (Manager) Update an apartment
         /// </summary>
-        [Authorize(Roles = Constants.Role.ManagerRole)]
+        [Authorize(Roles = Role.ManagerRole)]
         [HttpPut("2")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateApartment([FromForm] UpdateApartmentCommand command)
@@ -78,7 +79,7 @@ namespace Users.Api.Controllers
         /// <summary>
         /// (Manager) Add rooms
         /// </summary>
-        [Authorize(Roles = Constants.Role.ManagerRole)]
+        [Authorize(Roles = Role.ManagerRole)]
         [HttpPost("3")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> AddRooms([FromBody] AddRoomsCommand command)
@@ -103,7 +104,7 @@ namespace Users.Api.Controllers
         /// <summary>
         /// (Manager) Update a room
         /// </summary>
-        [Authorize(Roles = Constants.Role.ManagerRole)]
+        [Authorize(Roles = Role.ManagerRole)]
         [HttpPut("4")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateRoom([FromBody] UpdateRoomCommand command)

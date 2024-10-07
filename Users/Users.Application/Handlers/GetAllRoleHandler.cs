@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Queries;
-using Users.Application.Utility;
+using Logger.Utility;
 
 namespace Users.Application.Handlers
 {

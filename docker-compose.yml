@@ -2,13 +2,13 @@ version: '3.4'
 
 services:
   gateway.api:
-    image: ${DOCKER_REGISTRY-}apigateway
+    image: hasamu/ewmh:apigateway
     build:
       context: .
       dockerfile: Gateway/ApiGateway/Dockerfile
 
   users.api:
-    image: ${DOCKER_REGISTRY-}usersapi
+    image: hasamu/ewmh:usersapi
     build:
       context: .
       dockerfile: Users/Users.Api/Dockerfile

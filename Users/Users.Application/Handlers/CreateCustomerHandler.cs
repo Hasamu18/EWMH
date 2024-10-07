@@ -7,9 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Commands;
 using Users.Application.Mappers;
-using Users.Application.Utility;
+using Logger.Utility;
 using Users.Domain.Entities;
 using Users.Domain.IRepositories;
+using static Logger.Utility.Constants;
 
 namespace Users.Application.Handlers
 {
@@ -39,7 +40,7 @@ namespace Users.Application.Handlers
             account.Password = Tools.HashString(request.Password);
             account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
             account.IsDisabled = false;
-            account.Role = Constants.Role.CustomerRole;
+            account.Role = Role.CustomerRole;
             await _uow.AccountRepo.AddAsync(account);
 
             Customers customer = new Customers()
