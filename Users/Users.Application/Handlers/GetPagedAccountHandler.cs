@@ -67,7 +67,7 @@ namespace Users.Application.Handlers
             }
             else
             {
-                items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
+                items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail!) &&
                                                                 s.IsDisabled == request.IsDisabled,
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);

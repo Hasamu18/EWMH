@@ -158,6 +158,18 @@
       "UpstreamPathTemplate": "/account/13",
       "UpstreamHttpMethod": [ "POST" ]
     },
+    {
+      "DownstreamPathTemplate": "/api/account/14?{PageIndex}&{Pagesize}&{SearchByEmail}&{IsDisabled}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/account/14?{PageIndex}&{Pagesize}&{SearchByEmail}&{IsDisabled}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
 
 
 
@@ -209,6 +221,30 @@
       ],
       "UpstreamPathTemplate": "/apartment/4",
       "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/apartment/5?{PageIndex}&{Pagesize}&{SearchByName}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/apartment/5?{PageIndex}&{Pagesize}&{SearchByName}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

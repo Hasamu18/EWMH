@@ -7,6 +7,7 @@ using Users.Application.Commands;
 using Logger.Utility;
 using Users.Domain.Entities;
 using static Logger.Utility.Constants;
+using Users.Application.Queries;
 
 namespace Users.Api.Controllers
 {
@@ -118,6 +119,64 @@ namespace Users.Api.Controllers
                     return Conflict(result.Item2);
 
                 return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (MANAGER) Get all apartment paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex       = 1    (default)
+        ///     Pagesize        = 8    (default)
+        ///     SearchByName    = null (default) 
+        ///   
+        ///     Get all apartment paginated
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("5")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedApartment([FromQuery] GetPagedApartmentQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (MANAGER) Get all rooms paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     AreaId          = abcxyz
+        ///     PageIndex       = 1    (default)
+        ///     Pagesize        = 8    (default) 
+        ///   
+        ///     Get all rooms paginated
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("6")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedRooms([FromQuery] GetPagedRoomsQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
             }
             catch (Exception ex)
             {
