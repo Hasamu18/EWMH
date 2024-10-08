@@ -35,6 +35,10 @@ namespace Users.Application.Handlers
             if (existingApartment.Count == 0)
                 return (404, "Unexisted apartment or room code");
 
+            var existingRoom = (await _uow.CustomerRepo.GetAsync(a => a.RoomId.Equals(existingApartment[0].RoomId))).ToList();
+            if (existingRoom.Count != 0)
+                return (409, $"{request.RoomCode} room is linking to another account");
+
             var account = UserMapper.Mapper.Map<Accounts>(request);
             account.AccountId = Tools.GenerateRandomString(32);
             account.Password = Tools.HashString(request.Password);

@@ -346,5 +346,36 @@ namespace Users.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (MANAGER) Get all leader paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex       = 1    (default)
+        ///     Pagesize        = 8    (default)
+        ///     SearchByEmail   = null (default) 
+        ///     AreaId          = null (default)
+        ///     IsDisabled      = null (default)
+        ///   
+        ///     Get all leader paginated
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("14")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedLeader([FromQuery] GetPagedLeaderQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
