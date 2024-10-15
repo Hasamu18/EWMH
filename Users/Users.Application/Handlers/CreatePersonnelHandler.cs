@@ -35,7 +35,11 @@ namespace Users.Application.Handlers
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
             if (existingEmail.Any())
                 return (409, $"{request.Email} is existing");
-                    
+
+            var existingPhone = await _uow.AccountRepo.GetAsync(a => a.PhoneNumber.Equals(request.PhoneNumber));
+            if (existingPhone.Any())
+                return (409, $"{request.PhoneNumber} is existing");
+
             var roles = await Tools.GetAllRole();
             var role = roles.Contains(request.Role.ToUpper());
             if (!role) 

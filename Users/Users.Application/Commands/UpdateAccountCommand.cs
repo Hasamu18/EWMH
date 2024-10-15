@@ -14,13 +14,13 @@ namespace Users.Application.Commands
     {
         public string AccountId { get; set; }
         public string FullName { get; set; }
-        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
         public DateOnly DateOfBirth { get; set; }
-        public UpdateAccountCommand(string accountId, string fullName, string phoneNumber, DateOnly dateOfBirth)
+        public UpdateAccountCommand(string accountId, string fullName, string email, DateOnly dateOfBirth)
         {
             AccountId = accountId;
             FullName = fullName;
-            PhoneNumber = phoneNumber;
+            Email = email;
             DateOfBirth = dateOfBirth;
         }
     }

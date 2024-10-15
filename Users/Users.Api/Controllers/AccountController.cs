@@ -25,7 +25,7 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// Signin by Email/Password
+        /// Signin by Email/Password or Phone/Password
         /// </summary>
         /// 
         [HttpPost("1")]
@@ -105,16 +105,18 @@ namespace Users.Api.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateAccount(
             [StringLength(20, MinimumLength = 2)][FromForm] string fullName,
-            [Phone][FromForm] string phoneNumber,
-            DateOnly dateOfBirth)
+            [EmailAddress][FromForm] string email,
+            [FromForm] DateOnly dateOfBirth)
         {
             try
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var command = new UpdateAccountCommand(accountId, fullName, phoneNumber, dateOfBirth);
+                var command = new UpdateAccountCommand(accountId, fullName, email, dateOfBirth);
                 var result = await _mediator.Send(command);
                 if (result.Item1 is 404)
                     return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
 
                 return Ok(result.Item2);
             }

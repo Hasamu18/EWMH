@@ -26,8 +26,12 @@ namespace Users.Application.Handlers
             if (!existingUser.Any())
                 return (404, "The user does not exist");
 
+            var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
+            if (existingEmail.Any() && !existingUser.ToList()[0].Email.Equals(request.Email))
+                return (409, $"{request.Email} is existing");
+
             existingUser[0].FullName = request.FullName;
-            existingUser[0].PhoneNumber = request.PhoneNumber;
+            existingUser[0].Email = request.Email;
             existingUser[0].DateOfBirth = request.DateOfBirth;
             await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 

@@ -9,7 +9,9 @@ dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;uid=sa;pwd=12345;database=Sep4
 Deployed DB
 dotnet ef dbcontext scaffold "Server=tcp:sep490server.database.windows.net,1433;Initial Catalog=Sep490;Persist Security Info=False;User ID=sep490;Password=Khoi@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;" Microsoft.EntityFrameworkCore.SqlServer --output-dir Entities --no-pluralize --force
 
+//Deploy BE wwith docker image 
 docker login
 docker-compose build
 docker-compose push
 
+HashPassword: 473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8

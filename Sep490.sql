@@ -92,9 +92,9 @@ GO
 CREATE TABLE [Accounts] (
   [AccountId] varchar(32) NOT NULL,
   [FullName] nvarchar(255) NOT NULL,
-  [Email] varchar(255) UNIQUE NOT NULL,
+  [Email] varchar(255) NOT NULL,
   [Password] varchar(255) NOT NULL,
-  [PhoneNumber] varchar(11) NOT NULL,
+  [PhoneNumber] varchar(11) UNIQUE NOT NULL,
   [AvatarUrl] varchar(255) NOT NULL,
   [DateOfBirth] date NOT NULL,
   [IsDisabled] bit NOT NULL,

@@ -1,18 +1,18 @@
 ﻿using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
+using Logger.LoggingTool;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Sales.Domain.Entities;
 using Serilog;
 using System.Reflection;
 using System.Text;
-using Logger.LoggingTool;
-using Users.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
-namespace Users.Api
+namespace Sales.Api
 {
     public static class DependencyInjection
     {
@@ -54,8 +54,8 @@ namespace Users.Api
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
                     {
-                        Title = "Users.Api",
-                        Description = "Contains user apis",
+                        Title = "Sales.Api",
+                        Description = "Contains sale apis",
                         Version = "Version 1",
                     });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -136,18 +136,5 @@ namespace Users.Api
             timeout: TimeSpan.FromSeconds(10));
         }
 
-        //public static async void AddFireStoreHealthCheck(this WebApplicationBuilder builder)
-        //{
-        //    FirestoreDb fireStoreDb = await FirestoreDb.CreateAsync(builder.Configuration["project_id"]);
-        //    builder.Services.AddHealthChecks()
-        //    .AddCloudFirestore(setup =>
-        //    {
-        //        setup.FirestoreDatabase = fireStoreDb;
-        //        //setup.RequiredCollections = ["Account"];
-        //    },
-        //    failureStatus: HealthStatus.Degraded,
-        //    timeout: TimeSpan.FromSeconds(10),
-        //    tags: [ "firestore" ]);
-        //}
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace Users.Domain.Entities;
+namespace Sales.Domain.Entities;
 
 public partial class Sep490Context : DbContext
 {
@@ -105,7 +105,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Leader).WithMany(p => p.ApartmentAreas)
                 .HasForeignKey(d => d.LeaderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Apartment__Leade__74AE54BC");
+                .HasConstraintName("FK__Apartment__Leade__1CBC4616");
         });
 
         modelBuilder.Entity<Contracts>(entity =>
@@ -134,7 +134,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.ServicePackage).WithMany(p => p.Contracts)
                 .HasForeignKey(d => d.ServicePackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Contracts__Servi__787EE5A0");
+                .HasConstraintName("FK__Contracts__Servi__208CD6FA");
         });
 
         modelBuilder.Entity<Customers>(entity =>
@@ -151,12 +151,12 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Customer).WithOne(p => p.Customers)
                 .HasForeignKey<Customers>(d => d.CustomerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Customers__Custo__70DDC3D8");
+                .HasConstraintName("FK__Customers__Custo__18EBB532");
 
             entity.HasOne(d => d.Room).WithMany(p => p.Customers)
                 .HasForeignKey(d => d.RoomId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Customers__RoomI__71D1E811");
+                .HasConstraintName("FK__Customers__RoomI__19DFD96B");
         });
 
         modelBuilder.Entity<Feedbacks>(entity =>
@@ -173,7 +173,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Request).WithMany(p => p.Feedbacks)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Feedbacks__Reque__75A278F5");
+                .HasConstraintName("FK__Feedbacks__Reque__1DB06A4F");
         });
 
         modelBuilder.Entity<Leaders>(entity =>
@@ -187,7 +187,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Leader).WithOne(p => p.Leaders)
                 .HasForeignKey<Leaders>(d => d.LeaderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Leaders__LeaderI__73BA3083");
+                .HasConstraintName("FK__Leaders__LeaderI__1BC821DD");
         });
 
         modelBuilder.Entity<OrderDetails>(entity =>
@@ -204,12 +204,12 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Order).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderDeta__Order__7C4F7684");
+                .HasConstraintName("FK__OrderDeta__Order__245D67DE");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderDetails)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__OrderDeta__Produ__7B5B524B");
+                .HasConstraintName("FK__OrderDeta__Produ__236943A5");
         });
 
         modelBuilder.Entity<Orders>(entity =>
@@ -248,7 +248,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Request).WithMany(p => p.PriceRequests)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__PriceRequ__Reque__76969D2E");
+                .HasConstraintName("FK__PriceRequ__Reque__1EA48E88");
         });
 
         modelBuilder.Entity<ProductPrices>(entity =>
@@ -316,7 +316,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Request).WithMany(p => p.RequestDetails)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RequestDe__Reque__778AC167");
+                .HasConstraintName("FK__RequestDe__Reque__1F98B2C1");
         });
 
         modelBuilder.Entity<RequestWorkers>(entity =>
@@ -333,12 +333,12 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Request).WithMany(p => p.RequestWorkers)
                 .HasForeignKey(d => d.RequestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RequestWo__Reque__7D439ABD");
+                .HasConstraintName("FK__RequestWo__Reque__25518C17");
 
             entity.HasOne(d => d.Worker).WithMany(p => p.RequestWorkers)
                 .HasForeignKey(d => d.WorkerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__RequestWo__Worke__7F2BE32F");
+                .HasConstraintName("FK__RequestWo__Worke__2739D489");
         });
 
         modelBuilder.Entity<Requests>(entity =>
@@ -388,7 +388,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Area).WithMany(p => p.Rooms)
                 .HasForeignKey(d => d.AreaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Rooms__AreaId__7E37BEF6");
+                .HasConstraintName("FK__Rooms__AreaId__2645B050");
         });
 
         modelBuilder.Entity<ServicePackagePrices>(entity =>
@@ -406,7 +406,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.ServicePackage).WithMany(p => p.ServicePackagePrices)
                 .HasForeignKey(d => d.ServicePackageId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__ServicePa__Servi__797309D9");
+                .HasConstraintName("FK__ServicePa__Servi__2180FB33");
         });
 
         modelBuilder.Entity<ServicePackages>(entity =>
@@ -442,7 +442,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Order).WithMany(p => p.WarrantyCards)
                 .HasForeignKey(d => d.OrderId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WarrantyC__Order__7A672E12");
+                .HasConstraintName("FK__WarrantyC__Order__22751F6C");
         });
 
         modelBuilder.Entity<Workers>(entity =>
@@ -463,7 +463,7 @@ public partial class Sep490Context : DbContext
             entity.HasOne(d => d.Worker).WithOne(p => p.Workers)
                 .HasForeignKey<Workers>(d => d.WorkerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Workers__WorkerI__72C60C4A");
+                .HasConstraintName("FK__Workers__WorkerI__1AD3FDA4");
         });
 
         OnModelCreatingPartial(modelBuilder);

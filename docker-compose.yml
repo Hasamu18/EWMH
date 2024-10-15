@@ -2,16 +2,22 @@ version: '3.4'
 
 services:
   gateway.api:
-    image: hasamu/ewmh:apigateway
+    image: hasamu/ewmh:api.gateway
     build:
       context: .
       dockerfile: Gateway/ApiGateway/Dockerfile
 
   users.api:
-    image: hasamu/ewmh:usersapi
+    image: hasamu/ewmh:users.api
     build:
       context: .
       dockerfile: Users/Users.Api/Dockerfile
+
+  sales.api:
+    image: hasamu/ewmh:sales.api
+    build:
+      context: .
+      dockerfile: Sales/Sales.Api/Dockerfile
 
 #   elasticsearch:
 #     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
