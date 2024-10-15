@@ -14,13 +14,13 @@ namespace Users.Application.Commands
         public required string FullName { get; set; }
 
         [EmailAddress]
-        public required string Email { get; set; }
-
-        [StringLength(20, MinimumLength = 5)]
-        public required string Password { get; set; }
+        public string? Email { get; set; }
 
         [Phone]
         public required string PhoneNumber { get; set; }
+
+        [StringLength(20, MinimumLength = 5)]
+        public required string Password { get; set; }
 
         public DateOnly DateOfBirth { get; set; }
 

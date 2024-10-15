@@ -1,14 +1,13 @@
-using Google.Api;
-using HealthChecks.UI.Client;
-using MediatR;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using System.Reflection;
-using Users.Application.Handlers;
-using Users.Application.Mappers;
-using Users.Domain.IRepositories;
-using Users.Infrastructure.Repositories;
 
-namespace Users.Api
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Sales.Application.Commands;
+using Sales.Application.Mappers;
+using Sales.Domain.IRepositories;
+using Sales.Infrastructure.Repositories;
+using System.Reflection;
+
+namespace Sales.Api
 {
     public class Program
     {
@@ -23,7 +22,7 @@ namespace Users.Api
             builder.Services.AddMediatR(config =>
             {
                 config.RegisterServicesFromAssemblies(
-                    typeof(GetAllRoleHandler).GetTypeInfo().Assembly
+                    typeof(AddProductCommand).GetTypeInfo().Assembly
                 );
             });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,8 +41,8 @@ namespace Users.Api
 
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => 
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Users.Api.v1"));
+            app.UseSwaggerUI(c =>
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sales.Api.v1"));
 
 
             app.UseHttpsRedirection();

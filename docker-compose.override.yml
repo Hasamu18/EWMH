@@ -15,6 +15,13 @@ services:
     ports:
       - "8001:8080"
  
+  sales.api:
+    container_name: sales.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8002:8080"
+
   # elasticsearch:
   #   container_name: elasticsearch
   #   environment:

@@ -26,9 +26,16 @@ namespace Users.Application.Handlers
 
         public async Task<(int, string)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(request.Email))
+                request.Email = "";
+
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
             if (existingEmail.Any())
                 return (409, $"{request.Email} is existing");
+
+            var existingPhone = await _uow.AccountRepo.GetAsync(a => a.PhoneNumber.Equals(request.PhoneNumber));
+            if (existingPhone.Any())
+                return (409, $"{request.PhoneNumber} is existing");
 
             var existingApartment = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
                                                                       a.RoomCode.Equals(request.RoomCode))).ToList();

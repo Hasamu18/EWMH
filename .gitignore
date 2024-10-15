@@ -2,11 +2,13 @@
 .vs/
 bin/
 obj/
+
 Gateway/ApiGateway/bin/
 Gateway/ApiGateway/obj/
 Infrastructure/Logger/.vs/
 Infrastructure/Logger/bin/
 Infrastructure/Logger/obj/
+
 Users/Users.Api/bin/
 Users/Users.Api/obj/
 Users/Users.Application/bin/
@@ -15,5 +17,14 @@ Users/Users.Domain/bin/
 Users/Users.Domain/obj/
 Users/Users.Infrastructure/bin/
 Users/Users.Infrastructure/obj/
+
+Sales/Sales.Api/bin/
+Sales/Sales.Api/obj/
+Sales/Sales.Application/bin/
+Sales/Sales.Application/obj/
+Sales/Sales.Domain/bin/
+Sales/Sales.Domain/obj/
+Sales/Sales.Infrastructure/bin/
+Sales/Sales.Infrastructure/obj/
 
 
