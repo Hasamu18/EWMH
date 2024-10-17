@@ -14,7 +14,7 @@ namespace Sales.Application.Mappers
         public MapperProfile()
         {
             CreateMap<Products, AddProductCommand>().ReverseMap();
-            //CreateMap<Accounts, CreateCustomerCommand>().ReverseMap();
+            CreateMap<ServicePackages, AddServicePackageCommand>().ReverseMap();
             //CreateMap<ApartmentAreas, AddApartmentCommand>().ReverseMap();
         }
     }
