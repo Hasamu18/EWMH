@@ -96,6 +96,7 @@ namespace Sales.Application.Handlers
                     item.ProductId,
                     item.Name,
                     item.InOfStock,
+                    item.ImageUrl,
                     item.Status,
                     currentProduct.PriceByDate
                 });
