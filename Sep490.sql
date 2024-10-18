@@ -12,7 +12,7 @@ GO
 CREATE TABLE [Orders] (
   [OrderId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
-  [PurchaseTime] datetime NOT NULL,
+  [PurchaseTime] datetime,
   [Status] bit NOT NULL,
   [FileUrl] varchar(255),
   PRIMARY KEY ([OrderId])

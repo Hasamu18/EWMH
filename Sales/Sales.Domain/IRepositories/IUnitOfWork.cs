@@ -17,5 +17,6 @@ namespace Sales.Domain.IRepositories
         IGenericRepository<ServicePackages> ServicePackageRepo { get; }
         IGenericRepository<ServicePackagePrices> ServicePackagePriceRepo { get; }
         IGenericRepository<Contracts> ContractRepo { get; }
+        IGenericRepository<Customers> CustomerRepo { get; }
     }
 }
