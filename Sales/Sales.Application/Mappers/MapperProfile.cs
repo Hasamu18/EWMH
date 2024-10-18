@@ -15,7 +15,7 @@ namespace Sales.Application.Mappers
         {
             CreateMap<Products, AddProductCommand>().ReverseMap();
             CreateMap<ServicePackages, AddServicePackageCommand>().ReverseMap();
-            //CreateMap<ApartmentAreas, AddApartmentCommand>().ReverseMap();
+            //CreateMap<Orders, AddProductToCartCommand>().ReverseMap();
         }
     }
 }
