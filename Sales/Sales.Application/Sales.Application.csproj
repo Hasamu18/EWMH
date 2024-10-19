@@ -8,12 +8,10 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="13.0.1" />
 		<PackageReference Include="MediatR" Version="12.4.0" />
+		<PackageReference Include="payOS" Version="1.0.7" />
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Infrastructure\Logger\Logger.csproj" />
 	  <ProjectReference Include="..\Sales.Domain\Sales.Domain.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Responses\" />
 	</ItemGroup>
 </Project>
