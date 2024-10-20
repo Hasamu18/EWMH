@@ -19,6 +19,14 @@ namespace Logger.Utility
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 
+        public static string GenerateRandomDigits(int length)
+        {
+            Random random = new();
+            const string chars = "0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
         public static string HashString(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())

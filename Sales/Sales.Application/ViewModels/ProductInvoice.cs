@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Sales.Application.ViewModels
 {
-    public class ProductAndQuantity
+    public class ProductInvoice
     {
-        public required string ProductId { get; set; }
+        public required string ProductName { get; set; }
         public int Quantity { get; set; }
+        public int UnitPrice { get; set; }
+        public int Amount { get; set; }
     }
 }

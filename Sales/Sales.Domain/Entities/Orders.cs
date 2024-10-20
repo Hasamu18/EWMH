@@ -15,6 +15,8 @@ public partial class Orders
 
     public string? FileUrl { get; set; }
 
+    public long? OrderCode { get; set; }
+
     public virtual Customers Customer { get; set; } = null!;
 
     public virtual ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();

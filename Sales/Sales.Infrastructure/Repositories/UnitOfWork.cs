@@ -69,10 +69,28 @@ namespace Sales.Infrastructure.Repositories
             get => _contractRepo ??= new GenericRepository<Contracts>(_context, _fireStore);
         }
 
+        private IGenericRepository<Accounts> _accountRepo;
+        public IGenericRepository<Accounts> AccountRepo
+        {
+            get => _accountRepo ??= new GenericRepository<Accounts>(_context, _fireStore);
+        }
+
         private IGenericRepository<Customers> _customerRepo;
         public IGenericRepository<Customers> CustomerRepo
         {
             get => _customerRepo ??= new GenericRepository<Customers>(_context, _fireStore);
+        }
+
+        private IGenericRepository<Rooms> _roomRepo;
+        public IGenericRepository<Rooms> RoomRepo
+        {
+            get => _roomRepo ??= new GenericRepository<Rooms>(_context, _fireStore);
+        }
+
+        private IGenericRepository<ApartmentAreas> _apartmentAreaRepo;
+        public IGenericRepository<ApartmentAreas> ApartmentAreaRepo
+        {
+            get => _apartmentAreaRepo ??= new GenericRepository<ApartmentAreas>(_context, _fireStore);
         }
     }
 }

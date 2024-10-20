@@ -15,6 +15,7 @@ CREATE TABLE [Orders] (
   [PurchaseTime] datetime,
   [Status] bit NOT NULL,
   [FileUrl] varchar(255),
+  [OrderCode] bigint,
   PRIMARY KEY ([OrderId])
 )
 GO

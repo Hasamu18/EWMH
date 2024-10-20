@@ -23,7 +23,7 @@
 3.4.1. Entities: chứa các thực thể của DB
 3.4.2. IRepositories: là nơi chứa các interface cho các phương thức kết nối DB cho CRUD
 ----------------------------------------------------------------------------------------------------------------------------------
-4. Users: là 1 service chứa các api xử lý các yêu cầu liên quan đến tài khoản
+4. Users: (kiến trúc clean) là 1 service chứa các api xử lý các yêu cầu liên quan đến tài khoản
 4.1. Users.Api: (cùng cấp độ với Users.Infrastructure)
 4.1.1. Controllers: là nơi chứa các api xử lý các yêu cầu liên quan đến tài khoản
 
@@ -41,7 +41,7 @@
 4.4.1. Entities: chứa các thực thể của DB
 4.4.2. IRepositories: là nơi chứa các interface cho các phương thức kết nối DB cho CRUD
 ----------------------------------------------------------------------------------------------------------------------------------
-5. Requests: là 1 service chứa các api xử lý các yêu cầu liên quan đến việc yêu cầu sủa chữa tại căn hộ khách hàng
+5. Requests: (kiến trúc clean) là 1 service chứa các api xử lý các yêu cầu liên quan đến việc yêu cầu sủa chữa tại căn hộ khách hàng
 5.1. Requests.Api: (cùng cấp độ với Requests.Infrastructure)
 5.1.1. Controllers: là nơi chứa các api xử lý các yêu cầu liên quan đến việc yêu cầu sủa chữa tại căn hộ khách hàng
 
