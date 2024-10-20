@@ -40,7 +40,8 @@ namespace Sales.Application.Handlers
                     CustomerId = request.CustomerId,
                     PurchaseTime = null,
                     Status = false,
-                    FileUrl = null
+                    FileUrl = null,
+                    OrderCode = null
                 };
                 await _uow.OrderRepo.AddAsync(order);
 

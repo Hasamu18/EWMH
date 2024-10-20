@@ -26,12 +26,15 @@ namespace Sales.Application.Handlers
 
             var cartDetail = (await _uow.OrderDetailRepo.GetAsync(a => a.OrderId.Equals(existingCart[0].OrderId))).ToList();
             var result = new List<object>();
+            int totalPrice = 0;
+
             foreach (var item in cartDetail)
             {
                 var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(item.ProductId),
                                                                        includeProperties: "ProductPrices")).ToList();
                 var currentProduct = existingProduct[0].ProductPrices.OrderByDescending(p => p.Date).First();
-                
+                totalPrice += currentProduct.PriceByDate * item.Quantity; 
+
                 result.Add(new
                 {
                     existingProduct[0].ProductId,
@@ -41,6 +44,13 @@ namespace Sales.Application.Handlers
                     item.Quantity
                 });
             }
+
+            result.Add(new
+            {
+                existingCart[0].OrderId,
+                totalPrice
+            });
+
             return (200, result);
         }
     }

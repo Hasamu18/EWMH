@@ -1,0 +1,272 @@
+﻿using Constants.Utility;
+using Logger.Utility;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Net.payOS;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using Sales.Application.Commands;
+using Sales.Application.ViewModels;
+using Sales.Domain.Entities;
+using Sales.Domain.IRepositories;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Unit = QuestPDF.Infrastructure.Unit;
+
+namespace Sales.Application.Handlers
+{
+    public class SuccessOrderPaymentHandler : IRequestHandler<SuccessOrderPaymentCommand, (int, string)>
+    {
+        private readonly IUnitOfWork _uow;
+        private readonly IConfiguration _config;
+        private readonly PayOS _payOS;
+        public SuccessOrderPaymentHandler(IUnitOfWork uow, IConfiguration config)
+        {
+            _uow = uow;
+            _config = config;
+            _payOS = new PayOS(_config["PayOs:ClientId"]!, _config["PayOs:ApiKey"]!, _config["PayOs:CheckSumKey"]!);
+        }
+
+        public async Task<(int, string)> Handle(SuccessOrderPaymentCommand request, CancellationToken cancellationToken)
+        {
+            List<ProductInvoice> productInvoice = [];
+            string transactionDateTime = "";
+            var paymentLinkInfomation = await _payOS.getPaymentLinkInformation(request.OrderCode);
+            foreach (var item in paymentLinkInfomation.transactions)
+            {
+                transactionDateTime = item.transactionDateTime;
+            }
+
+            var existingCart = (await _uow.OrderRepo.GetAsync(a => a.OrderId.Equals(request.Id1) &&
+                                                                   a.Status == false,
+                                                              includeProperties: "OrderDetails")).ToList();
+            if (existingCart.Count == 0)
+                return (200, "Cart is empty");
+
+            for (var i = 0; i < existingCart[0].OrderDetails.Count; i++)
+            {
+                var productId = existingCart[0].OrderDetails.Select(s => s.ProductId).ElementAt(i);
+                var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(productId),
+                                                                       includeProperties: "ProductPrices")).ToList();
+                var currentProduct = existingProduct[0].ProductPrices.OrderByDescending(p => p.Date).First();
+                var quantity = existingCart[0].OrderDetails.Select(s => s.Quantity).ElementAt(i);
+                var existingProductInCart = (await _uow.OrderDetailRepo.GetAsync(a => a.OrderId.Equals(existingCart[0].OrderId) &&
+                                                                                 a.ProductId.Equals(productId))).ToList();
+                existingProductInCart[0].Price = currentProduct.PriceByDate;
+                existingProductInCart[0].TotalPrice = currentProduct.PriceByDate * quantity;
+
+                ProductInvoice items = new()
+                {
+                    ProductName = existingProduct[0].Name,
+                    Quantity = quantity,
+                    UnitPrice = currentProduct.PriceByDate,
+                    Amount = currentProduct.PriceByDate * quantity
+                };
+                productInvoice.Add(items);
+
+                await _uow.OrderDetailRepo.UpdateAsync(existingProductInCart[0]);
+
+                for (int z = 0; z < quantity; z++)
+                {
+                    WarrantyCards warrantyCard = new()
+                    {
+                        WarrantyCardId = Tools.GenerateIdFormat32(),
+                        OrderId = existingCart[0].OrderId,
+                        ProductId = productId,
+                        StartDate = DateTime.Parse(transactionDateTime),
+                        ExpireDate = DateTime.Parse(transactionDateTime).AddMonths(existingProduct[0].WarantyMonths)
+                    };
+                    await _uow.WarrantyCardRepo.AddAsync(warrantyCard);
+                }                
+            }
+            var existingUser = await _uow.CustomerRepo.GetByIdAsync(existingCart[0].CustomerId);
+            var existingRoom = await _uow.RoomRepo.GetByIdAsync(existingUser!.RoomId);
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom!.AreaId);
+            var existingLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
+            var existingCustomer = await _uow.AccountRepo.GetByIdAsync(existingCart[0].CustomerId);
+            QuestPDF.Settings.License = LicenseType.Community;
+            var pdf = Document.Create(container =>
+            {
+                container.Page(p =>
+                {
+                    p.Size(PageSizes.A4);
+                    p.Margin(1, Unit.Centimetre);
+                    p.PageColor(Colors.White);
+                    p.DefaultTextStyle(x => x.FontSize(20).FontFamily("Arial"));
+
+                    p.Content()
+                    .Table(
+                        contract =>
+                        {
+                            contract.ColumnsDefinition(cols =>
+                            {
+                                cols.RelativeColumn();
+                            });
+                            contract.Cell().BorderVertical(3).BorderTop(3).BorderBottom(1).PaddingVertical(1).Column(x =>
+                            {
+                                x.Item().Row(header =>
+                                {
+                                    header.RelativeItem().Column(col =>
+                                    {
+                                        col.Item().AlignCenter().Text("Invoice").FontSize(16).Italic().FontColor(Colors.Black);
+
+                                        col.Item().AlignCenter().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Date:");
+                                            text.Span($" {Tools.GetDynamicTimeZone().Day}").SemiBold();
+                                            text.Span(" month");
+                                            text.Span($" {Tools.GetDynamicTimeZone().Month}").SemiBold();
+                                            text.Span(" year");
+                                            text.Span($" {Tools.GetDynamicTimeZone().Year}").SemiBold();
+                                        });
+
+                                    });
+                                }
+                                );
+                            });
+
+
+                            contract.Cell().BorderVertical(3).BorderHorizontal(1).PaddingHorizontal(4).Column(
+                                col =>
+                                {
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Company Name: ");
+                                        text.Span("EWMH").SemiBold();
+                                    });
+                                    col.Item().Text(async text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Address: ");
+                                        text.Span($"{existingApartment!.Address}");
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Phone: ");
+                                        text.Span($"{existingLeader!.PhoneNumber}");
+                                    });
+                                });
+                            contract.Cell().BorderVertical(3).BorderHorizontal(1).PaddingHorizontal(4).Column(
+                                col =>
+                                {
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Buyer Email: ");
+                                        text.Span($"{existingCustomer!.Email}");
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Buyer Phone: ");
+                                        text.Span($"{existingCustomer!.PhoneNumber}");
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Buyer Fullname: ");
+                                        text.Span($"{existingCustomer!.FullName}");
+                                    });
+                                });
+
+
+                            contract.Cell().BorderVertical(3).BorderHorizontal(1).Table(
+                                table =>
+                                {
+                                    table.ColumnsDefinition(col =>
+                                    {                                        
+                                        col.ConstantColumn(100);
+                                        col.ConstantColumn(70);
+                                        col.ConstantColumn(70);
+                                        col.ConstantColumn(70);
+                                    });
+                                    
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Product Name").SemiBold();
+                                    });
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Quantity").SemiBold();
+                                    });
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Unit price").SemiBold();
+                                    });
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Amount").SemiBold();
+                                    });
+
+
+                                    for (var i = 0; i < productInvoice.Count; i++)
+                                    {
+                                        var item = productInvoice[i];
+
+                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().Text($"{item.ProductName}").FontSize(12).FontColor(Colors.Black);
+                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{item.Quantity}").FontSize(12).FontColor(Colors.Black);
+                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{item.UnitPrice}").FontSize(12).FontColor(Colors.Black);
+                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{item.Amount}").FontSize(12).FontColor(Colors.Black);
+                                    }
+                                    ;
+                                });
+
+                            contract.Cell().BorderVertical(3).BorderTop(1).BorderBottom(3).Table(
+                                table =>
+                                {
+                                    table.ColumnsDefinition(col =>
+                                    {
+                                        col.RelativeColumn();
+                                        col.ConstantColumn(70);
+                                        col.ConstantColumn(70);
+                                        col.ConstantColumn(70);
+                                    });
+                                    var total = 0;
+                                    foreach (var product in productInvoice)
+                                    {
+                                        total = total + product.Amount;
+                                    }
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text("Total price:").FontSize(12).FontColor(Colors.Black);
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{total}").FontSize(12).FontColor(Colors.Black);
+                                    table.Cell().Border(1);                                   
+                                    ;
+                                });
+                        });
+                });
+            }).GeneratePdf();
+
+            var stream = new MemoryStream(pdf);
+            IFormFile file = new FormFile(stream, 0, pdf.Length, "EWMH", "Invoice.pdf")
+            {
+                Headers = new HeaderDictionary(),
+                ContentType = "application/pdf"
+            };
+            var bucketAndPath = await _uow.OrderRepo.UploadFileToStorageAsync(existingCart[0].OrderId, file, _config);
+            existingCart[0].PurchaseTime = DateTime.Parse(transactionDateTime);
+            existingCart[0].Status = true;
+            existingCart[0].FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            existingCart[0].OrderCode = request.OrderCode;
+            await _uow.OrderRepo.UpdateAsync(existingCart[0]);
+
+            EmailSender emailSender = new(_config);
+            string subject = "Invoice";
+            string body = $"Here, your invoice";
+            await emailSender.SendEmailAsync(existingCustomer!.Email, subject, body, file);
+
+            return (200, "Successful Payment");
+        }
+    }
+}

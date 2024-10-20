@@ -100,5 +100,50 @@ namespace Sales.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Customer) Get payment link for products in cart
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpPost("4")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CheckOrderPayment()
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new CheckOrderPaymentCommand(accountId);
+                var result = await _mediator.Send(command);
+                
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Customer) Successful cart payment 
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpPost("5")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> SuccessOrderPayment([FromForm] SuccessOrderPaymentCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
