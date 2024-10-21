@@ -4,7 +4,7 @@ services:
   gateway.api:
     container_name: gateway.api
     environment:
-      - ASPNETCORE_ENVIRONMENT=Docker     
+      - ASPNETCORE_ENVIRONMENT=Docker
     ports:
       - "8000:8080" 
 
@@ -12,34 +12,46 @@ services:
     container_name: users.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__SqlServer=Server=sep490.db;Database=Sep490;Uid=sa;Pwd=Khoi@123;TrustServerCertificate=True"
+    depends_on:
+      - sep490.db
     ports:
       - "8001:8080"
+    networks:
+      - my_network
  
   sales.api:
     container_name: sales.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__SqlServer=Server=sep490.db;Database=Sep490;Uid=sa;Pwd=Khoi@123;TrustServerCertificate=True"
+    depends_on:
+      - sep490.db
     ports:
       - "8002:8080"
+    networks:
+      - my_network
 
-  # elasticsearch:
-  #   container_name: elasticsearch
+  # requests.api:
+  #   container_name: requests.api
   #   environment:
-  #     - xpack.watcher.enabled=false
-  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-  #     - discovery.type=single-node
-  #     - xpack.security.enabled=false
+  #     - ASPNETCORE_ENVIRONMENT=Development
   #   ports:
-  #     - "9200:9200"
-  #   volumes:
-  #     - elasticsearch-data:/usr/share/elasticsearch/data
+  #     - "8003:8080"
 
-  # kibana:
-  #   container_name: kibana
-  #   environment:
-  #     - ELASTICSEARCH_URL=http://elasticsearch:9200
-  #   depends_on:
-  #     - elasticsearch
-  #   ports:
-  #     - "5601:5601"  
-        
+  sep490.db:
+    container_name: sep490.db
+    environment:
+      SA_PASSWORD: "Khoi@123"
+      ACCEPT_EULA: "Y"
+    restart: always
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    networks:
+      - my_network
+    
+networks:
+  my_network:
+    driver: bridge
