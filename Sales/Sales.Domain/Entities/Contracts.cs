@@ -11,11 +11,17 @@ public partial class Contracts
 
     public string ServicePackageId { get; set; } = null!;
 
-    public string FileUrl { get; set; } = null!;
+    public string? FileUrl { get; set; }
 
-    public DateTime PurchaseTime { get; set; }
+    public DateTime? PurchaseTime { get; set; }
 
     public int RemainingNumOfRequests { get; set; }
+
+    public long? OrderCode { get; set; }
+
+    public bool IsOnlinePayment { get; set; }
+
+    public int? TotalPrice { get; set; }
 
     public virtual Customers Customer { get; set; } = null!;
 

@@ -126,7 +126,7 @@ namespace Sales.Api.Controllers
         }
 
         /// <summary>
-        /// (Customer) Successful cart payment 
+        /// (Customer) When this customer successfully pays online for the order cart, call this api
         /// </summary>
         /// 
         [Authorize(Roles = Role.CustomerRole)]

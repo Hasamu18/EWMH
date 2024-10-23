@@ -2,9 +2,12 @@ CREATE TABLE [Contracts] (
   [ContractId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
   [ServicePackageId] varchar(32) NOT NULL,
-  [FileUrl] varchar(255) NOT NULL,
-  [PurchaseTime] datetime NOT NULL,
+  [FileUrl] varchar(255),
+  [PurchaseTime] datetime,
   [RemainingNumOfRequests] int NOT NULL,
+  [OrderCode] bigint,
+  [IsOnlinePayment] bit NOT NULL,
+  [TotalPrice] int
   PRIMARY KEY ([ContractId])
 )
 GO
