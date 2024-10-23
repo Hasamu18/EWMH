@@ -90,6 +90,7 @@ namespace Sales.Application.Handlers
             var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom!.AreaId);
             var existingLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var existingCustomer = await _uow.AccountRepo.GetByIdAsync(existingCart[0].CustomerId);
+            
             QuestPDF.Settings.License = LicenseType.Community;
             var pdf = Document.Create(container =>
             {
@@ -183,11 +184,11 @@ namespace Sales.Application.Handlers
                                 table =>
                                 {
                                     table.ColumnsDefinition(col =>
-                                    {                                        
+                                    {
+                                        col.RelativeColumn();
                                         col.ConstantColumn(100);
-                                        col.ConstantColumn(70);
-                                        col.ConstantColumn(70);
-                                        col.ConstantColumn(70);
+                                        col.ConstantColumn(100);
+                                        col.ConstantColumn(100);
                                     });
                                     
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
@@ -230,9 +231,9 @@ namespace Sales.Application.Handlers
                                     table.ColumnsDefinition(col =>
                                     {
                                         col.RelativeColumn();
-                                        col.ConstantColumn(70);
-                                        col.ConstantColumn(70);
-                                        col.ConstantColumn(70);
+                                        col.ConstantColumn(100);
+                                        col.ConstantColumn(100);
+                                        col.ConstantColumn(100);
                                     });
                                     var total = 0;
                                     foreach (var product in productInvoice)
