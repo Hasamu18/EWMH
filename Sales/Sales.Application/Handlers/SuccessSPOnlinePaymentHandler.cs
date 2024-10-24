@@ -44,11 +44,24 @@ namespace Sales.Application.Handlers
             foreach (var item in paymentLinkInfomation.transactions)
             {
                 transactionDateTime = item.transactionDateTime;
+                Transaction transaction = new()
+                {
+                    TransactionId = request.ContractId,
+                    ServiceType = 1,
+                    CustomerId = request.CustomerId,
+                    AccountNumber = item.accountNumber,
+                    CounterAccountNumber = item.counterAccountNumber,
+                    CounterAccountName = item.counterAccountName,
+                    PurchaseTime = DateTime.Parse(item.transactionDateTime),
+                    OrderCode = request.OrderCode,
+                    Amount = item.amount,
+                    Description = item.description
+                };
+                await _uow.TransactionRepo.AddAsync(transaction);
             }
 
-            var existingCustomer = await _uow.CustomerRepo.GetByIdAsync(request.CustomerId);
-            var existingRoom = await _uow.RoomRepo.GetByIdAsync(existingCustomer!.RoomId);
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom!.AreaId);
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).First();
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             
@@ -166,12 +179,6 @@ namespace Sales.Application.Handlers
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Tên chung cư: ");
                                         text.Span($"{existingApartment.Name}").SemiBold();
-                                    });
-                                    col.Item().Text(text =>
-                                    {
-                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Mã phòng: ");
-                                        text.Span($"{existingRoom.RoomCode}").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {

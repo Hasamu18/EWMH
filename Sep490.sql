@@ -7,7 +7,7 @@ CREATE TABLE [Contracts] (
   [RemainingNumOfRequests] int NOT NULL,
   [OrderCode] bigint,
   [IsOnlinePayment] bit NOT NULL,
-  [TotalPrice] int
+  [TotalPrice] int,
   PRIMARY KEY ([ContractId])
 )
 GO
@@ -49,14 +49,18 @@ CREATE TABLE [Requests] (
   [RequestId] varchar(32) NOT NULL,
   [LeaderId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
+  [ContractId] varchar(32) NOT NULL,
   [Start] datetime NOT NULL,
   [End] datetime,
   [CustomerProblem] nvarchar(max) NOT NULL,
   [Conclusion] nvarchar(max),
   [Status] int NOT NULL,
   [CategoryRequest] int NOT NULL,
+  [PurchaseTime] datetime,
   [TotalPrice] int,
   [FileUrl] varchar(255),
+  [OrderCode] bigint,
+  [IsOnlinePayment] bit NOT NULL,
   PRIMARY KEY ([RequestId])
 )
 GO
@@ -75,7 +79,6 @@ GO
 
 CREATE TABLE [Customers] (
   [CustomerId] varchar(32) NOT NULL,
-  [RoomId] varchar(32) NOT NULL,
   PRIMARY KEY ([CustomerId])
 )
 GO
@@ -123,6 +126,7 @@ GO
 CREATE TABLE [Rooms] (
   [RoomId] varchar(32) NOT NULL,
   [AreaId] varchar(32) NOT NULL,
+  [CustomerId] varchar(32),
   [RoomCode] varchar(10) NOT NULL,
   PRIMARY KEY ([RoomId])
 )
@@ -134,6 +138,21 @@ CREATE TABLE [RefreshTokens] (
   [Token] varchar(32) NOT NULL,
   [ExpiredAt] datetime NOT NULL,
   PRIMARY KEY ([RefreshTokenId])
+)
+GO
+
+CREATE TABLE [Transaction] (
+  [TransactionId] varchar(32) NOT NULL,
+  [ServiceType] int NOT NULL,
+  [CustomerId] varchar(32) NOT NULL,
+  [AccountNumber] varchar(32),
+  [CounterAccountNumber] varchar(32),
+  [CounterAccountName] varchar(max),
+  [PurchaseTime] datetime NOT NULL,
+  [OrderCode] bigint,
+  [Amount] int NOT NULL,
+  [Description] varchar(max),
+  PRIMARY KEY ([TransactionId])
 )
 GO
 
@@ -203,10 +222,16 @@ CREATE TABLE [Feedbacks] (
 )
 GO
 
-ALTER TABLE [Customers] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Accounts] ([AccountId])
+ALTER TABLE [Contracts] ADD FOREIGN KEY ([ContractId]) REFERENCES [Transaction] ([TransactionId])
 GO
 
-ALTER TABLE [Customers] ADD FOREIGN KEY ([RoomId]) REFERENCES [Rooms] ([RoomId])
+ALTER TABLE [Orders] ADD FOREIGN KEY ([OrderId]) REFERENCES [Transaction] ([TransactionId])
+GO
+
+ALTER TABLE [Requests] ADD FOREIGN KEY ([RequestId]) REFERENCES [Transaction] ([TransactionId])
+GO
+
+ALTER TABLE [Customers] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Accounts] ([AccountId])
 GO
 
 ALTER TABLE [Workers] ADD FOREIGN KEY ([WorkerId]) REFERENCES [Accounts] ([AccountId])
@@ -219,6 +244,12 @@ ALTER TABLE [ApartmentAreas] ADD FOREIGN KEY ([LeaderId]) REFERENCES [Leaders] (
 GO
 
 ALTER TABLE [Feedbacks] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] ([RequestId])
+GO
+
+ALTER TABLE [Rooms] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Customers] ([CustomerId])
+GO
+
+ALTER TABLE [Requests] ADD FOREIGN KEY ([ContractId]) REFERENCES [Contracts] ([ContractId])
 GO
 
 ALTER TABLE [PriceRequests] ADD FOREIGN KEY ([RequestId]) REFERENCES [Requests] ([RequestId])

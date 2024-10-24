@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Transaction = Sales.Domain.Entities.Transaction;
 
 namespace Sales.Infrastructure.Repositories
 {
@@ -75,12 +76,6 @@ namespace Sales.Infrastructure.Repositories
             get => _accountRepo ??= new GenericRepository<Accounts>(_context, _fireStore);
         }
 
-        private IGenericRepository<Customers> _customerRepo;
-        public IGenericRepository<Customers> CustomerRepo
-        {
-            get => _customerRepo ??= new GenericRepository<Customers>(_context, _fireStore);
-        }
-
         private IGenericRepository<Rooms> _roomRepo;
         public IGenericRepository<Rooms> RoomRepo
         {
@@ -92,5 +87,12 @@ namespace Sales.Infrastructure.Repositories
         {
             get => _apartmentAreaRepo ??= new GenericRepository<ApartmentAreas>(_context, _fireStore);
         }
+
+        private IGenericRepository<Transaction> _transactionRepo;
+        public IGenericRepository<Transaction> TransactionRepo
+        {
+            get => _transactionRepo ??= new GenericRepository<Transaction>(_context, _fireStore);
+        }
+
     }
 }

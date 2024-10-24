@@ -19,6 +19,8 @@ public partial class Orders
 
     public virtual Customers Customer { get; set; } = null!;
 
+    public virtual Transaction Order { get; set; } = null!;
+
     public virtual ICollection<OrderDetails> OrderDetails { get; set; } = new List<OrderDetails>();
 
     public virtual ICollection<WarrantyCards> WarrantyCards { get; set; } = new List<WarrantyCards>();

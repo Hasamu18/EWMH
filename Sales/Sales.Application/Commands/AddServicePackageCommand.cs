@@ -21,8 +21,6 @@ namespace Sales.Application.Commands
 
         public int NumOfRequest { get; set; }
 
-        public required string Policy { get; set; }
-
         public int Price { get; set; }
     }
 }

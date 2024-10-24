@@ -26,14 +26,14 @@ namespace Users.Application.Handlers
             if (existingApartment.Count == 0)
                 return (404, "Unexisted apartment");
 
-            foreach (var room in request.Rooms)
+            foreach (var room in request.RoomCodes)
             {
                 if (room.Length > 10)
                     return (404, $"{room} is invalid, room code must be less or than 10 letters");
             }
 
             var roomsInApartmentCurrent = existingApartment[0].Rooms.Select(r => r.RoomCode).ToList();
-            var allRoomCurrent = roomsInApartmentCurrent.Concat(request.Rooms).ToList();
+            var allRoomCurrent = roomsInApartmentCurrent.Concat(request.RoomCodes).ToList();
             var duplicateRooms = allRoomCurrent
                 .GroupBy(room => room)
                 .Where(group => group.Count() > 1)
@@ -43,7 +43,7 @@ namespace Users.Application.Handlers
             if (duplicateRooms.Count != 0)
                 return (409, $"The following rooms are duplicated: {string.Join(", ", duplicateRooms)}");
 
-            foreach (var room in request.Rooms)
+            foreach (var room in request.RoomCodes)
             {
                 Rooms rooms = new()
                 {
@@ -54,7 +54,7 @@ namespace Users.Application.Handlers
                 await _uow.RoomRepo.AddAsync(rooms);
             }
 
-            return (201, $"{existingApartment[0].Name} apartment has added {request.Rooms.Count} rooms");
+            return (201, $"{existingApartment[0].Name} apartment has added {request.RoomCodes.Count} rooms");
         }
     }
 }

@@ -3,6 +3,7 @@ using Logger.Utility;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Sales.Application.Commands;
+using Sales.Domain.Entities;
 using Sales.Domain.IRepositories;
 using System;
 using System.Collections.Generic;
@@ -36,13 +37,32 @@ namespace Sales.Application.Handlers
 
             var bucketAndPath = await _uow.ContractRepo.UploadFileToStorageAsync(request.ContractId, request.File, _config);
             existingContract.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
-            
+
             if (!existingContract.IsOnlinePayment)
             {
                 existingContract.PurchaseTime = Tools.GetDynamicTimeZone();
                 existingContract.TotalPrice = currentServicePackage.PriceByDate;
+
+                var existingTransaction = await _uow.TransactionRepo.GetByIdAsync(request.ContractId);
+                if (existingTransaction == null)
+                {
+                    Transaction transaction = new()
+                    {
+                        TransactionId = request.ContractId,
+                        ServiceType = 1,
+                        CustomerId = existingContract.CustomerId,
+                        AccountNumber = null,
+                        CounterAccountNumber = null,
+                        CounterAccountName = null,
+                        PurchaseTime = (DateTime)existingContract.PurchaseTime,
+                        OrderCode = null,
+                        Amount = (int)existingContract.TotalPrice,
+                        Description = null
+                    };
+                    await _uow.TransactionRepo.AddAsync(transaction);
+                }
             }
-           
+
             await _uow.ContractRepo.UpdateAsync(existingContract);
 
             EmailSender emailSender = new(_config);

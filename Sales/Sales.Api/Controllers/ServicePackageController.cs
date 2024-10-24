@@ -181,7 +181,7 @@ namespace Sales.Api.Controllers
         /// <remarks> 
         ///     
         ///     Online payment:  return payment link
-        ///     Offline payment: return notification
+        ///     Offline payment: return "payment later" notification 
         ///   
         /// </remarks>
         [Authorize(Roles = Role.CustomerRole)]
@@ -215,7 +215,7 @@ namespace Sales.Api.Controllers
         [Authorize(Roles = Role.CustomerRole)]
         [HttpPost("8")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CheckServicePackagePayment(
+        public async Task<IActionResult> SuccessSPOnlinePayment(
             [FromForm] string servicePackageId,
             [FromForm] long orderCode,
             [FromForm] string contractId)
@@ -268,7 +268,7 @@ namespace Sales.Api.Controllers
         [Authorize(Roles = Role.CustomerRole)]
         [HttpDelete("10")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> ScanContract([FromForm] string contractId)
+        public async Task<IActionResult> CancelSPOfflinePayment([FromForm] string contractId)
         {
             try
             {
@@ -281,6 +281,23 @@ namespace Sales.Api.Controllers
                     return Conflict(result.Item2);
 
                 return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        [HttpGet("11")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPaymentInformationByPayOs([FromQuery] GetPaymentInformationByPayOsCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                
+                return Ok(result);
             }
             catch (Exception ex)
             {

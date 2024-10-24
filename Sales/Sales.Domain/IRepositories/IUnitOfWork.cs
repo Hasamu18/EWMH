@@ -18,8 +18,8 @@ namespace Sales.Domain.IRepositories
         IGenericRepository<ServicePackagePrices> ServicePackagePriceRepo { get; }
         IGenericRepository<Contracts> ContractRepo { get; }
         IGenericRepository<Accounts> AccountRepo { get; }
-        IGenericRepository<Customers> CustomerRepo { get; }
         IGenericRepository<Rooms> RoomRepo { get; }
         IGenericRepository<ApartmentAreas> ApartmentAreaRepo { get; }
+        IGenericRepository<Transaction> TransactionRepo { get; }
     }
 }
