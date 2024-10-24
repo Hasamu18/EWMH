@@ -38,7 +38,6 @@ namespace Sales.Application.Handlers
             existingServicePackage[0].Description = request.Description;
             existingServicePackage[0].ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             existingServicePackage[0].NumOfRequest = request.NumOfRequest;
-            existingServicePackage[0].Policy = request.Policy;
             await _uow.ServicePackageRepo.UpdateAsync(existingServicePackage[0]);
 
             ServicePackagePrices servicePackagePrice = new()

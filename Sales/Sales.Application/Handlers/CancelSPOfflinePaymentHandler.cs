@@ -32,6 +32,10 @@ namespace Sales.Application.Handlers
             if (existingContract.IsOnlinePayment)
                 return (409, "You have paid for this contract, it cannot be canceled");
 
+            var existingTransaction = await _uow.TransactionRepo.GetByIdAsync(request.ContractId);
+            if (existingTransaction != null)
+                return (409, "You have paid for this contract, it cannot be canceled");
+
             await _uow.ContractRepo.DeleteFileToStorageAsync(existingContract.ContractId, _config);
             await _uow.ContractRepo.RemoveAsync(existingContract);
 

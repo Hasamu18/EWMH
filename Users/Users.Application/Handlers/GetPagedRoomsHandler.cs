@@ -21,19 +21,14 @@ namespace Users.Application.Handlers
         {
             var items = await _uow.RoomRepo.GetAsync(
     filter: s => s.AreaId.Equals(request.AreaId),
-    includeProperties: "Customers",
     pageIndex: request.PageIndex,
     pageSize: request.Pagesize);
 
             var result = new List<object>();
             foreach (var item in items)
             {
-                var customerId = item.Customers.Any()
-                    ? item.Customers.Select(s => s.CustomerId).FirstOrDefault()
-                    : null;
-
-                var customerAccount = customerId != null
-                    ? await _uow.AccountRepo.GetByIdAsync(customerId)
+                var customerAccount = item.CustomerId != null
+                    ? await _uow.AccountRepo.GetByIdAsync(item.CustomerId)
                     : null;
 
                 result.Add(new

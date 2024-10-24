@@ -34,20 +34,34 @@ namespace Sales.Application.Handlers
         }
 
         public async Task<(int, string)> Handle(SuccessOrderPaymentCommand request, CancellationToken cancellationToken)
-        {
+        {            
+            var existingCart = (await _uow.OrderRepo.GetAsync(a => a.OrderId.Equals(request.Id1) &&
+                                                                   a.Status == false,
+                                                              includeProperties: "OrderDetails")).ToList();
+            if (existingCart.Count == 0)
+                return (200, "Cart is empty");
+
             List<ProductInvoice> productInvoice = [];
             string transactionDateTime = "";
             var paymentLinkInfomation = await _payOS.getPaymentLinkInformation(request.OrderCode);
             foreach (var item in paymentLinkInfomation.transactions)
             {
                 transactionDateTime = item.transactionDateTime;
+                Transaction transaction = new ()
+                {
+                    TransactionId = request.Id1,
+                    ServiceType = 0,
+                    CustomerId = existingCart[0].CustomerId,
+                    AccountNumber = item.accountNumber,
+                    CounterAccountNumber = item.counterAccountNumber,
+                    CounterAccountName = item.counterAccountName,
+                    PurchaseTime = DateTime.Parse(item.transactionDateTime),
+                    OrderCode = request.OrderCode,
+                    Amount = item.amount,
+                    Description = item.description
+                };
+                await _uow.TransactionRepo.AddAsync(transaction);
             }
-
-            var existingCart = (await _uow.OrderRepo.GetAsync(a => a.OrderId.Equals(request.Id1) &&
-                                                                   a.Status == false,
-                                                              includeProperties: "OrderDetails")).ToList();
-            if (existingCart.Count == 0)
-                return (200, "Cart is empty");
 
             for (var i = 0; i < existingCart[0].OrderDetails.Count; i++)
             {
@@ -85,9 +99,8 @@ namespace Sales.Application.Handlers
                     await _uow.WarrantyCardRepo.AddAsync(warrantyCard);
                 }                
             }
-            var existingUser = await _uow.CustomerRepo.GetByIdAsync(existingCart[0].CustomerId);
-            var existingRoom = await _uow.RoomRepo.GetByIdAsync(existingUser!.RoomId);
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom!.AreaId);
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(existingCart[0].CustomerId))).First();
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
             var existingLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var existingCustomer = await _uow.AccountRepo.GetByIdAsync(existingCart[0].CustomerId);
             
@@ -143,7 +156,7 @@ namespace Sales.Application.Handlers
                                         text.Span("Company Name: ");
                                         text.Span("EWMH").SemiBold();
                                     });
-                                    col.Item().Text(async text =>
+                                    col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Address: ");

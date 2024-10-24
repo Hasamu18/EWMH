@@ -26,9 +26,8 @@ namespace Sales.Application.Handlers
                 return (404, "Service package does not exist");
 
             var currentServicePackage = existingServicePackage[0].ServicePackagePrices.OrderByDescending(p => p.Date).First();
-            var existingCustomer = await _uow.CustomerRepo.GetByIdAsync(request.CustomerId);
-            var existingRoom = await _uow.RoomRepo.GetByIdAsync(existingCustomer!.RoomId);
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom!.AreaId);
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).First();
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);            
 
@@ -56,7 +55,6 @@ namespace Sales.Application.Handlers
                 B = "Bên mua: (Bên B)",
                 UserName = $"Tên người mua: {infoCustomer!.FullName}",
                 ApartmentName = $"Tên chung cư: {existingApartment.Name}",
-                RoomCode = $"Mã phòng: {existingRoom.RoomCode}",
                 PhoneNumber = $"Điện thoại: {infoCustomer!.PhoneNumber}",
                 Email = $"Email: {infoCustomer!.Email}",
                 Role = @"Chức vụ: Khách hàng (Customer)

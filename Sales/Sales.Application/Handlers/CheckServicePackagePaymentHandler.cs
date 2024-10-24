@@ -41,9 +41,8 @@ namespace Sales.Application.Handlers
 
             var currentServicePackage = existingServicePackage[0].ServicePackagePrices.OrderByDescending(p => p.Date).First();
 
-            var existingCustomer = await _uow.CustomerRepo.GetByIdAsync(request.CustomerId);
-            var existingRoom = await _uow.RoomRepo.GetByIdAsync(existingCustomer!.RoomId);
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom!.AreaId);
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).First();
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             
@@ -192,12 +191,6 @@ namespace Sales.Application.Handlers
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                             text.Span("Tên chung cư: ");
                                             text.Span($"{existingApartment.Name}").SemiBold();
-                                        });
-                                        col.Item().Text(text =>
-                                        {
-                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                            text.Span("Mã phòng: ");
-                                            text.Span($"{existingRoom.RoomCode}").SemiBold();
                                         });
                                         col.Item().Text(text =>
                                         {

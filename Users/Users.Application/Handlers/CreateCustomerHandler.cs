@@ -37,14 +37,19 @@ namespace Users.Application.Handlers
             if (existingPhone.Any())
                 return (409, $"{request.PhoneNumber} is existing");
 
-            var existingApartment = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
-                                                                      a.RoomCode.Equals(request.RoomCode))).ToList();
-            if (existingApartment.Count == 0)
-                return (404, "Unexisted apartment or room code");
+            List<Rooms> customerRooms = [];
+            foreach (var roomCode in request.RoomCodes)
+            {
+                var existingApartment = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
+                                                                      a.RoomCode.Equals(roomCode))).ToList();
+                if (existingApartment.Count == 0)
+                    return (404, $"Unexisted apartment or Unexisted {roomCode} room ");
 
-            var existingRoom = (await _uow.CustomerRepo.GetAsync(a => a.RoomId.Equals(existingApartment[0].RoomId))).ToList();
-            if (existingRoom.Count != 0)
-                return (409, $"{request.RoomCode} room is linking to another account");
+                if (!string.IsNullOrEmpty(existingApartment[0].CustomerId))
+                    return (409, $"{roomCode} room is linking to another account");
+
+                customerRooms.Add(existingApartment[0]);
+            }
 
             var account = UserMapper.Mapper.Map<Accounts>(request);
             account.AccountId = Tools.GenerateRandomString(32);
@@ -56,10 +61,15 @@ namespace Users.Application.Handlers
 
             Customers customer = new Customers()
             {
-                CustomerId = account.AccountId,
-                RoomId = existingApartment[0].RoomId,
+                CustomerId = account.AccountId
             };
             await _uow.CustomerRepo.AddAsync(customer);
+
+            foreach (var customerRoom in customerRooms)
+            {
+                customerRoom.CustomerId = account.AccountId;
+                await _uow.RoomRepo.UpdateAsync(customerRoom);
+            }
 
             return (201, $"The account is created");
         }

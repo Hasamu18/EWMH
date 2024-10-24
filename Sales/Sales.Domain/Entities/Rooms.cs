@@ -9,9 +9,11 @@ public partial class Rooms
 
     public string AreaId { get; set; } = null!;
 
+    public string? CustomerId { get; set; }
+
     public string RoomCode { get; set; } = null!;
 
     public virtual ApartmentAreas Area { get; set; } = null!;
 
-    public virtual ICollection<Customers> Customers { get; set; } = new List<Customers>();
+    public virtual Customers? Customer { get; set; }
 }
