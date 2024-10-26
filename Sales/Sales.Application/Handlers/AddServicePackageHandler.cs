@@ -1,5 +1,6 @@
 ﻿using Logger.Utility;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Sales.Application.Commands;
 using Sales.Application.Mappers;
@@ -30,7 +31,7 @@ namespace Sales.Application.Handlers
             if (!extensionSupport.Contains(extensionFile.ToLower()))
                 return (400, "The avatar should be .png or .jpg");
 
-            var servicePackageId = Tools.GenerateIdFormat32();
+            var servicePackageId = $"SP_{(await _uow.ServicePackageRepo.Query().CountAsync() + 1):D10}";
             var bucketAndPath = await _uow.ServicePackageRepo.UploadFileToStorageAsync(servicePackageId, request.Image, _config);
             var servicePackage = SaleMapper.Mapper.Map<ServicePackages>(request);
             servicePackage.ServicePackageId = servicePackageId;
@@ -62,7 +63,7 @@ namespace Sales.Application.Handlers
 
             ServicePackagePrices servicePackagePrice = new()
             {
-                ServicePackagePriceId = Tools.GenerateIdFormat32(),
+                ServicePackagePriceId = $"SPP_{Tools.GenerateRandomString(20)}",
                 ServicePackageId = servicePackageId,
                 Date = Tools.GetDynamicTimeZone(),
                 PriceByDate = request.Price

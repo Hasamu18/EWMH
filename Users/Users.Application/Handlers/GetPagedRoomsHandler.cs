@@ -35,7 +35,6 @@ namespace Users.Application.Handlers
                 {
                     item.AreaId,
                     item.RoomId,
-                    item.RoomCode,
                     Customer = customerAccount?.FullName
                 });
             }

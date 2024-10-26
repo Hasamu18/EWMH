@@ -26,6 +26,6 @@ namespace Users.Application.Commands
 
         public required string AreaId { get; set; }
 
-        public required List<string> RoomCodes { get; set; }
+        public required List<string> RoomIds { get; set; }
     }
 }

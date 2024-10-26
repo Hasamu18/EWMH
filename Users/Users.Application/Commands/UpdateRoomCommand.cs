@@ -10,9 +10,10 @@ namespace Users.Application.Commands
 {
     public class UpdateRoomCommand : IRequest<(int, string)>
     {
-        public required string RoomId { get; set; }
+        public required string AreaId { get; set; }
+        public required string OldRoomId { get; set; }
 
         [StringLength(10)]
-        public required string RoomCode { get; set; }
+        public required string NewRoomId { get; set; }
     }
 }

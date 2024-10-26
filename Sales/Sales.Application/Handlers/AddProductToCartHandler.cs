@@ -1,5 +1,6 @@
 ﻿using Logger.Utility;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Sales.Application.Commands;
 using Sales.Application.Mappers;
 using Sales.Domain.Entities;
@@ -33,7 +34,7 @@ namespace Sales.Application.Handlers
                                                                    a.Status == false)).ToList();
             if (existingCart.Count == 0)
             {
-                var orderId = Tools.GenerateIdFormat32();
+                var orderId = $"O_{Tools.GenerateRandomString(20)}";
                 Orders order = new()
                 {
                     OrderId = orderId,

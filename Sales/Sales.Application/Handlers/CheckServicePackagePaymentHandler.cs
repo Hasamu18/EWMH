@@ -2,6 +2,7 @@
 using Logger.Utility;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Types;
@@ -46,7 +47,7 @@ namespace Sales.Application.Handlers
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             
-            var contractId = Tools.GenerateIdFormat32();
+            var contractId = $"CT_{Tools.GenerateRandomString(20)}";
 
             if (request.IsOnlinePayment)
             {
@@ -248,7 +249,7 @@ namespace Sales.Application.Handlers
                                         table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                            text.Span("Số lượng").SemiBold();
+                                            text.Span("Số yêu cầu").SemiBold();
                                         });
                                         table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
                                         {
@@ -261,8 +262,8 @@ namespace Sales.Application.Handlers
                                             text.Span("Tổng giá").SemiBold();
                                         });
 
-                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().Text($"{existingServicePackage[0].Name} với {existingServicePackage[0].NumOfRequest} Requests").FontSize(12).FontColor(Colors.Black);
-                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text("1").FontSize(12).FontColor(Colors.Black);
+                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().Text($"{existingServicePackage[0].Name}").FontSize(12).FontColor(Colors.Black);
+                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{existingServicePackage[0].NumOfRequest}").FontSize(12).FontColor(Colors.Black);
                                         table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{currentServicePackage.PriceByDate}").FontSize(12).FontColor(Colors.Black);
                                         table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{currentServicePackage.PriceByDate}").FontSize(12).FontColor(Colors.Black);
                                     });

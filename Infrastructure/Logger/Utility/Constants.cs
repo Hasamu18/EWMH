@@ -17,6 +17,12 @@ namespace Logger.Utility
             public const string CustomerRole = "CUSTOMER";
         }
 
-  
+        public class Request
+        {
+            public enum Status
+            {
+                Requested = 0, Processing = 1, Done = 2, Canceled = 3
+            }
+        }
     }
 }

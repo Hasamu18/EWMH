@@ -43,7 +43,7 @@ namespace Sales.Application.Handlers
 
             ProductPrices productPrice = new()
             {
-                ProductPriceId = Tools.GenerateIdFormat32(),
+                ProductPriceId = $"PP_{Tools.GenerateRandomString(20)}",
                 ProductId = existingProduct[0].ProductId,
                 Date = Tools.GetDynamicTimeZone(),
                 PriceByDate = request.Price

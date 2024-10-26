@@ -42,7 +42,7 @@ namespace Sales.Application.Handlers
 
             ServicePackagePrices servicePackagePrice = new()
             {
-                ServicePackagePriceId = Tools.GenerateIdFormat32(),
+                ServicePackagePriceId = $"SPP_{Tools.GenerateRandomString(20)}",
                 ServicePackageId = existingServicePackage[0].ServicePackageId,
                 Date = Tools.GetDynamicTimeZone(),
                 PriceByDate = request.Price

@@ -1,3 +1,4 @@
+create database Sep490
 CREATE TABLE [Contracts] (
   [ContractId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
@@ -49,7 +50,8 @@ CREATE TABLE [Requests] (
   [RequestId] varchar(32) NOT NULL,
   [LeaderId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
-  [ContractId] varchar(32) NOT NULL,
+  [ContractId] varchar(32),
+  [RoomId] varchar(32) NOT NULL,
   [Start] datetime NOT NULL,
   [End] datetime,
   [CustomerProblem] nvarchar(max) NOT NULL,
@@ -60,7 +62,7 @@ CREATE TABLE [Requests] (
   [TotalPrice] int,
   [FileUrl] varchar(255),
   [OrderCode] bigint,
-  [IsOnlinePayment] bit NOT NULL,
+  [IsOnlinePayment] bit,
   PRIMARY KEY ([RequestId])
 )
 GO
@@ -127,8 +129,7 @@ CREATE TABLE [Rooms] (
   [RoomId] varchar(32) NOT NULL,
   [AreaId] varchar(32) NOT NULL,
   [CustomerId] varchar(32),
-  [RoomCode] varchar(10) NOT NULL,
-  PRIMARY KEY ([RoomId])
+  PRIMARY KEY ([RoomId], [AreaId])
 )
 GO
 
@@ -143,6 +144,7 @@ GO
 
 CREATE TABLE [Transaction] (
   [TransactionId] varchar(32) NOT NULL,
+  [ServiceId] varchar(32),
   [ServiceType] int NOT NULL,
   [CustomerId] varchar(32) NOT NULL,
   [AccountNumber] varchar(32),
@@ -220,15 +222,6 @@ CREATE TABLE [Feedbacks] (
   [Status] bit NOT NULL,
   PRIMARY KEY ([FeedbackId])
 )
-GO
-
-ALTER TABLE [Contracts] ADD FOREIGN KEY ([ContractId]) REFERENCES [Transaction] ([TransactionId])
-GO
-
-ALTER TABLE [Orders] ADD FOREIGN KEY ([OrderId]) REFERENCES [Transaction] ([TransactionId])
-GO
-
-ALTER TABLE [Requests] ADD FOREIGN KEY ([RequestId]) REFERENCES [Transaction] ([TransactionId])
 GO
 
 ALTER TABLE [Customers] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Accounts] ([AccountId])

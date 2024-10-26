@@ -1,6 +1,7 @@
 ﻿using Constants.Utility;
 using Logger.Utility;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Sales.Application.Commands;
 using Sales.Domain.Entities;
@@ -43,12 +44,13 @@ namespace Sales.Application.Handlers
                 existingContract.PurchaseTime = Tools.GetDynamicTimeZone();
                 existingContract.TotalPrice = currentServicePackage.PriceByDate;
 
-                var existingTransaction = await _uow.TransactionRepo.GetByIdAsync(request.ContractId);
-                if (existingTransaction == null)
+                var existingTransaction = (await _uow.TransactionRepo.GetAsync(e => e.ServiceId!.Equals(request.ContractId))).ToList();
+                if (existingTransaction.Count == 0)
                 {
                     Transaction transaction = new()
                     {
-                        TransactionId = request.ContractId,
+                        TransactionId = $"T_{await _uow.TransactionRepo.Query().CountAsync() + 1:D10}",
+                        ServiceId = request.ContractId,
                         ServiceType = 1,
                         CustomerId = existingContract.CustomerId,
                         AccountNumber = null,
@@ -65,10 +67,10 @@ namespace Sales.Application.Handlers
 
             await _uow.ContractRepo.UpdateAsync(existingContract);
 
-            EmailSender emailSender = new(_config);
-            string subject = "Contract";
-            string body = $"Here, your contract";
-            await emailSender.SendEmailAsync(infoCustomer!.Email, subject, body, request.File);
+            //EmailSender emailSender = new(_config);
+            //string subject = "Contract";
+            //string body = $"Here, your contract";
+            //await emailSender.SendEmailAsync(infoCustomer!.Email, subject, body, request.File);
 
             return (200, "Scaned successfully");
         }

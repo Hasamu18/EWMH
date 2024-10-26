@@ -11,7 +11,9 @@ public partial class Requests
 
     public string CustomerId { get; set; } = null!;
 
-    public string ContractId { get; set; } = null!;
+    public string? ContractId { get; set; }
+
+    public string RoomId { get; set; } = null!;
 
     public DateTime Start { get; set; }
 
@@ -33,7 +35,7 @@ public partial class Requests
 
     public long? OrderCode { get; set; }
 
-    public bool IsOnlinePayment { get; set; }
+    public bool? IsOnlinePayment { get; set; }
 
     public virtual Contracts Contract { get; set; } = null!;
 
@@ -44,8 +46,6 @@ public partial class Requests
     public virtual Leaders Leader { get; set; } = null!;
 
     public virtual ICollection<PriceRequests> PriceRequests { get; set; } = new List<PriceRequests>();
-
-    public virtual Transaction Request { get; set; } = null!;
 
     public virtual ICollection<RequestDetails> RequestDetails { get; set; } = new List<RequestDetails>();
 

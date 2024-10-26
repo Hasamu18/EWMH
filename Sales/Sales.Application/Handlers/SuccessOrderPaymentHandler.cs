@@ -2,6 +2,7 @@
 using Logger.Utility;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using QuestPDF.Fluent;
@@ -49,7 +50,8 @@ namespace Sales.Application.Handlers
                 transactionDateTime = item.transactionDateTime;
                 Transaction transaction = new ()
                 {
-                    TransactionId = request.Id1,
+                    TransactionId = $"T_{await _uow.TransactionRepo.Query().CountAsync() + 1:D10}",
+                    ServiceId = request.Id1,
                     ServiceType = 0,
                     CustomerId = existingCart[0].CustomerId,
                     AccountNumber = item.accountNumber,
@@ -75,6 +77,9 @@ namespace Sales.Application.Handlers
                 existingProductInCart[0].Price = currentProduct.PriceByDate;
                 existingProductInCart[0].TotalPrice = currentProduct.PriceByDate * quantity;
 
+                existingProduct[0].InOfStock -= quantity;
+                await _uow.ProductRepo.UpdateAsync(existingProduct[0]);
+
                 ProductInvoice items = new()
                 {
                     ProductName = existingProduct[0].Name,
@@ -90,14 +95,14 @@ namespace Sales.Application.Handlers
                 {
                     WarrantyCards warrantyCard = new()
                     {
-                        WarrantyCardId = Tools.GenerateIdFormat32(),
+                        WarrantyCardId = $"WC_{Tools.GenerateRandomString(20)}",
                         OrderId = existingCart[0].OrderId,
                         ProductId = productId,
                         StartDate = DateTime.Parse(transactionDateTime),
                         ExpireDate = DateTime.Parse(transactionDateTime).AddMonths(existingProduct[0].WarantyMonths)
                     };
                     await _uow.WarrantyCardRepo.AddAsync(warrantyCard);
-                }                
+                }         
             }
             var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(existingCart[0].CustomerId))).First();
             var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
@@ -128,16 +133,18 @@ namespace Sales.Application.Handlers
                                 {
                                     header.RelativeItem().Column(col =>
                                     {
-                                        col.Item().AlignCenter().Text("Invoice").FontSize(16).Italic().FontColor(Colors.Black);
+                                        col.Item().AlignCenter().Text("Hóa Đơn").FontSize(16).Italic().FontColor(Colors.Black);
 
                                         col.Item().AlignCenter().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                            text.Span("Date:");
-                                            text.Span($" {Tools.GetDynamicTimeZone().Day}").SemiBold();
-                                            text.Span(" month");
-                                            text.Span($" {Tools.GetDynamicTimeZone().Month}").SemiBold();
-                                            text.Span(" year");
+                                            text.Span("Thứ:");
+                                            text.Span($" {(int)Tools.GetDynamicTimeZone().DayOfWeek + 1}, ").SemiBold();
+                                            text.Span("Ngày:");
+                                            text.Span($" {Tools.GetDynamicTimeZone().Day}, ").SemiBold();
+                                            text.Span("Tháng");
+                                            text.Span($" {Tools.GetDynamicTimeZone().Month}, ").SemiBold();
+                                            text.Span("Năm:");
                                             text.Span($" {Tools.GetDynamicTimeZone().Year}").SemiBold();
                                         });
 
@@ -153,20 +160,44 @@ namespace Sales.Application.Handlers
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Company Name: ");
-                                        text.Span("EWMH").SemiBold();
+                                        text.Span("Bên bán: ");
+                                        text.Span("(Bên A)").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Address: ");
-                                        text.Span($"{existingApartment!.Address}");
+                                        text.Span("Tên doanh nghiệp: ");
+                                        text.Span("Electric and Water Minh Huy (EWMH)").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Phone: ");
-                                        text.Span($"{existingLeader!.PhoneNumber}");
+                                        text.Span("Tên chung cư: ");
+                                        text.Span($"{existingApartment.Name}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Địa chỉ: ");
+                                        text.Span($"{existingApartment.Address}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Điện thoại: ");
+                                        text.Span($"{existingLeader!.PhoneNumber}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Email: ");
+                                        text.Span($"{existingLeader!.Email}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Chức vụ: ");
+                                        text.Span("Trưởng nhóm (Leader)").SemiBold();
                                     });
                                 });
                             contract.Cell().BorderVertical(3).BorderHorizontal(1).PaddingHorizontal(4).Column(
@@ -175,20 +206,38 @@ namespace Sales.Application.Handlers
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Buyer Email: ");
-                                        text.Span($"{existingCustomer!.Email}");
+                                        text.Span("Bên mua: ");
+                                        text.Span("(Bên B)").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Buyer Phone: ");
-                                        text.Span($"{existingCustomer!.PhoneNumber}");
+                                        text.Span("Tên người mua: ");
+                                        text.Span($"{existingCustomer!.FullName}").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Buyer Fullname: ");
-                                        text.Span($"{existingCustomer!.FullName}");
+                                        text.Span("Tên chung cư: ");
+                                        text.Span($"{existingApartment.Name}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Điện thoại: ");
+                                        text.Span($"{existingCustomer!.PhoneNumber}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Email: ");
+                                        text.Span($"{existingCustomer!.Email}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Chức vụ: ");
+                                        text.Span("Khách hàng (Customer)").SemiBold();
                                     });
                                 });
 
@@ -207,22 +256,22 @@ namespace Sales.Application.Handlers
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Product Name").SemiBold();
+                                        text.Span("Tên sản phẩm").SemiBold();
                                     });
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Quantity").SemiBold();
+                                        text.Span("Số lượng").SemiBold();
                                     });
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Unit price").SemiBold();
+                                        text.Span("Giá").SemiBold();
                                     });
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        text.Span("Amount").SemiBold();
+                                        text.Span("Tổng").SemiBold();
                                     });
 
 
@@ -244,18 +293,15 @@ namespace Sales.Application.Handlers
                                     table.ColumnsDefinition(col =>
                                     {
                                         col.RelativeColumn();
-                                        col.ConstantColumn(100);
-                                        col.ConstantColumn(100);
-                                        col.ConstantColumn(100);
+                                        col.ConstantColumn(100);                                 
                                     });
                                     var total = 0;
                                     foreach (var product in productInvoice)
                                     {
                                         total = total + product.Amount;
                                     }
-                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text("Total price:").FontSize(12).FontColor(Colors.Black);
-                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{total}").FontSize(12).FontColor(Colors.Black);
-                                    table.Cell().Border(1);                                   
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text("Tổng cộng:").FontSize(12).FontColor(Colors.Black);
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{total}").FontSize(12).FontColor(Colors.Black);                                   
                                     ;
                                 });
                         });

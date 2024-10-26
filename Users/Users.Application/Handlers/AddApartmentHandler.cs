@@ -11,6 +11,7 @@ using Users.Application.Queries;
 using Logger.Utility;
 using Users.Domain.Entities;
 using Users.Domain.IRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Users.Application.Handlers
 {
@@ -43,7 +44,7 @@ namespace Users.Application.Handlers
             if (getLeaderApartment != null)
                 return (409, $"This leader has assigned to another apartment");
 
-            var areaId = Tools.GenerateIdFormat32();
+            var areaId = $"AA_{await _uow.ApartmentAreaRepo.Query().CountAsync() + 1:D10}";
             var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(areaId, request.Image, _config);
             var apartmentArea = UserMapper.Mapper.Map<ApartmentAreas>(request);
             apartmentArea.AreaId = areaId;

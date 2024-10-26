@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Commands;
+using Users.Domain.Entities;
 using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
@@ -19,17 +20,24 @@ namespace Users.Application.Handlers
 
         public async Task<(int, string)> Handle(UpdateRoomCommand request, CancellationToken cancellationToken)
         {
-            var existingRoom = (await _uow.RoomRepo.GetAsync(a => a.RoomId.Equals(request.RoomId))).ToList();
-            if (existingRoom.Count == 0)
-                return (404, "Unexisted room");
+            var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
+                                                             a.RoomId.Equals(request.OldRoomId))).ToList();
+            if (getRoom.Count == 0)
+                return (404, $"Unexisted apartment or Unexisted {request.OldRoomId} room ");
 
-            var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(existingRoom[0].AreaId) &&
-                                                             a.RoomCode.Equals(request.RoomCode))).ToList();
-            if (getRoom.Count != 0)
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
+                                                             a.RoomId.Equals(request.NewRoomId))).ToList();
+            if (existingRoom.Count != 0)
                 return (409, "This room code is existing");
 
-            existingRoom[0].RoomCode = request.RoomCode;
-            await _uow.RoomRepo.UpdateAsync(existingRoom[0]);
+            await _uow.RoomRepo.RemoveAsync(getRoom[0]);
+            Rooms room = new()
+            {
+                RoomId = request.NewRoomId,
+                AreaId = getRoom[0].AreaId,
+                CustomerId = null
+            };
+            await _uow.RoomRepo.AddAsync(room);
 
             return (200, "Updated successfully");
         }

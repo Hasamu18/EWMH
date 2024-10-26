@@ -11,8 +11,6 @@ public partial class Rooms
 
     public string? CustomerId { get; set; }
 
-    public string RoomCode { get; set; } = null!;
-
     public virtual ApartmentAreas Area { get; set; } = null!;
 
     public virtual Customers? Customer { get; set; }
