@@ -12,7 +12,10 @@ services:
     container_name: users.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings__SqlServer=Server=sep490.db;Database=Sep490;Uid=sa;Pwd=Khoi@123;TrustServerCertificate=True"
+      # LocalHost
+      #- "ConnectionStrings__SqlServer=Server=sep490.db;Database=Sep490;Uid=sa;Pwd=Khoi@123;TrustServerCertificate=True"
+      # Deployed DB
+      - "ConnectionStrings__SqlServer=Server=34.132.82.245; Uid=sqlserver ; Pwd=12345; Database=Sep490; TrustServerCertificate=True"
     depends_on:
       - sep490.db
     ports:
@@ -24,7 +27,10 @@ services:
     container_name: sales.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings__SqlServer=Server=sep490.db;Database=Sep490;Uid=sa;Pwd=Khoi@123;TrustServerCertificate=True"
+      # LocalHost
+      #- "ConnectionStrings__SqlServer=Server=sep490.db;Database=Sep490;Uid=sa;Pwd=Khoi@123;TrustServerCertificate=True"
+      # Deployed DB
+      - "ConnectionStrings__SqlServer=Server=34.132.82.245; Uid=sqlserver ; Pwd=12345; Database=Sep490; TrustServerCertificate=True"
     depends_on:
       - sep490.db
     ports:
@@ -32,12 +38,20 @@ services:
     networks:
       - my_network
 
-  # requests.api:
-  #   container_name: requests.api
-  #   environment:
-  #     - ASPNETCORE_ENVIRONMENT=Development
-  #   ports:
-  #     - "8003:8080"
+  requests.api:
+    container_name: requests.api
+    environment:
+     - ASPNETCORE_ENVIRONMENT=Development
+      # LocalHost
+      #- "ConnectionStrings__SqlServer=Server=sep490.db;Database=Sep490;Uid=sa;Pwd=Khoi@123;TrustServerCertificate=True"
+      # Deployed DB
+     - "ConnectionStrings__SqlServer=Server=34.132.82.245; Uid=sqlserver ; Pwd=12345; Database=Sep490; TrustServerCertificate=True"
+    depends_on:
+      - sep490.db
+    ports:
+      - "8003:8080"
+    networks:
+      - my_network
 
   sep490.db:
     container_name: sep490.db

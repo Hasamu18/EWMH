@@ -84,7 +84,17 @@
         }
       ],
       "UpstreamPathTemplate": "/account/7",
-      "UpstreamHttpMethod": [ "GET" ]
+      "UpstreamHttpMethod": [ "GET" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [],
+        "EnableRateLimiting": true,
+        "Period": "1s",
+        "PeriodTimespan": 1,
+        "Limit": 2
+      },
+      "FileCacheOptions": {
+        "TtlSeconds": 60
+      }
     },
     {
       "DownstreamPathTemplate": "/api/account/8",
@@ -160,7 +170,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/account/14?{PageIndex}&{Pagesize}&{SearchByEmail}&{IsDisabled}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
@@ -224,7 +234,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/apartment/5?{PageIndex}&{Pagesize}&{SearchByName}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
@@ -236,7 +246,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
@@ -245,6 +255,198 @@
       ],
       "UpstreamPathTemplate": "/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
       "UpstreamHttpMethod": [ "GET" ]
+    },
+
+
+
+
+
+    //Sales API
+    //OrderController
+    {
+      "DownstreamPathTemplate": "/api/order/1",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/order/1",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/order/2",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/order/2",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/order/3",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/order/3",
+      "UpstreamHttpMethod": [ "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/order/4",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/order/4",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/order/5",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/order/5",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+
+
+
+
+    //ServicePackageController
+    {
+      "DownstreamPathTemplate": "/api/service-package/1",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/1",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/2",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/2",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/3",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/3",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/4?{ServicePackageId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/4?{ServicePackageId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/5?{PageIndex}&{Pagesize}&{SearchByName}&{Status}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/5?{PageIndex}&{Pagesize}&{SearchByName}&{Status}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/6?{servicePackageId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/6?{servicePackageId}",
+      "UpstreamHttpMethod": [ "GET" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/7",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/7",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/8",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/8",
+      "UpstreamHttpMethod": [ "POST" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/9",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/9",
+      "UpstreamHttpMethod": [ "PUT" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/service-package/10",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8001"
+        }
+      ],
+      "UpstreamPathTemplate": "/service-package/10",
+      "UpstreamHttpMethod": [ "DELETE" ]
     }
   ],
   "GlobalConfiguration": {

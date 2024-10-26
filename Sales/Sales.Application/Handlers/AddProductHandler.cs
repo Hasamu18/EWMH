@@ -1,5 +1,6 @@
 ﻿using Logger.Utility;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Sales.Application.Commands;
 using Sales.Application.Mappers;
@@ -30,7 +31,7 @@ namespace Sales.Application.Handlers
             if (!extensionSupport.Contains(extensionFile.ToLower()))
                 return (400, "The avatar should be .png or .jpg");
 
-            var productId = Tools.GenerateIdFormat32();
+            var productId = $"P_{(await _uow.ProductRepo.Query().CountAsync() + 1):D10}";
             var bucketAndPath = await _uow.ProductRepo.UploadFileToStorageAsync(productId, request.Image, _config);
             var product = SaleMapper.Mapper.Map<Products>(request);
             product.ProductId = productId;
@@ -40,7 +41,7 @@ namespace Sales.Application.Handlers
 
             ProductPrices productPrice = new()
             {
-                ProductPriceId = Tools.GenerateIdFormat32(),
+                ProductPriceId = $"PP_{Tools.GenerateRandomString(20)}",
                 ProductId = productId,
                 Date = Tools.GetDynamicTimeZone(),
                 PriceByDate = request.Price

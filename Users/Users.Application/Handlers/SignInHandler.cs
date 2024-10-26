@@ -51,7 +51,7 @@ namespace Users.Application.Handlers
 
             RefreshTokens refreshToken = new()
             {
-                RefreshTokenId = Tools.GenerateIdFormat32(),
+                RefreshTokenId = $"RT_{Tools.GenerateRandomString(20)}",
                 AccountId = existingUser[0].AccountId,
                 Token = token.Item2,
                 ExpiredAt = Tools.GetDynamicTimeZone().AddYears(1)

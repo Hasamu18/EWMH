@@ -23,8 +23,6 @@ public partial class Contracts
 
     public int? TotalPrice { get; set; }
 
-    public virtual Transaction Contract { get; set; } = null!;
-
     public virtual Customers Customer { get; set; } = null!;
 
     public virtual ICollection<Requests> Requests { get; set; } = new List<Requests>();

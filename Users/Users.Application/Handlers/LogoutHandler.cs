@@ -21,6 +21,9 @@ namespace Users.Application.Handlers
         public async Task<string> Handle(LogoutCommand request, CancellationToken cancellationToken)
         {
             var existingUser = (await _uow.RefreshTokenRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
+            if (existingUser.Count == 0)
+                return "You must to login to logout";
+
             await _uow.RefreshTokenRepo.RemoveAsync(existingUser[0]);
             return "You logged out successfully";
         }

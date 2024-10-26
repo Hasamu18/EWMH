@@ -19,11 +19,11 @@ services:
       context: .
       dockerfile: Sales/Sales.Api/Dockerfile
 
-  # requests.api:
-  #   image: hasamu/ewmh:requests.api
-  #   build:
-  #     context: .
-  #     dockerfile: Requests/Requests.Api/Dockerfile
+  requests.api:
+    image: hasamu/ewmh:requests.api
+    build:
+      context: .
+      dockerfile: Requests/Requests.Api/Dockerfile
 
   sep490.db:
     image: mcr.microsoft.com/mssql/server:2022-latest

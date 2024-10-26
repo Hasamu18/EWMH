@@ -17,6 +17,7 @@ using Users.Domain.Entities;
 using Users.Domain.IRepositories;
 using static Logger.Utility.Constants;
 using Constants.Utility;
+using Microsoft.EntityFrameworkCore;
 
 namespace Users.Application.Handlers
 {
@@ -45,14 +46,17 @@ namespace Users.Application.Handlers
             if (!role) 
                 return (404, $"{request.Role} role is not supported");
 
+            var account = UserMapper.Mapper.Map<Accounts>(request);
             if (request.Role.ToUpper().Equals(Role.AdminRole) ||
                 request.Role.ToUpper().Equals(Role.ManagerRole) ||
                 request.Role.ToUpper().Equals(Role.CustomerRole))
                 return (400, $"You can not create {request.Role} account");
+            else if (request.Role.ToUpper().Equals(Role.TeamLeaderRole))
+                account.AccountId = $"{char.ToUpper(request.Role[0])}_{await _uow.LeaderRepo.Query().CountAsync() + 1:D10}";
+            else
+                account.AccountId = $"{char.ToUpper(request.Role[0])}_{await _uow.WorkerRepo.Query().CountAsync() + 1:D10}";
 
-            string password = Tools.GenerateRandomString(10);
-            var account = UserMapper.Mapper.Map<Accounts>(request);
-            account.AccountId = Tools.GenerateRandomString(32);
+            string password = Tools.GenerateRandomString(10);                   
             account.Password = Tools.HashString(password);
             account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
             account.IsDisabled = false;

@@ -27,5 +27,11 @@ Sales/Sales.Domain/obj/
 Sales/Sales.Infrastructure/bin/
 Sales/Sales.Infrastructure/obj/
 
-Requests/
-
+Requests/Requests.Api/bin/
+Requests/Requests.Api/obj/
+Requests/Requests.Application/bin/
+Requests/Requests.Application/obj/
+Requests/Requests.Domain/bin/
+Requests/Requests.Domain/obj/
+Requests/Requests.Infrastructure/bin/
+Requests/Requests.Infrastructure/obj/

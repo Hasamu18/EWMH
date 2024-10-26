@@ -11,6 +11,7 @@ using Logger.Utility;
 using Users.Domain.Entities;
 using Users.Domain.IRepositories;
 using static Logger.Utility.Constants;
+using Microsoft.EntityFrameworkCore;
 
 namespace Users.Application.Handlers
 {
@@ -38,21 +39,21 @@ namespace Users.Application.Handlers
                 return (409, $"{request.PhoneNumber} is existing");
 
             List<Rooms> customerRooms = [];
-            foreach (var roomCode in request.RoomCodes)
+            foreach (var roomId in request.RoomIds)
             {
                 var existingApartment = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
-                                                                      a.RoomCode.Equals(roomCode))).ToList();
+                                                                      a.RoomId.Equals(roomId))).ToList();
                 if (existingApartment.Count == 0)
-                    return (404, $"Unexisted apartment or Unexisted {roomCode} room ");
+                    return (404, $"Unexisted apartment or Unexisted {roomId} room ");
 
                 if (!string.IsNullOrEmpty(existingApartment[0].CustomerId))
-                    return (409, $"{roomCode} room is linking to another account");
+                    return (409, $"{roomId} room is linking to another account");
 
                 customerRooms.Add(existingApartment[0]);
             }
 
             var account = UserMapper.Mapper.Map<Accounts>(request);
-            account.AccountId = Tools.GenerateRandomString(32);
+            account.AccountId = $"C_{await _uow.CustomerRepo.Query().CountAsync() + 1:D10}";
             account.Password = Tools.HashString(request.Password);
             account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
             account.IsDisabled = false;

@@ -141,7 +141,7 @@ namespace Sales.Api.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                _logger.LogError($"Error message: {ex.InnerException?.Message}\n\nError{ex.StackTrace}");
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
