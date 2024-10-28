@@ -121,7 +121,7 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/account/10?{PageIndex}&{Pagesize}&{SearchByEmail}&{Role}&{IsDisabled}",
+      "DownstreamPathTemplate": "/api/account/10?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&Role={Role}&IsDisabled={IsDisabled}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -129,7 +129,7 @@
           "Port": "8001"
         }
       ],
-      "UpstreamPathTemplate": "/account/10?{PageIndex}&{Pagesize}&{SearchByEmail}&{Role}&{IsDisabled}",
+      "UpstreamPathTemplate": "/account/10?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&Role={Role}&IsDisabled={IsDisabled}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -169,7 +169,7 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/account/14?{PageIndex}&{Pagesize}&{SearchByEmail}&{IsDisabled}",
+      "DownstreamPathTemplate": "/api/account/14?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&IsDisabled={IsDisabled}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -177,7 +177,7 @@
           "Port": "8001"
         }
       ],
-      "UpstreamPathTemplate": "/account/14?{PageIndex}&{Pagesize}&{SearchByEmail}&{IsDisabled}",
+      "UpstreamPathTemplate": "/account/14?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&IsDisabled={IsDisabled}",
       "UpstreamHttpMethod": [ "GET" ]
     },
 
@@ -233,7 +233,7 @@
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/apartment/5?{PageIndex}&{Pagesize}&{SearchByName}",
+      "DownstreamPathTemplate": "/api/apartment/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -241,11 +241,11 @@
           "Port": "8001"
         }
       ],
-      "UpstreamPathTemplate": "/apartment/5?{PageIndex}&{Pagesize}&{SearchByName}",
+      "UpstreamPathTemplate": "/apartment/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
+      "DownstreamPathTemplate": "/api/apartment/6?PageIndex={PageIndex}&Pagesize={Pagesize}&AreaId={AreaId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
@@ -253,7 +253,7 @@
           "Port": "8001"
         }
       ],
-      "UpstreamPathTemplate": "/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
+      "UpstreamPathTemplate": "/apartment/6?PageIndex={PageIndex}&Pagesize={Pagesize}&AreaId={AreaId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
 
@@ -269,7 +269,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/order/1",
@@ -281,7 +281,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/order/2",
@@ -293,7 +293,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/order/3",
@@ -305,7 +305,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/order/4",
@@ -317,7 +317,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/order/5",
@@ -334,7 +334,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/service-package/1",
@@ -346,7 +346,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/service-package/2",
@@ -358,46 +358,46 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/service-package/3",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/service-package/4?{ServicePackageId}",
+      "DownstreamPathTemplate": "/api/service-package/4?ServicePackageId={ServicePackageId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
-      "UpstreamPathTemplate": "/service-package/4?{ServicePackageId}",
+      "UpstreamPathTemplate": "/service-package/4?ServicePackageId={ServicePackageId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/service-package/5?{PageIndex}&{Pagesize}&{SearchByName}&{Status}",
+      "DownstreamPathTemplate": "/api/service-package/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}&Status={Status}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
-      "UpstreamPathTemplate": "/service-package/5?{PageIndex}&{Pagesize}&{SearchByName}&{Status}",
+      "UpstreamPathTemplate": "/service-package/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}&Status={Status}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/service-package/6?{servicePackageId}",
+      "DownstreamPathTemplate": "/api/service-package/6?servicePackageId={servicePackageId}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
-      "UpstreamPathTemplate": "/service-package/6?{servicePackageId}",
+      "UpstreamPathTemplate": "/service-package/6?servicePackageId={servicePackageId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -406,7 +406,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/service-package/7",
@@ -418,7 +418,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/service-package/8",
@@ -430,7 +430,7 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/service-package/9",
@@ -442,11 +442,30 @@
       "DownstreamHostAndPorts": [
         {
           "Host": "host.docker.internal",
-          "Port": "8001"
+          "Port": "8002"
         }
       ],
       "UpstreamPathTemplate": "/service-package/10",
       "UpstreamHttpMethod": [ "DELETE" ]
+    },
+
+
+
+
+
+    //Requests API
+    //RequestController
+    {
+      "DownstreamPathTemplate": "/api/request/1?Email_Or_Phone={Email_Or_Phone}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "host.docker.internal",
+          "Port": "8003"
+        }
+      ],
+      "UpstreamPathTemplate": "/request/1?Email_Or_Phone={Email_Or_Phone}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {

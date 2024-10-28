@@ -52,6 +52,12 @@ namespace Users.Infrastructure.Repositories
             get => _refreshTokenRepo ??= new GenericRepository<RefreshTokens>(_context, _fireStore);
         }
 
+        private IGenericRepository<PendingAccounts> _pendingAccountRepo;
+        public IGenericRepository<PendingAccounts> PendingAccountRepo
+        {
+            get => _pendingAccountRepo ??= new GenericRepository<PendingAccounts>(_context, _fireStore);
+        }
+
         private IGenericRepository<ApartmentAreas> _apartmentAreaRepo;
         public IGenericRepository<ApartmentAreas> ApartmentAreaRepo
         {

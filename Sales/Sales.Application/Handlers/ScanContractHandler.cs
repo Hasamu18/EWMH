@@ -67,10 +67,10 @@ namespace Sales.Application.Handlers
 
             await _uow.ContractRepo.UpdateAsync(existingContract);
 
-            //EmailSender emailSender = new(_config);
-            //string subject = "Contract";
-            //string body = $"Here, your contract";
-            //await emailSender.SendEmailAsync(infoCustomer!.Email, subject, body, request.File);
+            EmailSender emailSender = new(_config);
+            string subject = "Contract";
+            string body = $"Here, your contract";
+            await emailSender.SendEmailAsync(infoCustomer!.Email, subject, body, request.File);
 
             return (200, "Scaned successfully");
         }

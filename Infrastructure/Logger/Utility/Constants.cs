@@ -23,6 +23,11 @@ namespace Logger.Utility
             {
                 Requested = 0, Processing = 1, Done = 2, Canceled = 3
             }
+
+            public enum CategoryRequest
+            {
+                Pay = 0, Free = 1
+            }
         }
     }
 }

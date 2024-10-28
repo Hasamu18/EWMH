@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static Logger.Utility.Constants;
 
 namespace Requests.Application.Handlers
 {
-    internal class GetCustomerRoomsHandler : IRequestHandler<GetCustomerRoomsCommand, object>
+    internal class GetCustomerRoomsHandler : IRequestHandler<GetCustomerRoomsQuery, object>
     {
         private readonly IUnitOfWork _uow;
         public GetCustomerRoomsHandler(IUnitOfWork uow)
@@ -19,7 +20,7 @@ namespace Requests.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetCustomerRoomsCommand request, CancellationToken cancellationToken)
+        public async Task<object> Handle(GetCustomerRoomsQuery request, CancellationToken cancellationToken)
         {
             List<Accounts> existingUser;
             if (IsEmail(request.Email_Or_Phone))
@@ -32,7 +33,10 @@ namespace Requests.Application.Handlers
             }
 
             if (existingUser.Count == 0)
-                return (404, "The user does not exist");
+                return (404, "Người dùng không tồn tại");
+
+            if (!existingUser[0].Role.Equals(Role.CustomerRole))
+                return (409, "Chỉ có thể điền email hoặc số điện thoại của khách hàng");
 
             var getRooms = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(existingUser[0].AccountId))).ToList();
 

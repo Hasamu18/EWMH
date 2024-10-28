@@ -17,6 +17,7 @@ namespace Users.Application.Mappers
             CreateMap<Accounts, CreatePersonnelCommand>().ReverseMap();
             CreateMap<Accounts, CreateCustomerCommand>().ReverseMap();
             CreateMap<ApartmentAreas, AddApartmentCommand>().ReverseMap();
+            CreateMap<PendingAccounts, PendingApprovalCreateCustomerCommand>().ReverseMap();
         }
     }
 }

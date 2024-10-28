@@ -81,6 +81,7 @@ GO
 
 CREATE TABLE [Customers] (
   [CustomerId] varchar(32) NOT NULL,
+  [CMT_CCCD] varchar(32) NOT NULL
   PRIMARY KEY ([CustomerId])
 )
 GO
@@ -139,6 +140,19 @@ CREATE TABLE [RefreshTokens] (
   [Token] varchar(32) NOT NULL,
   [ExpiredAt] datetime NOT NULL,
   PRIMARY KEY ([RefreshTokenId])
+)
+GO
+
+CREATE TABLE [PendingAccounts] (
+  [PendingAccountId] varchar(32) NOT NULL,
+  [FullName] nvarchar(255) NOT NULL,
+  [Email] varchar(255) NOT NULL,
+  [Password] varchar(255) NOT NULL,
+  [PhoneNumber] varchar(11) UNIQUE NOT NULL,
+  [DateOfBirth] date NOT NULL,
+  [CMT_CCCD] varchar(32) NOT NULL,
+  [AreaId] varchar(32) NOT NULL
+  PRIMARY KEY ([PendingAccountId])
 )
 GO
 

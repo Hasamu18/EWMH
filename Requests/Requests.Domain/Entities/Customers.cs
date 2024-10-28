@@ -7,6 +7,8 @@ public partial class Customers
 {
     public string CustomerId { get; set; } = null!;
 
+    public string CMT_CCCD { get; set; } = null!;
+
     public virtual ICollection<Contracts> Contracts { get; set; } = new List<Contracts>();
 
     public virtual Accounts Customer { get; set; } = null!;
