@@ -39,6 +39,8 @@ public partial class Sep490Context : DbContext
 
     public virtual DbSet<RefreshTokens> RefreshTokens { get; set; }
 
+    public virtual DbSet<PendingAccounts> PendingAccounts { get; set; }
+
     public virtual DbSet<RequestDetails> RequestDetails { get; set; }
 
     public virtual DbSet<RequestWorkers> RequestWorkers { get; set; }
@@ -289,6 +291,30 @@ public partial class Sep490Context : DbContext
                 .IsUnicode(false);
             entity.Property(e => e.ExpiredAt).HasColumnType("datetime");
             entity.Property(e => e.Token)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+        });
+
+        modelBuilder.Entity<PendingAccounts>(entity =>
+        {
+            entity.HasKey(e => e.PendingAccountId).HasName("PK__PendingA__C1D12B0FCC779856");
+
+            entity.HasIndex(e => e.PhoneNumber, "UQ__PendingA__85FB4E385ECD62CE").IsUnique();
+
+            entity.Property(e => e.Email)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.FullName).HasMaxLength(255);
+            entity.Property(e => e.Password)
+                .HasMaxLength(255)
+                .IsUnicode(false);
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(11)
+                .IsUnicode(false);
+            entity.Property(e => e.CMT_CCCD)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.AreaId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
         });

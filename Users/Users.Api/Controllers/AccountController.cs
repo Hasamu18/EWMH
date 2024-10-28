@@ -326,8 +326,9 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// Create a customer's account
+        /// (MANAGER) Create a customer's account
         /// </summary>
+        [Authorize(Roles = Role.ManagerRole)]
         [HttpPost("13")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
         public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerCommand command)
@@ -372,6 +373,30 @@ namespace Users.Api.Controllers
             {
                 var result = await _mediator.Send(query);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// Pending approval to create a customer's account
+        /// </summary>
+        [HttpPost("15")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> PendingApprovalCreateCustomer([FromBody] PendingApprovalCreateCustomerCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Ok(result.Item2);
             }
             catch (Exception ex)
             {

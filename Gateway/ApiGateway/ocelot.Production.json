@@ -7,7 +7,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -19,7 +19,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -31,7 +31,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -43,7 +43,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -55,7 +55,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -67,7 +67,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -79,7 +79,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -101,7 +101,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -113,7 +113,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -121,15 +121,15 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/account/10?{PageIndex}&{Pagesize}&{SearchByEmail}&{Role}&{IsDisabled}",
+      "DownstreamPathTemplate": "/api/account/10?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&Role={Role}&IsDisabled={IsDisabled}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/account/10?{PageIndex}&{Pagesize}&{SearchByEmail}&{Role}&{IsDisabled}",
+      "UpstreamPathTemplate": "/account/10?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&Role={Role}&IsDisabled={IsDisabled}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -137,7 +137,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -149,7 +149,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -161,7 +161,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -169,15 +169,15 @@
       "UpstreamHttpMethod": [ "POST" ]
     },
     {
-      "DownstreamPathTemplate": "/api/account/14?{PageIndex}&{Pagesize}&{SearchByEmail}&{IsDisabled}",
+      "DownstreamPathTemplate": "/api/account/14?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&IsDisabled={IsDisabled}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/account/14?{PageIndex}&{Pagesize}&{SearchByEmail}&{IsDisabled}",
+      "UpstreamPathTemplate": "/account/14?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByEmail={SearchByEmail}&IsDisabled={IsDisabled}",
       "UpstreamHttpMethod": [ "GET" ]
     },
 
@@ -189,7 +189,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -201,7 +201,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -213,7 +213,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -225,7 +225,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
@@ -233,27 +233,27 @@
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/apartment/5?{PageIndex}&{Pagesize}&{SearchByName}",
+      "DownstreamPathTemplate": "/api/apartment/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/apartment/5?{PageIndex}&{Pagesize}&{SearchByName}",
+      "UpstreamPathTemplate": "/apartment/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
+      "DownstreamPathTemplate": "/api/apartment/6?PageIndex={PageIndex}&Pagesize={Pagesize}&AreaId={AreaId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "ewmhusers.azurewebsites.net",
+          "Host": "loloca.id.vn/api1",
           "Port": 443
         }
       ],
-      "UpstreamPathTemplate": "/apartment/6?{PageIndex}&{Pagesize}&{AreaId}",
+      "UpstreamPathTemplate": "/apartment/6?PageIndex={PageIndex}&Pagesize={Pagesize}&AreaId={AreaId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
 
@@ -268,8 +268,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/order/1",
@@ -280,8 +280,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/order/2",
@@ -292,8 +292,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/order/3",
@@ -304,8 +304,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/order/4",
@@ -316,8 +316,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/order/5",
@@ -333,8 +333,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/service-package/1",
@@ -345,8 +345,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/service-package/2",
@@ -357,47 +357,47 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/service-package/3",
       "UpstreamHttpMethod": [ "PUT" ]
     },
     {
-      "DownstreamPathTemplate": "/api/service-package/4?{ServicePackageId}",
+      "DownstreamPathTemplate": "/api/service-package/4?ServicePackageId={ServicePackageId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
-      "UpstreamPathTemplate": "/service-package/4?{ServicePackageId}",
+      "UpstreamPathTemplate": "/service-package/4?ServicePackageId={ServicePackageId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/service-package/5?{PageIndex}&{Pagesize}&{SearchByName}&{Status}",
+      "DownstreamPathTemplate": "/api/service-package/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}&Status={Status}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
-      "UpstreamPathTemplate": "/service-package/5?{PageIndex}&{Pagesize}&{SearchByName}&{Status}",
+      "UpstreamPathTemplate": "/service-package/5?PageIndex={PageIndex}&Pagesize={Pagesize}&SearchByName={SearchByName}&Status={Status}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
-      "DownstreamPathTemplate": "/api/service-package/6?{servicePackageId}",
+      "DownstreamPathTemplate": "/api/service-package/6?servicePackageId={servicePackageId}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
-      "UpstreamPathTemplate": "/service-package/6?{servicePackageId}",
+      "UpstreamPathTemplate": "/service-package/6?servicePackageId={servicePackageId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
@@ -405,8 +405,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/service-package/7",
@@ -417,8 +417,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/service-package/8",
@@ -429,8 +429,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/service-package/9",
@@ -441,15 +441,34 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": "8001"
+          "Host": "loloca.id.vn/api2",
+          "Port": "443"
         }
       ],
       "UpstreamPathTemplate": "/service-package/10",
       "UpstreamHttpMethod": [ "DELETE" ]
+    }, 
+    
+    
+    
+    
+    
+    //Requests API
+    //RequestController
+    {
+      "DownstreamPathTemplate": "/api/request/1?Email_Or_Phone={Email_Or_Phone}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "loloca.id.vn/api3",
+          "Port": "443"
+        }
+      ],
+      "UpstreamPathTemplate": "/request/1?Email_Or_Phone={Email_Or_Phone}",
+      "UpstreamHttpMethod": [ "GET" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://ewmhgateway.azurewebsites.net"
+    "BaseUrl": "https://loloca.id.vn/api0"
   }
 }

@@ -13,16 +13,16 @@ namespace Requests.Application.Commands
     {
         public string LeaderId { get; set; }
 
-        public string Email_Or_Phone { get; set; }
+        public string CustomerId { get; set; }
 
         public string RoomId { get; set; }
 
         public string CustomerProblem { get; set; }
 
-        public CreateNewRequestCommand(string leaderId, string emailOrPhone, string roomId, string customerProblem)
+        public CreateNewRequestCommand(string leaderId, string customerId, string roomId, string customerProblem)
         {
             LeaderId = leaderId;
-            Email_Or_Phone = emailOrPhone;
+            CustomerId = customerId;
             RoomId = roomId;
             CustomerProblem = customerProblem;
         }

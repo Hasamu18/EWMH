@@ -74,5 +74,23 @@ namespace Requests.Infrastructure.Repositories
         {
             get => _roomRepo ??= new GenericRepository<Rooms>(_context, _fireStore);
         }
+
+        private IGenericRepository<Workers> _workerRepo;
+        public IGenericRepository<Workers> WorkerRepo
+        {
+            get => _workerRepo ??= new GenericRepository<Workers>(_context, _fireStore);
+        }
+
+        private IGenericRepository<Products> _productRepo;
+        public IGenericRepository<Products> ProductRepo
+        {
+            get => _productRepo ??= new GenericRepository<Products>(_context, _fireStore);
+        }
+
+        private IGenericRepository<ProductPrices> _productPriceRepo;
+        public IGenericRepository<ProductPrices> ProductPriceRepo
+        {
+            get => _productPriceRepo ??= new GenericRepository<ProductPrices>(_context, _fireStore);
+        }
     }
 }

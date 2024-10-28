@@ -12,6 +12,7 @@ using Users.Domain.Entities;
 using Users.Domain.IRepositories;
 using static Logger.Utility.Constants;
 using Microsoft.EntityFrameworkCore;
+using Constants.Utility;
 
 namespace Users.Application.Handlers
 {
@@ -27,34 +28,44 @@ namespace Users.Application.Handlers
 
         public async Task<(int, string)> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
-            if (string.IsNullOrEmpty(request.Email))
-                request.Email = "";
+            var pendingAccount = await _uow.PendingAccountRepo.GetByIdAsync(request.PendingAccountId);
+            if (pendingAccount == null)
+                return (404, "Tài khoản chờ duyệt không tồn tại");
 
-            var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
-            if (existingEmail.Any())
-                return (409, $"{request.Email} is existing");
+            var existingApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.AreaId.Equals(pendingAccount.AreaId))).ToList();
 
-            var existingPhone = await _uow.AccountRepo.GetAsync(a => a.PhoneNumber.Equals(request.PhoneNumber));
-            if (existingPhone.Any())
-                return (409, $"{request.PhoneNumber} is existing");
+            if (!request.IsApproval)
+            {
+                if (!string.IsNullOrEmpty(pendingAccount.Email))
+                {
+                    EmailSender refuseEmailSender = new(_config);
+                    string refuseSubject = "Đăng ký tài khoản EWMH";
+                    string refuseBody = $@"Tài khoản EWMH với CMT/CCCD: {pendingAccount.CMT_CCCD} không tồn tại trong kho dữ liệu sở hữu căn hộ tại chung cư {existingApartment[0].Name}
+Cho nên yêu cầu tạo tài khoản của bạn bị từ chối!";
+                    await refuseEmailSender.SendEmailAsync(pendingAccount.Email, refuseSubject, refuseBody);
+                }
+                await _uow.PendingAccountRepo.RemoveAsync(pendingAccount);
 
+                return (409, $"Bạn đã từ chối yêu cầu tạo tài khoản do CMT/CCCD của khách hàng không tồn tại trong kho dữ liệu sở hữu căn hộ tại chung cư {existingApartment[0].Name}");
+            }
+                
             List<Rooms> customerRooms = [];
             foreach (var roomId in request.RoomIds)
             {
-                var existingApartment = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
+                var existingRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(pendingAccount.AreaId) &&
                                                                       a.RoomId.Equals(roomId))).ToList();
-                if (existingApartment.Count == 0)
-                    return (404, $"Unexisted apartment or Unexisted {roomId} room ");
+                if (existingRoom.Count == 0)
+                    return (404, $"Mã phòng: {roomId} không tồn tại ");
 
-                if (!string.IsNullOrEmpty(existingApartment[0].CustomerId))
-                    return (409, $"{roomId} room is linking to another account");
+                if (!string.IsNullOrEmpty(existingRoom[0].CustomerId))
+                    return (409, $"Mã phòng: {roomId} đang được liên kết với tài khoản khác");
 
-                customerRooms.Add(existingApartment[0]);
+                customerRooms.Add(existingRoom[0]);
             }
 
             var account = UserMapper.Mapper.Map<Accounts>(request);
             account.AccountId = $"C_{await _uow.CustomerRepo.Query().CountAsync() + 1:D10}";
-            account.Password = Tools.HashString(request.Password);
+            account.Password = Tools.HashString(pendingAccount.Password);
             account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
             account.IsDisabled = false;
             account.Role = Role.CustomerRole;
@@ -62,7 +73,8 @@ namespace Users.Application.Handlers
 
             Customers customer = new Customers()
             {
-                CustomerId = account.AccountId
+                CustomerId = account.AccountId,
+                CMT_CCCD = pendingAccount.CMT_CCCD
             };
             await _uow.CustomerRepo.AddAsync(customer);
 
@@ -72,7 +84,14 @@ namespace Users.Application.Handlers
                 await _uow.RoomRepo.UpdateAsync(customerRoom);
             }
 
-            return (201, $"The account is created");
+            await _uow.PendingAccountRepo.RemoveAsync(pendingAccount);
+
+            EmailSender emailSender = new(_config);
+            string subject = "Đăng ký tài khoản EWMH";
+            string body = $"Tài khoản EWMH với CMT/CCCD: {pendingAccount.CMT_CCCD} đã được duyệt và được tạo thành công, hãy trải nghiệm dịch vụ của chúng tôi";
+            await emailSender.SendEmailAsync(pendingAccount.Email, subject, body);
+
+            return (201, $"Tài khoản khách hàng đã được tạo");
         }
     }
 }

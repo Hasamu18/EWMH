@@ -18,5 +18,8 @@ namespace Requests.Domain.IRepositories
         IGenericRepository<Accounts> AccountRepo { get; }
         IGenericRepository<ApartmentAreas> ApartmentAreaRepo { get; }
         IGenericRepository<Rooms> RoomRepo { get; }
+        IGenericRepository<Workers> WorkerRepo { get; }
+        IGenericRepository<Products> ProductRepo { get; }
+        IGenericRepository<ProductPrices> ProductPriceRepo { get; }
     }
 }

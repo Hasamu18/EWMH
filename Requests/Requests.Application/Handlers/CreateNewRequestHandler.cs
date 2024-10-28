@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using static Logger.Utility.Constants;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Requests.Application.Commands;
 using Requests.Application.Mappers;
@@ -9,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Logger.Utility;
+using Requests.Domain.Entities;
 
 namespace Requests.Application.Handlers
 {
@@ -22,30 +25,57 @@ namespace Requests.Application.Handlers
 
         public async Task<(int, string)> Handle(CreateNewRequestCommand request, CancellationToken cancellationToken)
         {
-            //var getLeader = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).ToList();
+            var getApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).ToList();
 
-            //var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(getLeader[0].AreaId) &&
-            //                                                 a.RoomId.Equals(request.RoomId))).ToList();
-            //if (getRoom.Count == 0)
-            //    return (404, $"Unexisted {getRoom[0].RoomId} room ");
+            var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(getApartment[0].AreaId) &&
+                                                             a.RoomId.Equals(request.RoomId))).ToList();
+            if (getRoom.Count == 0)
+                return (404, $"Mã phòng: {getRoom[0].RoomId} không tồn tại ");
 
-            //if (getRoom[0].CustomerId is null)
-            //    return (404, $"{getRoom[0].RoomId} room");
+            var getCustomerRooms = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).ToList();
+            if (getCustomerRooms.Count == 0)
+                return (404, $"Khách hàng không sở hữu căn hộ nào tại chung cư {getApartment[0].Name}");
 
-            //var requestId = $"RQ_{(await _uow.RequestRepo.Query().CountAsync() + 1):D10}";
-            //var newRequest = RequestMapper.Mapper.Map<Requests.Domain.Entities.Requests>(request);
-            //newRequest.RequestId = requestId;
-            //newRequest.CustomerId = getRoom[0].CustomerId;
-            //product.ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
-            //product.Status = false;
-            //await _uow.ProductRepo.AddAsync(product);
-            return (200, "");
-        }
+            for (int i = 1; i <= getCustomerRooms.Count; i++)
+            {
+                if (getCustomerRooms[i - 1].RoomId.Equals(request.RoomId))
+                    break;
+                else if (!getCustomerRooms[i - 1].RoomId.Equals(request.RoomId) && i == getCustomerRooms.Count)
+                    return (409, $"Bạn không sở hữu căn hộ với mã phòng: {getRoom[0].RoomId}");
+            }
 
-        private bool IsEmail(string input)
-        {
-            var emailRegex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            return emailRegex.IsMatch(input);
+            var requestId = $"RQ_{(await _uow.RequestRepo.Query().CountAsync() + 1):D10}";
+            var newRequest = RequestMapper.Mapper.Map<Requests.Domain.Entities.Requests>(request);
+
+            var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId))).ToList();
+            if (getContracts.Count == 0)
+            {
+                newRequest.ContractId = null;
+                newRequest.CategoryRequest = (int)Request.CategoryRequest.Pay;
+            }                
+            else
+            {
+                var contractWithMinRequests = getContracts.OrderBy(c => c.RemainingNumOfRequests).First();
+                newRequest.ContractId = contractWithMinRequests.ContractId;
+                newRequest.CategoryRequest = (int)Request.CategoryRequest.Free;
+                contractWithMinRequests.RemainingNumOfRequests -= 1;
+                await _uow.ContractRepo.UpdateAsync(contractWithMinRequests);
+            }
+            
+            newRequest.RequestId = requestId;
+            newRequest.CustomerId = request.CustomerId;
+            newRequest.Start = Tools.GetDynamicTimeZone();
+            newRequest.End = null;
+            newRequest.Conclusion = null;
+            newRequest.Status = (int)Request.Status.Requested;
+            newRequest.PurchaseTime = null;
+            newRequest.TotalPrice = null;
+            newRequest.FileUrl = null;
+            newRequest.OrderCode = null;
+            newRequest.IsOnlinePayment = null;
+            await _uow.RequestRepo.AddAsync(newRequest);
+
+            return (201, $"Yêu cầu sửa chữa cho mã phòng: {request.RoomId} tại chung cư {getApartment[0].Name} đã được tiếp nhận!");
         }
     }
 }
