@@ -58,11 +58,11 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 400)
-                    return BadRequest(result.Item2);
-                else if (result.Item1 is 404)
+                if (result.Item1 is 404)
                     return NotFound(result.Item2);
-                
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
                 return Ok(result.Item2);
             }
             catch (Exception ex)
@@ -387,6 +387,31 @@ namespace Users.Api.Controllers
         [HttpPost("15")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> PendingApprovalCreateCustomer([FromBody] PendingApprovalCreateCustomerCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (MANAGER) Assign a worker to a leader
+        /// </summary>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpPost("16")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> AssignWorkerToLeader([FromBody] AssignWorkerToLeaderCommand command)
         {
             try
             {

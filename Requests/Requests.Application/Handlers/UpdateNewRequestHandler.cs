@@ -33,7 +33,7 @@ namespace Requests.Application.Handlers
             var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(getApartment[0].AreaId) &&
                                                              a.RoomId.Equals(request.RoomId))).ToList();
             if (getRoom.Count == 0)
-                return (404, $"Mã phòng: {getRoom[0].RoomId} không tồn tại ");
+                return (404, $"Mã phòng: {request.RoomId} không tồn tại ");
 
             var getCustomerRooms = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(getRequest.CustomerId))).ToList();
             for (int i = 1; i <= getCustomerRooms.Count; i++)

@@ -58,7 +58,7 @@ namespace Sales.Api
                         Description = "Contains sale apis",
                         Version = "Version 1",
                     });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
                     Description = "Please enter token",
@@ -75,7 +75,7 @@ namespace Sales.Api
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
+                    Id = "bearer"
                 }
             },
             new string[] { }

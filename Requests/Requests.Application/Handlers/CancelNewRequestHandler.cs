@@ -27,6 +27,13 @@ namespace Requests.Application.Handlers
             if (getRequest.Status != (int)Request.Status.Requested)
                 return (409, "Chỉ có thể hủy yêu cầu sửa chữa khi ở trạng thái \"yêu cầu mới\"");
 
+            if (getRequest.ContractId != null)
+            {
+                var getContract = await _uow.ContractRepo.GetByIdAsync(getRequest.ContractId);
+                getContract!.RemainingNumOfRequests += 1;
+                await _uow.ContractRepo.UpdateAsync(getContract);
+            }
+
             await _uow.RequestRepo.RemoveAsync(getRequest);
 
             return (200, "Yêu cầu sửa chữa đã được hủy!");

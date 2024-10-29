@@ -17,8 +17,5 @@
     <ProjectReference Include="..\..\Infrastructure\Logger\Logger.csproj" />
     <ProjectReference Include="..\Requests.Domain\Requests.Domain.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\" />
-  </ItemGroup>
 
 </Project>

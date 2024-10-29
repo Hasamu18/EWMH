@@ -26,7 +26,7 @@ namespace Logger.Utility
 
             public enum CategoryRequest
             {
-                Pay = 0, Free = 1
+                Warranty = 0, Repair = 1
             }
         }
     }
