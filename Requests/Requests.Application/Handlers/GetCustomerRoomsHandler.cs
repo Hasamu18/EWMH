@@ -12,7 +12,7 @@ using static Logger.Utility.Constants;
 
 namespace Requests.Application.Handlers
 {
-    internal class GetCustomerRoomsHandler : IRequestHandler<GetCustomerRoomsQuery, object>
+    internal class GetCustomerRoomsHandler : IRequestHandler<GetCustomerRoomsQuery, (int, object)>
     {
         private readonly IUnitOfWork _uow;
         public GetCustomerRoomsHandler(IUnitOfWork uow)
@@ -20,7 +20,7 @@ namespace Requests.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetCustomerRoomsQuery request, CancellationToken cancellationToken)
+        public async Task<(int, object)> Handle(GetCustomerRoomsQuery request, CancellationToken cancellationToken)
         {
             List<Accounts> existingUser;
             if (IsEmail(request.Email_Or_Phone))
@@ -38,13 +38,16 @@ namespace Requests.Application.Handlers
             if (!existingUser[0].Role.Equals(Role.CustomerRole))
                 return (409, "Chỉ có thể điền email hoặc số điện thoại của khách hàng");
 
-            var getRooms = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(existingUser[0].AccountId))).ToList();
+            var getRooms = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(existingUser[0].AccountId), includeProperties:"Area")).ToList();
 
-            return new
+            if (!request.LeaderId.Equals(getRooms[0].Area.LeaderId))
+                return (409, "Bạn chỉ có thể tạo yêu cầu sửa chữa đối với những khách hàng thuộc chung cư của bạn");
+
+            return (200, new
             {
                 existingUser,
                 getRooms
-            };
+            });
         }
 
         private bool IsEmail(string input)

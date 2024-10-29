@@ -35,30 +35,30 @@ namespace Requests.Application.Handlers
         
             foreach (var product in request.ProductList)
             {
-                var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.Item1))).ToList();
+                var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId))).ToList();
                 if (getProduct.Count == 0)
-                    return (404, $"Sản phẩm với Id: {product.Item1} không tồn tại");
+                    return (404, $"Sản phẩm với Id: {product.ProductId} không tồn tại");
 
-                if (product.Item2 > getProduct[0].InOfStock)
+                if (product.Quantity > getProduct[0].InOfStock)
                     return (409, $"Sản phẩm với tên: {getProduct[0].Name} chỉ còn {getProduct[0].InOfStock} cái");
 
-                if (product.Item2 == 0)
+                if (product.Quantity == 0)
                     return (409, "Không thể thêm số lượng bằng 0");
             }
             foreach (var product in request.ProductList)
             {
-                var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.Item1))).ToList();
-                getProduct[0].InOfStock -= (int)product.Item2;
+                var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId))).ToList();
+                getProduct[0].InOfStock -= (int)product.Quantity;
                 await _uow.ProductRepo.UpdateAsync(getProduct[0]);
 
                 RequestDetails requestDetail = new()
                 {
                     RequestDetailId = $"RD_{Tools.GenerateRandomString(20)}",
                     RequestId = request.RequestId,
-                    ProductId = product.Item1,
-                    Quantity = (int)product.Item2,
-                    IsCustomerPaying = product.Item3,
-                    Description = product.Item4
+                    ProductId = product.ProductId,
+                    Quantity = (int)product.Quantity,
+                    IsCustomerPaying = product.IsCustomerPaying,
+                    Description = product.Description
                 };
                 await _uow.RequestDetailRepo.AddAsync(requestDetail);
             }

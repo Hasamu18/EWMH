@@ -12,15 +12,18 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Logger.Utility;
 using Requests.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 
 namespace Requests.Application.Handlers
 {
     internal class CreateNewRequestHandler : IRequestHandler<CreateNewRequestCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
-        public CreateNewRequestHandler(IUnitOfWork uow)
+        private readonly IConfiguration _config;
+        public CreateNewRequestHandler(IUnitOfWork uow, IConfiguration config)
         {
             _uow = uow;
+            _config = config;
         }
 
         public async Task<(int, string)> Handle(CreateNewRequestCommand request, CancellationToken cancellationToken)
@@ -30,7 +33,7 @@ namespace Requests.Application.Handlers
             var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(getApartment[0].AreaId) &&
                                                              a.RoomId.Equals(request.RoomId))).ToList();
             if (getRoom.Count == 0)
-                return (404, $"Mã phòng: {getRoom[0].RoomId} không tồn tại ");
+                return (404, $"Mã phòng: {request.RoomId} không tồn tại ");
 
             var getCustomerRooms = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).ToList();
             if (getCustomerRooms.Count == 0)
@@ -44,26 +47,39 @@ namespace Requests.Application.Handlers
                     return (409, $"Bạn không sở hữu căn hộ với mã phòng: {getRoom[0].RoomId}");
             }
 
-            var requestId = $"RQ_{(await _uow.RequestRepo.Query().CountAsync() + 1):D10}";
+            var requestId = $"RQ_{Tools.GenerateRandomString(20)}";
             var newRequest = RequestMapper.Mapper.Map<Requests.Domain.Entities.Requests>(request);
 
-            var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId))).ToList();
-            if (getContracts.Count == 0)
+            if (request.CategoryRequest == Request.CategoryRequest.Warranty)
             {
                 newRequest.ContractId = null;
-                newRequest.CategoryRequest = (int)Request.CategoryRequest.Pay;
-            }                
+            }
             else
             {
-                var contractWithMinRequests = getContracts.OrderBy(c => c.RemainingNumOfRequests).First();
-                newRequest.ContractId = contractWithMinRequests.ContractId;
-                newRequest.CategoryRequest = (int)Request.CategoryRequest.Free;
-                contractWithMinRequests.RemainingNumOfRequests -= 1;
-                await _uow.ContractRepo.UpdateAsync(contractWithMinRequests);
+                var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId))).ToList();
+                if (getContracts.Count == 0)
+                    newRequest.ContractId = null;
+                else
+                {
+                    var contractWithMinRequests = getContracts.OrderBy(c => c.RemainingNumOfRequests).ToList();
+                    foreach (var contract in contractWithMinRequests)
+                    {
+                        int i = 0;
+                        i++;
+                        if (contract.RemainingNumOfRequests != 0)
+                        {
+                            newRequest.ContractId = contract.ContractId;
+                            contract.RemainingNumOfRequests -= 1;
+                            await _uow.ContractRepo.UpdateAsync(contract);
+                            break;
+                        }
+                        else if (contract.RemainingNumOfRequests == 0 && contractWithMinRequests.Count == i)
+                            newRequest.ContractId = null;
+                    }
+                }
             }
-            
+
             newRequest.RequestId = requestId;
-            newRequest.CustomerId = request.CustomerId;
             newRequest.Start = Tools.GetDynamicTimeZone();
             newRequest.End = null;
             newRequest.Conclusion = null;
@@ -75,7 +91,7 @@ namespace Requests.Application.Handlers
             newRequest.IsOnlinePayment = null;
             await _uow.RequestRepo.AddAsync(newRequest);
 
-            return (201, $"Yêu cầu sửa chữa cho mã phòng: {request.RoomId} tại chung cư {getApartment[0].Name} đã được tiếp nhận!");
+            return (201, $"Yêu cầu sửa chữa hoặc bảo hành cho mã phòng: {request.RoomId} tại chung cư {getApartment[0].Name} đã được tiếp nhận!");
         }
     }
 }

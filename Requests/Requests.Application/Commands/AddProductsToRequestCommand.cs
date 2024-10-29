@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Requests.Application.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace Requests.Application.Commands
 
         public string RequestId { get; set; }
 
-        public List<(string, uint, bool, string)> ProductList { get; set; }
+        public List<Product> ProductList { get; set; }
 
-        public AddProductsToRequestCommand(string headWorkerId, string requestId, List<(string, uint, bool, string)> productList)
+        public AddProductsToRequestCommand(string headWorkerId, string requestId, List<Product> productList)
         {
             HeadWorkerId = headWorkerId;
             RequestId = requestId;

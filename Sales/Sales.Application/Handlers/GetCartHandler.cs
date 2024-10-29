@@ -32,18 +32,48 @@ namespace Sales.Application.Handlers
             {
                 var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(item.ProductId),
                                                                        includeProperties: "ProductPrices")).ToList();
-                var currentProduct = existingProduct[0].ProductPrices.OrderByDescending(p => p.Date).First();
-                totalPrice += currentProduct.PriceByDate * item.Quantity; 
-
-                result.Add(new
+                if (existingProduct[0].InOfStock == 0)
                 {
-                    existingProduct[0].ProductId,
-                    existingProduct[0].Name,
-                    existingProduct[0].ImageUrl,
-                    currentProduct.PriceByDate,
-                    item.Quantity
-                });
+                    await _uow.OrderDetailRepo.RemoveAsync(item);
+                }
+                else if (item.Quantity > existingProduct[0].InOfStock)
+                {
+                    var currentProduct = existingProduct[0].ProductPrices.OrderByDescending(p => p.Date).First();
+                    totalPrice += currentProduct.PriceByDate * existingProduct[0].InOfStock;
+
+                    item.Quantity = existingProduct[0].InOfStock;
+                    await _uow.OrderDetailRepo.UpdateAsync(item);
+                    result.Add(new
+                    {
+                        existingProduct[0].ProductId,
+                        existingProduct[0].Name,
+                        existingProduct[0].ImageUrl,
+                        currentProduct.PriceByDate,
+                        existingProduct[0].InOfStock
+                    });
+                }
+                else
+                {
+                    var currentProduct = existingProduct[0].ProductPrices.OrderByDescending(p => p.Date).First();
+                    totalPrice += currentProduct.PriceByDate * item.Quantity;
+
+                    result.Add(new
+                    {
+                        existingProduct[0].ProductId,
+                        existingProduct[0].Name,
+                        existingProduct[0].ImageUrl,
+                        currentProduct.PriceByDate,
+                        item.Quantity
+                    });
+                }
             }
+
+            var currentCartDetail = (await _uow.OrderDetailRepo.GetAsync(a => a.OrderId.Equals(existingCart[0].OrderId))).ToList();
+            if (currentCartDetail.Count == 0)
+            {
+                await _uow.OrderRepo.RemoveAsync(existingCart[0]);
+                return (200, "Cart is empty");
+            }               
 
             result.Add(new
             {

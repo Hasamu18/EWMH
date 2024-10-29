@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Logger.Utility.Constants;
 
 namespace Requests.Application.Commands
 {
@@ -19,12 +20,15 @@ namespace Requests.Application.Commands
 
         public string CustomerProblem { get; set; }
 
-        public CreateNewRequestCommand(string leaderId, string customerId, string roomId, string customerProblem)
+        public Request.CategoryRequest CategoryRequest { get; set; }
+
+        public CreateNewRequestCommand(string leaderId, string customerId, string roomId, string customerProblem, Request.CategoryRequest categoryRequest)
         {
             LeaderId = leaderId;
             CustomerId = customerId;
             RoomId = roomId;
             CustomerProblem = customerProblem;
+            CategoryRequest = categoryRequest;
         }
     }
 }
