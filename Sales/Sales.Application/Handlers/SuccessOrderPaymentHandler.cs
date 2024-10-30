@@ -101,7 +101,7 @@ namespace Sales.Application.Handlers
                     WarrantyCards warrantyCard = new()
                     {
                         WarrantyCardId = $"WC_{Tools.GenerateRandomString(20)}",
-                        OrderId = existingCart[0].OrderId,
+                        CustomerId = existingCart[0].CustomerId,
                         ProductId = productId,
                         StartDate = DateTime.Parse(transactionDateTime),
                         ExpireDate = DateTime.Parse(transactionDateTime).AddMonths(existingProduct[0].WarantyMonths)

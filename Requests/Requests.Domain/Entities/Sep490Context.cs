@@ -57,6 +57,8 @@ public partial class Sep490Context : DbContext
 
     public virtual DbSet<WarrantyCards> WarrantyCards { get; set; }
 
+    public virtual DbSet<WarrantyRequests> WarrantyRequests { get; set; }
+
     public virtual DbSet<Workers> Workers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -482,24 +484,31 @@ public partial class Sep490Context : DbContext
 
         modelBuilder.Entity<WarrantyCards>(entity =>
         {
-            entity.HasKey(e => e.WarrantyCardId).HasName("PK__Warranty__3C3D834A5125E82A");
+            entity.HasKey(e => e.WarrantyCardId).HasName("PK__Warranty__3C3D834ABD3ED675");
 
             entity.Property(e => e.WarrantyCardId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
             entity.Property(e => e.ExpireDate).HasColumnType("datetime");
-            entity.Property(e => e.OrderId)
+            entity.Property(e => e.CustomerId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
             entity.Property(e => e.ProductId)
                 .HasMaxLength(32)
                 .IsUnicode(false);
             entity.Property(e => e.StartDate).HasColumnType("datetime");
+        });
 
-            entity.HasOne(d => d.Order).WithMany(p => p.WarrantyCards)
-                .HasForeignKey(d => d.OrderId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__WarrantyC__Order__7C4F7684");
+        modelBuilder.Entity<WarrantyRequests>(entity =>
+        {
+            entity.HasKey(e => new { e.WarrantyCardId, e.RequestId }).HasName("PK__Warranty__8F07065DFA1E75A8");
+
+            entity.Property(e => e.WarrantyCardId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.RequestId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Workers>(entity =>

@@ -26,11 +26,18 @@ GO
 
 CREATE TABLE [WarrantyCards] (
   [WarrantyCardId] varchar(32) NOT NULL,
-  [OrderId] varchar(32) NOT NULL,
+  [CustomerId] varchar(32) NOT NULL,
   [ProductId] varchar(32) NOT NULL,
   [StartDate] datetime NOT NULL,
   [ExpireDate] datetime NOT NULL,
   PRIMARY KEY ([WarrantyCardId])
+)
+GO
+
+CREATE TABLE [WarrantyRequests] (
+  [WarrantyCardId] varchar(32) NOT NULL,
+  [RequestId] varchar(32) NOT NULL,
+  PRIMARY KEY ([WarrantyCardId], [RequestId])
 )
 GO
 
@@ -271,8 +278,9 @@ GO
 ALTER TABLE [ServicePackagePrices] ADD FOREIGN KEY ([ServicePackageId]) REFERENCES [ServicePackages] ([ServicePackageId])
 GO
 
-ALTER TABLE [WarrantyCards] ADD FOREIGN KEY ([OrderId]) REFERENCES [Orders] ([OrderId])
+ALTER TABLE [WarrantyCards] ADD FOREIGN KEY ([CustomerId]) REFERENCES [Customers] ([CustomerId])
 GO
+
 
 ALTER TABLE [OrderDetails] ADD FOREIGN KEY ([ProductId]) REFERENCES [Products] ([ProductId])
 GO
