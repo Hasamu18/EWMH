@@ -81,7 +81,7 @@ namespace Users.Application.Handlers
             }
 
             EmailSender emailSender = new(_config);
-            var link = $"http://localhost:5500/reset.html?token={Tools.EncryptString(request.Email)}";
+            var link = $"https://loloca.id.vn/change-password?token={Tools.EncryptString(request.Email)}";
             string subject = "Reset password";
             string body = $"<p>Click here to reset your password:</p>" +
             $"<a href=\"{link}\" style=\"padding: 10px; color: white; background-color: #007BFF; text-decoration: none;\">" +
