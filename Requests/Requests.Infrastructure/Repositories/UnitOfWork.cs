@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Transaction = Requests.Domain.Entities.Transaction;
 
 namespace Requests.Infrastructure.Repositories
 {
@@ -91,6 +92,24 @@ namespace Requests.Infrastructure.Repositories
         public IGenericRepository<ProductPrices> ProductPriceRepo
         {
             get => _productPriceRepo ??= new GenericRepository<ProductPrices>(_context, _fireStore);
+        }
+
+        private IGenericRepository<WarrantyCards> _warrantyCardRepo;
+        public IGenericRepository<WarrantyCards> WarrantyCardRepo
+        {
+            get => _warrantyCardRepo ??= new GenericRepository<WarrantyCards>(_context, _fireStore);
+        }
+
+        private IGenericRepository<WarrantyRequests> _warrantyRequestRepo;
+        public IGenericRepository<WarrantyRequests> WarrantyRequestRepo
+        {
+            get => _warrantyRequestRepo ??= new GenericRepository<WarrantyRequests>(_context, _fireStore);
+        }
+
+        private IGenericRepository<Transaction> _transactionRepo;
+        public IGenericRepository<Transaction> TransactionRepo
+        {
+            get => _transactionRepo ??= new GenericRepository<Transaction>(_context, _fireStore);
         }
     }
 }

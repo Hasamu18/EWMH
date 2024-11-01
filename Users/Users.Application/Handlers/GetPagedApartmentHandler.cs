@@ -27,7 +27,8 @@ namespace Users.Application.Handlers
             {
                 var items = await _uow.ApartmentAreaRepo.GetAsync(pageIndex: request.PageIndex,
                                                                   pageSize: request.Pagesize);
-
+                int count = (await _uow.ApartmentAreaRepo.GetAsync()).Count();
+                result.Add(count);
                 foreach (var get in items)
                 {
                     var account = await _uow.AccountRepo.GetByIdAsync(get.LeaderId);
@@ -51,7 +52,8 @@ namespace Users.Application.Handlers
                     filter: s => s.Name.Contains(request.SearchByName),
                     pageIndex: request.PageIndex,
                     pageSize: request.Pagesize);
-
+                int count = (await _uow.ApartmentAreaRepo.GetAsync(filter: s => s.Name.Contains(request.SearchByName))).Count();
+                result.Add(count);
                 foreach (var get in items)
                 {
                     var account = await _uow.AccountRepo.GetByIdAsync(get.LeaderId);

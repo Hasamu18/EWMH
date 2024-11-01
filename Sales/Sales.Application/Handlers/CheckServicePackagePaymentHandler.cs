@@ -159,12 +159,12 @@ namespace Sales.Application.Handlers
                                             text.Span("Điện thoại: ");
                                             text.Span($"{infoLeader!.PhoneNumber}").SemiBold();
                                         });
-                                        col.Item().Text(text =>
-                                        {
-                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                            text.Span("Email: ");
-                                            text.Span($"{infoLeader!.Email}").SemiBold();
-                                        });
+                                        //col.Item().Text(text =>
+                                        //{
+                                        //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        //    text.Span("Email: ");
+                                        //    text.Span($"{infoLeader!.Email}").SemiBold();
+                                        //});
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
@@ -199,12 +199,12 @@ namespace Sales.Application.Handlers
                                             text.Span("Điện thoại: ");
                                             text.Span($"{infoCustomer!.PhoneNumber}").SemiBold();
                                         });
-                                        col.Item().Text(text =>
-                                        {
-                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                            text.Span("Email: ");
-                                            text.Span($"{infoCustomer!.Email}").SemiBold();
-                                        });
+                                        //col.Item().Text(text =>
+                                        //{
+                                        //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        //    text.Span("Email: ");
+                                        //    text.Span($"{infoCustomer!.Email}").SemiBold();
+                                        //});
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));

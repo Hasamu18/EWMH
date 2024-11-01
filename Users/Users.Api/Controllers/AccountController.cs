@@ -261,7 +261,7 @@ namespace Users.Api.Controllers
         /// </remarks>
         [Authorize(Roles = Role.AdminRole)]
         [HttpGet("10")]
-        [ProducesResponseType(typeof(List<Accounts>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedAccount([FromQuery] GetPagedAccountQuery query)
         {
             try

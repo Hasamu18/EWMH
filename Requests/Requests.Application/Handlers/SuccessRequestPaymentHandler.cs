@@ -1,122 +1,120 @@
-﻿using Constants.Utility;
-using Logger.Utility;
+﻿using Logger.Utility;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Errors;
 using Net.payOS.Types;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using QuestPDF.Fluent;
-using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
-using Sales.Application.Commands;
-using Sales.Application.ViewModels;
-using Sales.Domain.Entities;
-using Sales.Domain.IRepositories;
+using Requests.Application.Commands;
+using Requests.Domain.IRepositories;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Transaction = Sales.Domain.Entities.Transaction;
+using static Logger.Utility.Constants;
+using Requests.Domain.Entities;
+using Transaction = Requests.Domain.Entities.Transaction;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using QuestPDF.Infrastructure;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
 using Unit = QuestPDF.Infrastructure.Unit;
+using Requests.Application.ViewModels;
+using Newtonsoft.Json;
 
-namespace Sales.Application.Handlers
+namespace Requests.Application.Handlers
 {
-    public class SuccessOrderPaymentHandler : IRequestHandler<SuccessOrderPaymentCommand, (int, string)>
+    internal class SuccessRequestPaymentHandler : IRequestHandler<SuccessRequestPaymentCommand, (int, string)>
     {
         private readonly IUnitOfWork _uow;
         private readonly IConfiguration _config;
         private readonly PayOS _payOS;
-        public SuccessOrderPaymentHandler(IUnitOfWork uow, IConfiguration config)
+        public SuccessRequestPaymentHandler(IUnitOfWork uow, IConfiguration config)
         {
             _uow = uow;
             _config = config;
             _payOS = new PayOS(_config["PayOs:ClientId"]!, _config["PayOs:ApiKey"]!, _config["PayOs:CheckSumKey"]!);
         }
 
-        public async Task<(int, string)> Handle(SuccessOrderPaymentCommand request, CancellationToken cancellationToken)
-        {            
-            var existingCart = (await _uow.OrderRepo.GetAsync(a => a.OrderId.Equals(request.Id1) &&
-                                                                   a.Status == false,
-                                                              includeProperties: "OrderDetails")).ToList();
-            if (existingCart.Count == 0)
-                return (200, "Giỏ hàng trống");
+        public async Task<(int, string)> Handle(SuccessRequestPaymentCommand request, CancellationToken cancellationToken)
+        {
+            var getRequest = await _uow.RequestRepo.GetByIdAsync(request.RequestId);
+            if (getRequest == null)
+                return (404, "Yêu cầu không tồn tại");
 
-            List<ProductInvoice> productInvoice = [];
-            string transactionDateTime = "";
-            var paymentLinkInfomation = await GetPaymentLinkInformation(request.OrderCode);
-            foreach (var item in paymentLinkInfomation.transactions)
-            {
-                transactionDateTime = item.transactionDateTime;
-                Transaction transaction = new ()
-                {
-                    TransactionId = $"T_{await _uow.TransactionRepo.Query().CountAsync() + 1:D10}",
-                    ServiceId = request.Id1,
-                    ServiceType = 0,
-                    CustomerId = existingCart[0].CustomerId,
-                    AccountNumber = item.accountNumber,
-                    CounterAccountNumber = item.counterAccountNumber,
-                    CounterAccountName = item.counterAccountName,
-                    PurchaseTime = DateTime.Parse(item.transactionDateTime),
-                    OrderCode = request.OrderCode,
-                    Amount = item.amount,
-                    Description = item.description
-                };
-                await _uow.TransactionRepo.AddAsync(transaction);
-            }
-
-            for (var i = 0; i < existingCart[0].OrderDetails.Count; i++)
-            {
-                var productId = existingCart[0].OrderDetails.Select(s => s.ProductId).ElementAt(i);
-                var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(productId),
-                                                                       includeProperties: "ProductPrices")).ToList();
-                var currentProduct = existingProduct[0].ProductPrices.OrderByDescending(p => p.Date).First();
-                var quantity = existingCart[0].OrderDetails.Select(s => s.Quantity).ElementAt(i);
-                var existingProductInCart = (await _uow.OrderDetailRepo.GetAsync(a => a.OrderId.Equals(existingCart[0].OrderId) &&
-                                                                                 a.ProductId.Equals(productId))).ToList();
-                existingProductInCart[0].Price = currentProduct.PriceByDate;
-                existingProductInCart[0].TotalPrice = currentProduct.PriceByDate * quantity;
-
-                existingProduct[0].InOfStock -= quantity;
-                await _uow.ProductRepo.UpdateAsync(existingProduct[0]);
-
-                ProductInvoice items = new()
-                {
-                    ProductName = existingProduct[0].Name,
-                    Quantity = quantity,
-                    UnitPrice = currentProduct.PriceByDate,
-                    Amount = currentProduct.PriceByDate * quantity
-                };
-                productInvoice.Add(items);
-
-                await _uow.OrderDetailRepo.UpdateAsync(existingProductInCart[0]);
-
-                for (int z = 0; z < quantity; z++)
-                {
-                    if (existingProduct[0].WarantyMonths != 0)
-                    {
-                        WarrantyCards warrantyCard = new()
-                        {
-                            WarrantyCardId = $"WC_{Tools.GenerateRandomString(20)}",
-                            CustomerId = existingCart[0].CustomerId,
-                            ProductId = productId,
-                            StartDate = DateTime.Parse(transactionDateTime),
-                            ExpireDate = DateTime.Parse(transactionDateTime).AddMonths(existingProduct[0].WarantyMonths)
-                        };
-                        await _uow.WarrantyCardRepo.AddAsync(warrantyCard);
-                    }                    
-                }         
-            }
-            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(existingCart[0].CustomerId))).First();
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
-            var existingLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
-            var existingCustomer = await _uow.AccountRepo.GetByIdAsync(existingCart[0].CustomerId);
+            if (getRequest.Status != (int)Request.Status.Processing)
+                return (409, "Chỉ có yêu cầu khi ở trạng thái \"đang xử lý\" mới có thể sử dụng chức năng này");
             
+            if (request.OrderCode != null)
+            {
+                try
+                {
+                    var checkOrderCode = await GetPaymentLinkInformation((long)request.OrderCode);
+                }
+                catch(Exception ex) 
+                {
+                    return (404, "OrderCode không tồn tại");
+                }
+            }
+            
+            int requestPrice = (await _uow.PriceRequestRepo.GetAsync()).OrderByDescending(d => d.Date).First().PriceByDate;
+            int attachedOrderPrice = 0;
+            var purchaseTime = Tools.GetDynamicTimeZone();
+            List<ProductInvoice> productInvoice = [];
+
+            if (getRequest.CategoryRequest == (int)Request.CategoryRequest.Warranty ||
+               (getRequest.CategoryRequest == (int)Request.CategoryRequest.Repair && getRequest.ContractId != null))
+                requestPrice = 0;
+
+            var getRequestDetail = (await _uow.RequestDetailRepo.GetAsync(a => a.RequestId.Equals(request.RequestId))).ToList();
+            if (getRequestDetail.Count != 0)
+            {
+                foreach (var product in getRequestDetail)
+                {
+                    var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId),
+                                                                      includeProperties: "ProductPrices")).ToList();
+                    int currentProductPrice = 0;
+                    if (product.IsCustomerPaying)
+                        currentProductPrice = getProduct[0].ProductPrices.OrderByDescending(p => p.Date).First().PriceByDate;
+                    
+                    attachedOrderPrice += currentProductPrice * product.Quantity;
+                    getProduct[0].InOfStock -= product.Quantity;
+                    await _uow.ProductRepo.UpdateAsync(getProduct[0]);
+
+                    ProductInvoice items = new()
+                    {
+                        ProductName = getProduct[0].Name,
+                        Quantity = product.Quantity,
+                        UnitPrice = currentProductPrice,
+                        Amount = currentProductPrice * product.Quantity,
+                        Description = product.Description
+                    };
+                    productInvoice.Add(items);
+
+                    for (int i = 0; i < product.Quantity; i++)
+                    {
+                        if (getProduct[0].WarantyMonths != 0)
+                        {
+                            WarrantyCards warrantyCard = new()
+                            {
+                                WarrantyCardId = $"WC_{Tools.GenerateRandomString(20)}",
+                                CustomerId = getRequest.CustomerId,
+                                ProductId = product.ProductId,
+                                StartDate = purchaseTime,
+                                ExpireDate = purchaseTime.AddMonths(getProduct[0].WarantyMonths)
+                            };
+                            await _uow.WarrantyCardRepo.AddAsync(warrantyCard);
+                        }
+                    }                    
+                }
+            }
+
+            var existingApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(getRequest.LeaderId))).ToList();
+            var existingLeader = await _uow.AccountRepo.GetByIdAsync(getRequest.LeaderId);
+            var existingCustomer = await _uow.AccountRepo.GetByIdAsync(getRequest.CustomerId);
+
             QuestPDF.Settings.License = LicenseType.Community;
             var pdf = Document.Create(container =>
             {
@@ -181,13 +179,13 @@ namespace Sales.Application.Handlers
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Tên chung cư: ");
-                                        text.Span($"{existingApartment.Name}").SemiBold();
+                                        text.Span($"{existingApartment[0].Name}").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Địa chỉ: ");
-                                        text.Span($"{existingApartment.Address}").SemiBold();
+                                        text.Span($"{existingApartment[0].Address}").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {
@@ -227,7 +225,7 @@ namespace Sales.Application.Handlers
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Tên chung cư: ");
-                                        text.Span($"{existingApartment.Name}").SemiBold();
+                                        text.Span($"{existingApartment[0].Name}").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {
@@ -256,11 +254,12 @@ namespace Sales.Application.Handlers
                                     table.ColumnsDefinition(col =>
                                     {
                                         col.RelativeColumn();
-                                        col.ConstantColumn(100);
-                                        col.ConstantColumn(100);
+                                        col.ConstantColumn(75);
+                                        col.ConstantColumn(75);
+                                        col.ConstantColumn(75);
                                         col.ConstantColumn(100);
                                     });
-                                    
+
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
@@ -281,6 +280,11 @@ namespace Sales.Application.Handlers
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Tổng").SemiBold();
                                     });
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Mô tả").SemiBold();
+                                    });
 
 
                                     for (var i = 0; i < productInvoice.Count; i++)
@@ -291,6 +295,7 @@ namespace Sales.Application.Handlers
                                         table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{item.Quantity}").FontSize(12).FontColor(Colors.Black);
                                         table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{item.UnitPrice}").FontSize(12).FontColor(Colors.Black);
                                         table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{item.Amount}").FontSize(12).FontColor(Colors.Black);
+                                        table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{item.Description}").FontSize(12).FontColor(Colors.Black);
                                     }
                                     ;
                                 });
@@ -301,7 +306,7 @@ namespace Sales.Application.Handlers
                                     table.ColumnsDefinition(col =>
                                     {
                                         col.RelativeColumn();
-                                        col.ConstantColumn(100);                                 
+                                        col.ConstantColumn(100);
                                     });
                                     var total = 0;
                                     foreach (var product in productInvoice)
@@ -309,7 +314,7 @@ namespace Sales.Application.Handlers
                                         total = total + product.Amount;
                                     }
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text("Tổng cộng:").FontSize(12).FontColor(Colors.Black);
-                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{total}").FontSize(12).FontColor(Colors.Black);                                   
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{total}").FontSize(12).FontColor(Colors.Black);
                                     ;
                                 });
                         });
@@ -322,17 +327,61 @@ namespace Sales.Application.Handlers
                 Headers = new HeaderDictionary(),
                 ContentType = "application/pdf"
             };
-            var bucketAndPath = await _uow.OrderRepo.UploadFileToStorageAsync(existingCart[0].OrderId, file, _config);
-            existingCart[0].PurchaseTime = DateTime.Parse(transactionDateTime);
-            existingCart[0].Status = true;
-            existingCart[0].FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
-            existingCart[0].OrderCode = request.OrderCode;
-            await _uow.OrderRepo.UpdateAsync(existingCart[0]);
+            var bucketAndPath = await _uow.RequestDetailRepo.UploadFileToStorageAsync(request.RequestId, file, _config);
 
-            EmailSender emailSender = new(_config);
-            string subject = "Hóa đơn";
-            string body = $"Hóa đơn của bạn";
-            await emailSender.SendEmailAsync(existingCustomer!.Email, subject, body, file);
+            var totalPrice = requestPrice + attachedOrderPrice;
+            getRequest.Conclusion = request.Conclusion;
+            getRequest.Status = (int)Request.Status.Done;
+            getRequest.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            getRequest.OrderCode = request.OrderCode;
+            getRequest.TotalPrice = totalPrice;
+
+            if (request.OrderCode != null)
+            {
+                var getPaymentLinkInfomation = await GetPaymentLinkInformation((long)request.OrderCode);
+                getRequest.End = DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime);
+                getRequest.PurchaseTime = DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime);
+                getRequest.IsOnlinePayment = true;
+
+                Transaction transaction = new()
+                {
+                    TransactionId = $"T_{await _uow.TransactionRepo.Query().CountAsync() + 1:D10}",
+                    ServiceId = request.RequestId,
+                    ServiceType = 2,
+                    CustomerId = getRequest.CustomerId,
+                    AccountNumber = getPaymentLinkInfomation.transactions[0].accountNumber,
+                    CounterAccountNumber = getPaymentLinkInfomation.transactions[0].counterAccountNumber,
+                    CounterAccountName = getPaymentLinkInfomation.transactions[0].counterAccountName,
+                    PurchaseTime = DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime),
+                    OrderCode = request.OrderCode,
+                    Amount = getPaymentLinkInfomation.amount,
+                    Description = getPaymentLinkInfomation.transactions[0].description
+                };
+                await _uow.TransactionRepo.AddAsync(transaction);
+            }
+            else
+            {              
+                getRequest.End = purchaseTime;
+                getRequest.PurchaseTime = purchaseTime;
+                getRequest.IsOnlinePayment = false;
+
+                Transaction transaction = new()
+                {
+                    TransactionId = $"T_{await _uow.TransactionRepo.Query().CountAsync() + 1:D10}",
+                    ServiceId = request.RequestId,
+                    ServiceType = 2,
+                    CustomerId = getRequest.CustomerId,
+                    AccountNumber = null,
+                    CounterAccountNumber = null,
+                    CounterAccountName = null,
+                    PurchaseTime = purchaseTime,
+                    OrderCode = request.OrderCode,
+                    Amount = totalPrice,
+                    Description = null
+                };
+                await _uow.TransactionRepo.AddAsync(transaction);
+            }
+            await _uow.RequestRepo.UpdateAsync(getRequest);
 
             return (200, "Thanh toán thành công");
         }

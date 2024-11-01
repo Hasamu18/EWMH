@@ -25,7 +25,7 @@ namespace Requests.Application.Handlers
                 return (404, "Yêu cầu không tồn tại");
 
             if (getRequest.Status != (int)Request.Status.Requested)
-                return (409, "Chỉ có thể hủy yêu cầu sửa chữa khi ở trạng thái \"yêu cầu mới\"");
+                return (409, "Chỉ có thể hủy yêu cầu khi ở trạng thái \"yêu cầu mới\"");
 
             if (getRequest.ContractId != null)
             {
@@ -34,9 +34,10 @@ namespace Requests.Application.Handlers
                 await _uow.ContractRepo.UpdateAsync(getContract);
             }
 
-            await _uow.RequestRepo.RemoveAsync(getRequest);
+            getRequest.Status = (int)Request.Status.Canceled;
+            await _uow.RequestRepo.UpdateAsync(getRequest);
 
-            return (200, "Yêu cầu sửa chữa đã được hủy!");
+            return (200, "Yêu cầu đã được hủy!");
         }
     }
 }

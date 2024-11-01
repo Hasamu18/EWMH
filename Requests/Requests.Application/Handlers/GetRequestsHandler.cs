@@ -33,12 +33,12 @@ namespace Requests.Application.Handlers
             else if (request.Status != null && request.StartDate == null)
             {
                 requestList = (await _uow.RequestRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId) &&
-                                                               a.Status == request.Status)).ToList();
+                                                               a.Status == (int)request.Status)).ToList();
             }
             else
             {
                 requestList = (await _uow.RequestRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId) &&
-                                                               a.Status == request.Status &&
+                                                               a.Status == (int)request.Status! &&
                                                                DateOnly.FromDateTime(a.Start) == request.StartDate)).ToList();
             }
 
