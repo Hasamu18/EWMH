@@ -27,6 +27,8 @@ namespace Users.Application.Handlers
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER"),
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
+                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER"))).Count();
+                result.Add(count);
             }
             else if (request.SearchByEmail == null && request.IsDisabled != null)
             {
@@ -34,6 +36,9 @@ namespace Users.Application.Handlers
                                                             s.IsDisabled == request.IsDisabled,
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
+                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
+                                                            s.IsDisabled == request.IsDisabled)).Count();
+                result.Add(count);
             }
             else if (request.SearchByEmail != null && request.IsDisabled == null)
             {
@@ -41,6 +46,9 @@ namespace Users.Application.Handlers
                                                             s.Email.Contains(request.SearchByEmail),
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
+                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
+                                                            s.Email.Contains(request.SearchByEmail))).Count();
+                result.Add(count);
             }
             else
             {
@@ -49,6 +57,10 @@ namespace Users.Application.Handlers
                                                             s.IsDisabled == request.IsDisabled,
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
+                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
+                                                            s.Email.Contains(request.SearchByEmail!) &&
+                                                            s.IsDisabled == request.IsDisabled)).Count();
+                result.Add(count);
             }
 
             foreach (var get in items)

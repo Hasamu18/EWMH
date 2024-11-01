@@ -26,7 +26,7 @@ namespace Requests.Application.Handlers
                 return (404, "Yêu cầu không tồn tại");
 
             if (getRequest.Status != (int)Request.Status.Requested)
-                return (409, "Chỉ có thể cập nhập yêu cầu sửa chữa khi ở trạng thái \"yêu cầu mới\"");
+                return (409, "Chỉ có thể cập nhập yêu cầu khi ở trạng thái \"yêu cầu mới\"");
 
             var getApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(getRequest.LeaderId))).ToList();
 
@@ -48,7 +48,7 @@ namespace Requests.Application.Handlers
             getRequest.CustomerProblem = request.CustomerProblem;
             await _uow.RequestRepo.UpdateAsync(getRequest);
 
-            return (200, "Yêu cầu sửa chữa đã được cập nhật!");
+            return (200, "Yêu cầu đã được cập nhật!");
         }
     }
 }

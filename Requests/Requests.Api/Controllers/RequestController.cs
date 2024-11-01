@@ -208,13 +208,17 @@ namespace Requests.Api.Controllers
         ///     status      = null (default)
         ///     startDate   = null (default)
         ///   
-        ///     Get request list of a leader by filter
+        ///     status = 0 (Requested)
+        ///     status = 1 (Proccessing)
+        ///     status = 2 (Done)
+        ///     status = 3 (Cancel)
+        ///     
         /// </remarks>
         [Authorize(Roles = Role.TeamLeaderRole)]
         [HttpGet("7")]
         [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetRequests(
-            [FromQuery] uint? status,
+            [FromQuery] Request.Status? status,
             [FromQuery] DateOnly? startDate)
         {
             try
@@ -240,13 +244,17 @@ namespace Requests.Api.Controllers
         ///     status      = null (default)
         ///     startDate   = null (default)
         ///   
-        ///     Get request list of a customer by filter
+        ///     status = 0 (Requested)
+        ///     status = 1 (Proccessing)
+        ///     status = 2 (Done)
+        ///     status = 3 (Cancel)
+        ///     
         /// </remarks>
         [Authorize(Roles = Role.CustomerRole)]
         [HttpGet("8")]
         [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCustomerRequests(
-            [FromQuery] uint? status,
+            [FromQuery] Request.Status? status,
             [FromQuery] DateOnly? startDate)
         {
             try
@@ -263,5 +271,181 @@ namespace Requests.Api.Controllers
             }
         }
 
+        /// <summary>
+        /// (Worker) Update a product to a request
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpPut("9")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateProductToRequest([FromBody] UpdateProductToRequest request)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new UpdateProductToRequestCommand(accountId, request.Product);
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) Delete a product to a request
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpDelete("10")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteProductToRequest([FromBody] string requestDetailId)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new DeleteProductToRequestCommand(accountId, requestDetailId);
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) Add warranty cards to a request (If it is warranty request, you must use this api)
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpPost("11")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> AddWarrantyCardsToRequest([FromBody] AddWarrantyCardsToRequest request)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new AddWarrantyCardsToRequestCommand(accountId, request.RequestId, request.WarrantyCardIdList);
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Created("", result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) Delete a warranty card to a request (If it is warranty request, you can use this api)
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpDelete("12")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteWarrantyCardToRequest(
+            [FromForm] string requestId,
+            [FromForm] string warrantyCardId)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new DeleteWarrantyCardToRequestCommand(accountId, requestId, warrantyCardId);
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) If this request is online payment, you must call this api
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpPost("13")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CheckRequestOnlinePayment(
+            [FromForm] string requestId,
+            [FromForm] string conclusion)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var command = new CheckRequestOnlinePaymentCommand(accountId, requestId, conclusion);
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) When you finish paying online or offline, call this api
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     When you finish paying online, you must call this api
+        ///     When you finish paying offline, you must call this api
+        ///     When this request has 0 vnd totalprice, call directly this api
+        ///     
+        /// </remarks>
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpPost("14")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> SuccessRequestPayment([FromForm] SuccessRequestPaymentCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.InnerException?.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }

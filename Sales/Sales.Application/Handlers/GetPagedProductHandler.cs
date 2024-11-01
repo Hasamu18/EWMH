@@ -28,6 +28,8 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
+                result.Add(count);
             }
             else if (request.SearchByName == null && request.Status == null && !request.InOfStock_Sort)
             {
@@ -35,6 +37,8 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
+                result.Add(count);
             }
             else if (request.SearchByName == null && request.Status != null && request.InOfStock_Sort)
             {
@@ -43,6 +47,9 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
+                                                        orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
+                result.Add(count);
             }
             else if (request.SearchByName == null && request.Status != null && !request.InOfStock_Sort)
             {
@@ -51,6 +58,9 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices", 
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
+                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
+                result.Add(count);
             }
             else if (request.SearchByName != null && request.Status == null && request.InOfStock_Sort)
             {
@@ -59,6 +69,9 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
+                                                        orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
+                result.Add(count);
             }
             else if (request.SearchByName != null && request.Status == null && !request.InOfStock_Sort)
             {
@@ -67,6 +80,9 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
+                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
+                result.Add(count);
             }
             else if (request.SearchByName != null && request.Status != null && request.InOfStock_Sort)
             {
@@ -76,6 +92,10 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName) &&
+                                                                     f.Status == request.Status,
+                                                        orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
+                result.Add(count);
             }
             else
             {
@@ -85,6 +105,10 @@ namespace Sales.Application.Handlers
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                int count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName!) &&
+                                                                     f.Status == request.Status,
+                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
+                result.Add(count);
             }
 
             foreach (var item in items)

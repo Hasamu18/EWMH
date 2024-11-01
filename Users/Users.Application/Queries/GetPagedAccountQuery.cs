@@ -10,7 +10,7 @@ using Users.Domain.Entities;
 
 namespace Users.Application.Queries
 {
-    public class GetPagedAccountQuery : IRequest<List<Accounts>>
+    public class GetPagedAccountQuery : IRequest<List<object>>
     {
         public int PageIndex { get; set; } = 1;
 

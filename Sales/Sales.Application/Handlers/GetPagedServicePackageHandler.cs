@@ -27,6 +27,8 @@ namespace Sales.Application.Handlers
                 items = await _uow.ServicePackageRepo.GetAsync(includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
+                int count = (await _uow.ServicePackageRepo.GetAsync()).Count();
+                result.Add(count);
             }
             else if (request.SearchByName == null && request.Status != null)
             {
@@ -34,6 +36,8 @@ namespace Sales.Application.Handlers
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
+                int count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Status == request.Status)).Count();
+                result.Add(count);
             }
             else if (request.SearchByName != null && request.Status == null)
             {
@@ -41,6 +45,8 @@ namespace Sales.Application.Handlers
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
+                int count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName))).Count();
+                result.Add(count);
             }
             else
             {
@@ -49,6 +55,9 @@ namespace Sales.Application.Handlers
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
+                int count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName!) &&
+                                                                            f.Status == request.Status)).Count();
+                result.Add(count);
             }
 
             foreach (var item in items)
