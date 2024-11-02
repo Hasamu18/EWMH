@@ -457,15 +457,39 @@ namespace Requests.Api.Controllers
         ///           
         /// </remarks>
         [Authorize(Roles = Role.WorkerRole)]
-        [HttpGet("9")]
+        [HttpGet("15")]
         [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetWorkerRequests(
            [FromQuery] int? isWarranty)
         {
             try
             {
-                var workerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";                
-                var query = new GetWorkerRequestsQuery(workerId,Convert.ToBoolean(isWarranty));
+                var workerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetWorkerRequestsQuery(workerId, Convert.ToBoolean(isWarranty));
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) Get the details of a (repair/warranty) request.
+        /// </summary>     
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpGet("16")]
+        [ProducesResponseType(typeof(WorkerRequestDetail), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWorkerRequestDetails(
+            [FromQuery] string? requestId,
+           [FromQuery] int? isWarranty)
+        {
+            try
+            {
+                var workerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetWorkerRequestDetailsQuery(requestId, workerId, Convert.ToBoolean(isWarranty));
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }
