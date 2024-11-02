@@ -453,19 +453,19 @@ namespace Requests.Api.Controllers
         /// <remarks>
         /// Sample request:
         ///     
-        ///     isWarranty = 0  (default)     
+        ///     requestType = 1  (RepairRequest - default)     
         ///           
         /// </remarks>
         [Authorize(Roles = Role.WorkerRole)]
         [HttpGet("15")]
         [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetWorkerRequests(
-           [FromQuery] int? isWarranty)
+           [FromQuery] int requestType)
         {
             try
             {
                 var workerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var query = new GetWorkerRequestsQuery(workerId, Convert.ToBoolean(isWarranty));
+                var query = new GetWorkerRequestsQuery(workerId, requestType);
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }

@@ -11,6 +11,7 @@ namespace Requests.Application.ViewModels
         public string RequestDetailId { get; set; } = null!;
 
         public string RequestId { get; set; } = null!;
+        public string ImageUrl { get; set; } = null!;
 
         public string ProductName { get; set; } = null!;
 
@@ -19,6 +20,6 @@ namespace Requests.Application.ViewModels
         public bool IsCustomerPaying { get; set; }
         public int Quantity { get; set; }
 
-        public string Description { get; set; } = null!;
+        public string ReplacementReason { get; set; } = null!;
     }
 }

@@ -33,7 +33,7 @@ namespace Requests.Application.Handlers
             ResetSearch();
             _requestWorkers = (await _uow.RequestWorkerRepo.GetAsync(rw => rw.WorkerId == request.WorkerId)).ToList();
             if (!_requestWorkers.Any()) return (null!);
-            if (request.IsWarranty) await FindWarrantyRequests();
+            if (request.RequestType==WARRANTY_REQUEST) await FindWarrantyRequests();
             else await FindRepairRequests();
             if (!_requests.Any()) return (null!);
             MapRequestsToViewModels();            

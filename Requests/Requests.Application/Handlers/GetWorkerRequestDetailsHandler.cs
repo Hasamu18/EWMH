@@ -48,6 +48,8 @@ namespace Requests.Application.Handlers
             Accounts customer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             _workerRequestDetailVM = new ViewModels.WorkerRequestDetail();
             _workerRequestDetailVM.RequestId = request.RequestId;
+            _workerRequestDetailVM.Status = request.Status;
+            _workerRequestDetailVM.CustomerAvatar = customer.AvatarUrl;
             _workerRequestDetailVM.CustomerName = customer.FullName;
             _workerRequestDetailVM.CustomerEmail = customer.Email;
             _workerRequestDetailVM.CustomerPhone = customer.PhoneNumber;
@@ -56,25 +58,29 @@ namespace Requests.Application.Handlers
             _workerRequestDetailVM.Workers = await GetWorkersForRepairRequest(request);
             _workerRequestDetailVM.ReplacementProducts = await GetWorkerRequestDetailProducts(request);
         }
-        private async Task<List<ViewModels.Worker>> GetWorkersForRepairRequest(Domain.Entities.Requests request)
+        private async Task<List<ViewModels.WorkerRequestDetailWorker>> GetWorkersForRepairRequest(Domain.Entities.Requests request)
         {
-            List<ViewModels.Worker> workerRequestDetailProducts = new List<ViewModels.Worker>();
+            List<ViewModels.WorkerRequestDetailWorker> workerRequestDetailProducts = new List<ViewModels.WorkerRequestDetailWorker>();
             List<Domain.Entities.RequestWorkers> workers = (await _uow.RequestWorkerRepo
                 .GetAsync(rw => rw.RequestId == request.RequestId))
                 .ToList();
             foreach (var worker in workers)
             {
-                ViewModels.Worker workerVM = GetWorkerVM(worker);
+                ViewModels.WorkerRequestDetailWorker workerVM = await GetWorkerVM(worker);
                 workerRequestDetailProducts.Add(workerVM);  
             }
             return workerRequestDetailProducts;
         }
-        private ViewModels.Worker GetWorkerVM(Domain.Entities.RequestWorkers worker)
+        private async Task<ViewModels.WorkerRequestDetailWorker> GetWorkerVM(Domain.Entities.RequestWorkers requestWorker)
         {
-            return new ViewModels.Worker()
+            Domain.Entities.Accounts worker = await _uow.AccountRepo.GetByIdAsync(requestWorker.WorkerId);
+            return new ViewModels.WorkerRequestDetailWorker()
             {
-                WorkerId = worker.WorkerId,
-                IsLead = worker.IsLead,
+                WorkerId = requestWorker.WorkerId,
+                WorkerName = worker.FullName,
+                IsLead = requestWorker.IsLead,
+                WorkerAvatar = worker.AvatarUrl,
+                WorkerPhoneNumber = worker.PhoneNumber,
             };
         }
         private async Task<List<ViewModels.WorkerRequestDetailProduct>> GetWorkerRequestDetailProducts(Domain.Entities.Requests request)
@@ -97,13 +103,14 @@ namespace Requests.Application.Handlers
             workerRequestDetailProduct.RequestId = requestDetail.RequestId;
 
             workerRequestDetailProduct.ProductName = product.Name;
+            workerRequestDetailProduct.ImageUrl = product.ImageUrl;
 
             workerRequestDetailProduct.ProductPrice = await GetLatestProductPrice(product);
 
             workerRequestDetailProduct.IsCustomerPaying = requestDetail.IsCustomerPaying;
             workerRequestDetailProduct.Quantity = requestDetail.Quantity;
 
-            workerRequestDetailProduct.Description = requestDetail.Description;
+            workerRequestDetailProduct.ReplacementReason = requestDetail.Description;
             return workerRequestDetailProduct;
         }
         private async Task<int> GetLatestProductPrice(Domain.Entities.Products product)
