@@ -21,5 +21,8 @@ namespace Requests.Domain.IRepositories
         IGenericRepository<Workers> WorkerRepo { get; }
         IGenericRepository<Products> ProductRepo { get; }
         IGenericRepository<ProductPrices> ProductPriceRepo { get; }
+        IGenericRepository<WarrantyCards> WarrantyCardRepo { get; }
+        IGenericRepository<WarrantyRequests> WarrantyRequestRepo { get; }
+        IGenericRepository<Transaction> TransactionRepo { get; }
     }
 }

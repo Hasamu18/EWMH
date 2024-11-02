@@ -10,26 +10,29 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class GetPagedAccountHandler : IRequestHandler<GetPagedAccountQuery, List<Accounts>>
+    public class GetPagedAccountHandler : IRequestHandler<GetPagedAccountQuery, List<object>>
     {
         private readonly IUnitOfWork _uow;
         public GetPagedAccountHandler(IUnitOfWork uow)
         {
             _uow = uow;
         }
-        public async Task<List<Accounts>> Handle(GetPagedAccountQuery request, CancellationToken cancellationToken)
+        public async Task<List<object>> Handle(GetPagedAccountQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Accounts> items;
+            IEnumerable<object> items;
+            int count = 0;
             if (request.SearchByEmail == null && request.Role == null && request.IsDisabled == null)
             {
                 items = await _uow.AccountRepo.GetAsync(pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync()).Count();
             }
             else if (request.SearchByEmail == null && request.Role != null && request.IsDisabled == null)
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role))).Count();
             }
             else if (request.SearchByEmail == null && request.Role != null && request.IsDisabled != null)
             {
@@ -37,18 +40,22 @@ namespace Users.Application.Handlers
                                                                 s.IsDisabled == request.IsDisabled,
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role) &&
+                                                                s.IsDisabled == request.IsDisabled)).Count();
             }
             else if (request.SearchByEmail == null && request.Role == null && request.IsDisabled != null)
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.IsDisabled == request.IsDisabled,
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.IsDisabled == request.IsDisabled)).Count();
             }
             else if (request.SearchByEmail != null && request.Role == null && request.IsDisabled == null)
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail))).Count();
             }
             else if (request.SearchByEmail != null && request.Role != null && request.IsDisabled == null)
             {
@@ -56,6 +63,8 @@ namespace Users.Application.Handlers
                                                                 s.Role.Equals(request.Role),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
+                                                                s.Role.Equals(request.Role))).Count();
             }
             else if (request.SearchByEmail != null && request.Role != null && request.IsDisabled != null)
             {
@@ -64,6 +73,9 @@ namespace Users.Application.Handlers
                                                                 s.IsDisabled == request.IsDisabled,
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
+                                                                s.Role.Equals(request.Role) &&
+                                                                s.IsDisabled == request.IsDisabled)).Count();
             }
             else
             {
@@ -71,9 +83,15 @@ namespace Users.Application.Handlers
                                                                 s.IsDisabled == request.IsDisabled,
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail!) &&
+                                                                s.IsDisabled == request.IsDisabled)).Count();
             }
 
-            return items.ToList();
+            return new()
+            {
+                items.ToList(),
+                count
+            };
         }
     }
 }

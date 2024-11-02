@@ -25,6 +25,10 @@ namespace Users.Application.Handlers
     pageSize: request.Pagesize);
 
             var result = new List<object>();
+            int count = (await _uow.RoomRepo.GetAsync(
+    filter: s => s.AreaId.Equals(request.AreaId))).Count();
+            result.Add(count);
+
             foreach (var item in items)
             {
                 var customerAccount = item.CustomerId != null

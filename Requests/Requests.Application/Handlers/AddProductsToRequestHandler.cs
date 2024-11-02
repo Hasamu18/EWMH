@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Logger.Utility.Constants;
 
 namespace Requests.Application.Handlers
 {
@@ -28,11 +29,14 @@ namespace Requests.Application.Handlers
             var isHeadWorker = (await _uow.RequestWorkerRepo.GetAsync(a => a.RequestId.Equals(request.RequestId) &&
                                                                      a.WorkerId.Equals(request.HeadWorkerId))).ToList();
             if (isHeadWorker.Count == 0)
-                return (404, "Nhân viên này không có trong yêu cầu sửa chữa này");
+                return (404, "Nhân viên này không có trong yêu cầu này");
 
             if (!isHeadWorker[0].IsLead)
                 return (409, "Chỉ có nhân viên đại diện cho yêu cầu này là có quyền sử dụng chức năng này");
-        
+
+            if (getRequest.Status != (int)Request.Status.Processing)
+                return (409, "Chỉ có yêu cầu khi ở trạng thái \"đang xử lý\" mới có thể sử dụng chức năng này");
+
             foreach (var product in request.ProductList)
             {
                 var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId))).ToList();
@@ -47,9 +51,9 @@ namespace Requests.Application.Handlers
             }
             foreach (var product in request.ProductList)
             {
-                var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId))).ToList();
-                getProduct[0].InOfStock -= (int)product.Quantity;
-                await _uow.ProductRepo.UpdateAsync(getProduct[0]);
+                //var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId))).ToList();
+                //getProduct[0].InOfStock -= (int)product.Quantity;
+                //await _uow.ProductRepo.UpdateAsync(getProduct[0]);
 
                 RequestDetails requestDetail = new()
                 {
@@ -63,7 +67,7 @@ namespace Requests.Application.Handlers
                 await _uow.RequestDetailRepo.AddAsync(requestDetail);
             }
                 
-            return (200, "Đã thêm các sản phẩm có nhu cầu vào yêu cầu sửa chữa này");
+            return (200, "Đã thêm các sản phẩm có nhu cầu vào yêu cầu này");
         }
     }
 }

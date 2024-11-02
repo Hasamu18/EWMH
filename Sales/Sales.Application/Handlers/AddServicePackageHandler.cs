@@ -31,6 +31,9 @@ namespace Sales.Application.Handlers
             if (!extensionSupport.Contains(extensionFile.ToLower()))
                 return (400, "The avatar should be .png or .jpg");
 
+            if (request.NumOfRequest <= 0)
+                return (400, "Number of requests must be more than 1");
+
             var servicePackageId = $"SP_{(await _uow.ServicePackageRepo.Query().CountAsync() + 1):D10}";
             var bucketAndPath = await _uow.ServicePackageRepo.UploadFileToStorageAsync(servicePackageId, request.Image, _config);
             var servicePackage = SaleMapper.Mapper.Map<ServicePackages>(request);

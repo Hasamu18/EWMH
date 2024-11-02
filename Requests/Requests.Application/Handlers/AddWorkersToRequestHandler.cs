@@ -38,9 +38,9 @@ namespace Requests.Application.Handlers
 
             var leaderCount = request.WorkerList.Count(worker => worker.IsLead == true);
             if (leaderCount == 0)
-                return (409, "Phải có ít nhất một nhân viên làm trưởng đại diện cho yêu cầu sửa chữa");
+                return (409, "Phải có ít nhất một nhân viên làm trưởng đại diện cho yêu cầu này");
             else if (leaderCount > 1)
-                return (409, "Chỉ được có duy nhất một trưởng đại diện cho yêu cầu sửa chữa");
+                return (409, "Chỉ được có duy nhất một trưởng đại diện cho yêu cầu này");
 
             var getWorkersOfLeader = (await _uow.WorkerRepo.GetAsync(a => (a.LeaderId ?? "").Equals(request.LeaderId))).ToList();
             var existingWorkerIds = getWorkersOfLeader.Select(w => w.WorkerId).ToHashSet();
@@ -70,7 +70,7 @@ namespace Requests.Application.Handlers
             if (busyWorkers.Count > 0)
             {
                 var busyWorkerIds = string.Join(", ", busyWorkers.Select(w => w.WorkerId));
-                return (409, $"Những nhân viên sau đang bận trong các yêu cầu sửa chữa khác: {busyWorkerIds}");
+                return (409, $"Những nhân viên sau đang bận trong các yêu cầu khác: {busyWorkerIds}");
             }
 
             getRequest.Status = (int)Logger.Utility.Constants.Request.Status.Processing;
@@ -87,7 +87,7 @@ namespace Requests.Application.Handlers
                 await _uow.RequestWorkerRepo.AddAsync(requestWorker);
             }
 
-            return (200, "Đã gán các nhân viên cho yêu cầu sửa chữa này");
+            return (200, "Đã gán các nhân viên cho yêu cầu này");
         }
     }
 }
