@@ -1,0 +1,6 @@
+2024-11-01 07:11:50.885 +07:00 [ERR] Error message: Object reference not set to an instance of an object.
+
+Error   at Requests.Application.Handlers.GetWorkerRequestsHandler.FindRepairRequests() in E:\FPT_STUFFS\CHUYEN_NGANH\Semester_9\SEP490\PROJECT\EWMH\Requests\Requests.Application\Handlers\GetWorkerRequestsHandler.cs:line 53
+   at Requests.Application.Handlers.GetWorkerRequestsHandler.Handle(GetWorkerRequestsQuery request, CancellationToken cancellationToken) in E:\FPT_STUFFS\CHUYEN_NGANH\Semester_9\SEP490\PROJECT\EWMH\Requests\Requests.Application\Handlers\GetWorkerRequestsHandler.cs:line 37
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.Handle(Object request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+   at Requests.Api.Controllers.RequestController.GetWorkerRequests(Nullable`1 isWarranty) in E:\FPT_STUFFS\CHUYEN_NGANH\Semester_9\SEP490\PROJECT\EWMH\Requests\Requests.Api\Controllers\RequestController.cs:line 285

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Options;
 using Requests.Application.Commands;
 using Requests.Domain.Entities;
 using System;
@@ -13,7 +14,8 @@ namespace Requests.Application.Mappers
     {
         public MapperProfile()
         {
-            CreateMap<Requests.Domain.Entities.Requests, CreateNewRequestCommand>().ReverseMap();
+            CreateMap<Domain.Entities.Requests, CreateNewRequestCommand>().ReverseMap();
+            CreateMap<Domain.Entities.Requests, ViewModels.Request>().ReverseMap();               
             //CreateMap<ServicePackages, AddServicePackageCommand>().ReverseMap();
             //CreateMap<Contracts, CheckServicePackagePaymentCommand>().ReverseMap();
             //CreateMap<Contracts, SuccessSPOnlinePaymentCommand>().ReverseMap();

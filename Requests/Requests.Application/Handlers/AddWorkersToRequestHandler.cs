@@ -33,7 +33,7 @@ namespace Requests.Application.Handlers
             if (!allUnique)
                 return (409, "Không được có các nhân viên trùng nhau");
 
-            if (getRequest.Status != (int)Request.Status.Requested)
+            if (getRequest.Status != (int)Logger.Utility.Constants.Request.Status.Requested)
                 return (409, "Chỉ có thể thêm các nhân viên vào một \"yêu cầu mới\"");
 
             var leaderCount = request.WorkerList.Count(worker => worker.IsLead == true);
@@ -73,7 +73,7 @@ namespace Requests.Application.Handlers
                 return (409, $"Những nhân viên sau đang bận trong các yêu cầu khác: {busyWorkerIds}");
             }
 
-            getRequest.Status = (int)Request.Status.Processing;
+            getRequest.Status = (int)Logger.Utility.Constants.Request.Status.Processing;
             await _uow.RequestRepo.UpdateAsync(getRequest);
 
             foreach (var worker in request.WorkerList)

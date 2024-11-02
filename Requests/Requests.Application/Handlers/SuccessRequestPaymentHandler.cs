@@ -23,7 +23,7 @@ using QuestPDF.Helpers;
 using Unit = QuestPDF.Infrastructure.Unit;
 using Requests.Application.ViewModels;
 using Newtonsoft.Json;
-
+using Request = Logger.Utility.Constants.Request;
 namespace Requests.Application.Handlers
 {
     internal class SuccessRequestPaymentHandler : IRequestHandler<SuccessRequestPaymentCommand, (int, string)>
