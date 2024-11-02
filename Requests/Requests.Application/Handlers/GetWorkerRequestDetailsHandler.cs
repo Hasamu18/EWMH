@@ -84,6 +84,7 @@ namespace Requests.Application.Handlers
             foreach (var requestDetail in requestDetails)
             {
                 ViewModels.WorkerRequestDetailProduct workerRequestDetailProduct = await GetWorkerRequestDetailProduct(requestDetail);
+                workerRequestDetailProducts.Add(workerRequestDetailProduct);
             }
             return workerRequestDetailProducts;
         }
@@ -100,8 +101,9 @@ namespace Requests.Application.Handlers
             workerRequestDetailProduct.ProductPrice = await GetLatestProductPrice(product);
 
             workerRequestDetailProduct.IsCustomerPaying = requestDetail.IsCustomerPaying;
+            workerRequestDetailProduct.Quantity = requestDetail.Quantity;
 
-            workerRequestDetailProduct.Description = product.Description;
+            workerRequestDetailProduct.Description = requestDetail.Description;
             return workerRequestDetailProduct;
         }
         private async Task<int> GetLatestProductPrice(Domain.Entities.Products product)

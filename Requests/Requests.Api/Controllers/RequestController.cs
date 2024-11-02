@@ -483,13 +483,12 @@ namespace Requests.Api.Controllers
         [HttpGet("16")]
         [ProducesResponseType(typeof(WorkerRequestDetail), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetWorkerRequestDetails(
-            [FromQuery] string? requestId,
-           [FromQuery] int? isWarranty)
+            [FromQuery] string? requestId)
         {
             try
             {
                 var workerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var query = new GetWorkerRequestDetailsQuery(requestId, workerId, Convert.ToBoolean(isWarranty));
+                var query = new GetWorkerRequestDetailsQuery(requestId, workerId);
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }
