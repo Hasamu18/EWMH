@@ -6,6 +6,7 @@ using Sales.Application.Commands;
 using static Logger.Utility.Constants;
 using System.Net;
 using Sales.Application.Queries;
+using Users.Application.Queries;
 
 namespace Sales.Api.Controllers
 {
@@ -295,8 +296,7 @@ namespace Sales.Api.Controllers
         {
             try
             {
-                var result = await _mediator.Send(command);
-                
+                var result = await _mediator.Send(command);               
                 return Ok(result);
             }
             catch (Exception ex)
@@ -305,5 +305,37 @@ namespace Sales.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Authentication) Get contracts of a customer
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     StartDate = null (default)
+        ///     EndDate   = null (default)
+        ///     
+        ///     Start and End date (yyyy-mm-dd)
+        ///     
+        /// </remarks>
+        [Authorize]
+        [HttpGet("12")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetContractsOfCustomer([FromQuery] GetContractsOfCustomerQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }       
     }
 }

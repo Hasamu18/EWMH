@@ -358,7 +358,7 @@ namespace Sales.Application.Handlers
                 contract.ContractId = contractId;
                 contract.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
                 contract.PurchaseTime = null;
-                contract.RemainingNumOfRequests = existingServicePackage[0].NumOfRequest;
+                contract.RemainingNumOfRequests = 0;
                 contract.OrderCode = null;
                 contract.TotalPrice = null;
                 await _uow.ContractRepo.AddAsync(contract);

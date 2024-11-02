@@ -41,6 +41,7 @@ namespace Sales.Application.Handlers
 
             if (!existingContract.IsOnlinePayment)
             {
+                existingContract.RemainingNumOfRequests = existingServicePackage[0].NumOfRequest;
                 existingContract.PurchaseTime = Tools.GetDynamicTimeZone();
                 existingContract.TotalPrice = currentServicePackage.PriceByDate;
 
