@@ -9,7 +9,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Requests;
-using Requests.Application.ViewModels;
 using MimeKit.Cryptography;
 using Requests.Application.Mappers;
 using Microsoft.EntityFrameworkCore.Query.Internal;
@@ -47,7 +46,7 @@ namespace Requests.Application.Handlers
         {
             Domain.Entities.Requests request = await _uow.RequestRepo.GetByIdAsync(_requestWorker.RequestId);
             Accounts customer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
-            _workerRequestDetailVM = new WorkerRequestDetail();
+            _workerRequestDetailVM = new ViewModels.WorkerRequestDetail();
             _workerRequestDetailVM.RequestId = request.RequestId;
             _workerRequestDetailVM.CustomerName = customer.FullName;
             _workerRequestDetailVM.CustomerEmail = customer.Email;
@@ -84,13 +83,13 @@ namespace Requests.Application.Handlers
             List<Domain.Entities.RequestDetails> requestDetails = (await _uow.RequestDetailRepo.GetAsync(rd => rd.RequestId == request.RequestId)).ToList();
             foreach (var requestDetail in requestDetails)
             {
-                WorkerRequestDetailProduct workerRequestDetailProduct = await GetWorkerRequestDetailProduct(requestDetail);
+                ViewModels.WorkerRequestDetailProduct workerRequestDetailProduct = await GetWorkerRequestDetailProduct(requestDetail);
             }
             return workerRequestDetailProducts;
         }
         private async Task<ViewModels.WorkerRequestDetailProduct> GetWorkerRequestDetailProduct(Domain.Entities.RequestDetails requestDetail)
         {
-            WorkerRequestDetailProduct workerRequestDetailProduct = new WorkerRequestDetailProduct();
+            ViewModels.WorkerRequestDetailProduct workerRequestDetailProduct = new ViewModels.WorkerRequestDetailProduct();
             Domain.Entities.Products product = await _uow.ProductRepo.GetByIdAsync(requestDetail.ProductId);
             workerRequestDetailProduct.RequestDetailId = requestDetail.RequestDetailId;
 

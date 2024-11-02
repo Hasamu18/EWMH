@@ -14,8 +14,8 @@ namespace Requests.Application.ViewModels
         public string CustomerPhone { get; set; }
         public string CustomerProblem { get; set; } = null!;
         public string RoomId { get; set; } = null!;
-        public List<ViewModels.Worker> Workers { get; set; } = null!;   
-        public List<ViewModels.WorkerRequestDetailProduct> ReplacementProducts { get; set; } = null!;   
+        public List<Worker> Workers { get; set; } = null!;   
+        public List<WorkerRequestDetailProduct> ReplacementProducts { get; set; } = null!;   
      
     }
 }
