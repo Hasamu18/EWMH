@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Queries
 {
-    public class GetPagedLeaderQuery : IRequest<object>
+    public class GetPagedLeaderQuery : IRequest<List<object>>
     {
         public int PageIndex { get; set; } = 1;
 

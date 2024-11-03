@@ -336,6 +336,29 @@ namespace Sales.Api.Controllers
                 _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
-        }       
+        }
+
+        /// <summary>
+        /// (Leader) Get all pending contracts of a leader
+        /// </summary>
+        ///
+        [Authorize(Roles = Role.TeamLeaderRole)]
+        [HttpGet("13")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllPendingContracts()
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetAllPendingContractsQuery(accountId);
+                var result = await _mediator.Send(query);                
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
