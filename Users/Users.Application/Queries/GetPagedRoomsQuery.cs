@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Users.Application.Queries
 {
-    public class GetPagedRoomsQuery : IRequest<object>
+    public class GetPagedRoomsQuery : IRequest<List<object>>
     {        
         public int PageIndex { get; set; } = 1;
 

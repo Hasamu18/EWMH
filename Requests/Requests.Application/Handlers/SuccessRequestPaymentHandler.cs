@@ -257,7 +257,7 @@ namespace Requests.Application.Handlers
                                         col.ConstantColumn(75);
                                         col.ConstantColumn(75);
                                         col.ConstantColumn(75);
-                                        col.ConstantColumn(100);
+                                        col.ConstantColumn(150);
                                     });
 
                                     table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignCenter().AlignMiddle().Text(text =>
@@ -286,7 +286,11 @@ namespace Requests.Application.Handlers
                                         text.Span("Mô tả").SemiBold();
                                     });
 
-
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().Text("Yêu cầu").FontSize(12).FontColor(Colors.Black);
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text("1").FontSize(12).FontColor(Colors.Black);
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{requestPrice}").FontSize(12).FontColor(Colors.Black);
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text($"{requestPrice}").FontSize(12).FontColor(Colors.Black);
+                                    table.Cell().Border(1).PaddingHorizontal(4).PaddingVertical(2).AlignMiddle().AlignRight().Text("").FontSize(12).FontColor(Colors.Black);
                                     for (var i = 0; i < productInvoice.Count; i++)
                                     {
                                         var item = productInvoice[i];

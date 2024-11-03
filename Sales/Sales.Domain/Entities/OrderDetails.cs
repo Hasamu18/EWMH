@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Sales.Domain.Entities;
 
@@ -15,6 +16,7 @@ public partial class OrderDetails
 
     public int TotalPrice { get; set; }
 
+    [JsonIgnore]
     public virtual Orders Order { get; set; } = null!;
 
     public virtual Products Product { get; set; } = null!;

@@ -41,7 +41,9 @@ namespace Sales.Application.Handlers
 
             if (!existingContract.IsOnlinePayment)
             {
+                existingContract.RemainingNumOfRequests = existingServicePackage[0].NumOfRequest;
                 existingContract.PurchaseTime = Tools.GetDynamicTimeZone();
+                existingContract.OrderCode = null;
                 existingContract.TotalPrice = currentServicePackage.PriceByDate;
 
                 var existingTransaction = (await _uow.TransactionRepo.GetAsync(e => e.ServiceId!.Equals(request.ContractId))).ToList();
@@ -64,7 +66,11 @@ namespace Sales.Application.Handlers
                     await _uow.TransactionRepo.AddAsync(transaction);
                 }
             }
-
+            else
+            {
+                var existingTransaction = (await _uow.TransactionRepo.GetAsync(e => e.ServiceId!.Equals(request.ContractId))).ToList();
+                existingContract.OrderCode = existingTransaction[0].OrderCode;
+            }
             await _uow.ContractRepo.UpdateAsync(existingContract);
 
             EmailSender emailSender = new(_config);

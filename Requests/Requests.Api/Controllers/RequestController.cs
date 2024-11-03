@@ -498,5 +498,28 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Leader) Get Free/Busy worker list from a leader
+        /// </summary>
+        ///
+        [Authorize(Roles = Role.TeamLeaderRole)]
+        [HttpGet("17")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetFreeWorkersFromLeader([FromQuery] bool isFree)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetFreeWorkersFromLeaderQuery(accountId, isFree);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }

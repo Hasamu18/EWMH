@@ -11,7 +11,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class GetPagedApartmentHandler : IRequestHandler<GetPagedApartmentQuery, object>
+    public class GetPagedApartmentHandler : IRequestHandler<GetPagedApartmentQuery, List<object>>
     {
         private readonly IUnitOfWork _uow;
         public GetPagedApartmentHandler(IUnitOfWork uow)
@@ -19,16 +19,16 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetPagedApartmentQuery request, CancellationToken cancellationToken)
+        public async Task<List<object>> Handle(GetPagedApartmentQuery request, CancellationToken cancellationToken)
         {
-            var result = new List<object>(); 
-
+            var result = new List<object>();
+            int count = 0;
             if (request.SearchByName == null)
             {
                 var items = await _uow.ApartmentAreaRepo.GetAsync(pageIndex: request.PageIndex,
                                                                   pageSize: request.Pagesize);
-                int count = (await _uow.ApartmentAreaRepo.GetAsync()).Count();
-                result.Add(count);
+                count = (await _uow.ApartmentAreaRepo.GetAsync()).Count();
+
                 foreach (var get in items)
                 {
                     var account = await _uow.AccountRepo.GetByIdAsync(get.LeaderId);
@@ -52,8 +52,8 @@ namespace Users.Application.Handlers
                     filter: s => s.Name.Contains(request.SearchByName),
                     pageIndex: request.PageIndex,
                     pageSize: request.Pagesize);
-                int count = (await _uow.ApartmentAreaRepo.GetAsync(filter: s => s.Name.Contains(request.SearchByName))).Count();
-                result.Add(count);
+                count = (await _uow.ApartmentAreaRepo.GetAsync(filter: s => s.Name.Contains(request.SearchByName))).Count();
+
                 foreach (var get in items)
                 {
                     var account = await _uow.AccountRepo.GetByIdAsync(get.LeaderId);
@@ -72,7 +72,11 @@ namespace Users.Application.Handlers
                 }
             }
 
-            return result; 
+            return new()
+            {
+                result,
+                count
+            }; 
 
         }
     }
