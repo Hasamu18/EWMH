@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sales.Application.Queries
 {
-    public class GetPagedProductQuery : IRequest<List<object>>
+    public class GetPagedProductQuery : IRequest<object>
     {
         public int PageIndex { get; set; } = 1;
 

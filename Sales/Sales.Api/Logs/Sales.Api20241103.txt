@@ -1,0 +1,8 @@
+2024-11-03 21:12:31.806 +07:00 [ERR] Error message: No service for type 'MediatR.IRequestHandler`2[Sales.Application.Queries.GetPagedProductQuery,System.Collections.Generic.List`1[System.Object]]' has been registered.
+
+Error   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+   at Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.<>c__DisplayClass1_0.<Handle>g__Handler|0()
+   at MediatR.Wrappers.RequestHandlerWrapperImpl`2.Handle(IRequest`1 request, IServiceProvider serviceProvider, CancellationToken cancellationToken)
+   at MediatR.Mediator.Send[TResponse](IRequest`1 request, CancellationToken cancellationToken)
+   at Sales.Api.Controllers.ProductController.GetPagedProduct(GetPagedProductQuery query) in E:\FPT_STUFFS\CHUYEN_NGANH\Semester_9\SEP490\PROJECT\EWMH\Sales\Sales.Api\Controllers\ProductController.cs:line 143
