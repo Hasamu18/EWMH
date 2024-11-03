@@ -135,7 +135,7 @@ namespace Sales.Api.Controllers
         /// </remarks>
         [Authorize]
         [HttpGet("5")]
-        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedProduct([FromQuery] GetPagedProductQuery query)
         {
             try

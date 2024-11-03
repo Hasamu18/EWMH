@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Sales.Application.Handlers
 {
-    public class GetPagedServicePackageHandler : IRequestHandler<GetPagedServicePackageQuery, object>
+    public class GetPagedServicePackageHandler : IRequestHandler<GetPagedServicePackageQuery, List<object>>
     {
         private readonly IUnitOfWork _uow;
         public GetPagedServicePackageHandler(IUnitOfWork uow)
@@ -18,17 +18,18 @@ namespace Sales.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetPagedServicePackageQuery request, CancellationToken cancellationToken)
+        public async Task<List<object>> Handle(GetPagedServicePackageQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<ServicePackages> items;
             var result = new List<object>();
+            int count = 0;
             if (request.SearchByName == null && request.Status == null)
             {
                 items = await _uow.ServicePackageRepo.GetAsync(includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
-                int count = (await _uow.ServicePackageRepo.GetAsync()).Count();
-                result.Add(count);
+                count = (await _uow.ServicePackageRepo.GetAsync()).Count();
+
             }
             else if (request.SearchByName == null && request.Status != null)
             {
@@ -36,8 +37,8 @@ namespace Sales.Application.Handlers
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
-                int count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Status == request.Status)).Count();
-                result.Add(count);
+                count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Status == request.Status)).Count();
+            
             }
             else if (request.SearchByName != null && request.Status == null)
             {
@@ -45,8 +46,8 @@ namespace Sales.Application.Handlers
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
-                int count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName))).Count();
-                result.Add(count);
+                count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName))).Count();
+             
             }
             else
             {
@@ -55,9 +56,9 @@ namespace Sales.Application.Handlers
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
-                int count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName!) &&
+                count = (await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName!) &&
                                                                             f.Status == request.Status)).Count();
-                result.Add(count);
+         
             }
 
             foreach (var item in items)
@@ -75,7 +76,11 @@ namespace Sales.Application.Handlers
                     currentServicePackage.PriceByDate
                 });
             }
-            return result;
+            return new()
+{
+    result,
+    count
+}; ;
         }
     }
 }

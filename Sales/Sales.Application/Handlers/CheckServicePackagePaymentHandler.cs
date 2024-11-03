@@ -102,10 +102,11 @@ namespace Sales.Application.Handlers
                                     {
                                         header.RelativeItem().Column(col =>
                                         {
-                                            col.Item().AlignCenter().Text(@"CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                                            col.Item().AlignCenter().Text(@$"CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
  Độc lập – Tự do – Hạnh phúc
           ——————-
- HỢP ĐỒNG MUA GÓI DỊCH VỤ")
+ HỢP ĐỒNG MUA GÓI DỊCH VỤ
+Mã hợp đồng: {contractId}")
                                             .FontSize(16).Italic().FontColor(Colors.Black).SemiBold();
 
                                             col.Item().AlignCenter().Text(text =>
@@ -359,7 +360,7 @@ namespace Sales.Application.Handlers
                 contract.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
                 contract.PurchaseTime = null;
                 contract.RemainingNumOfRequests = 0;
-                contract.OrderCode = null;
+                contract.OrderCode = 2;//2 is pending contract
                 contract.TotalPrice = null;
                 await _uow.ContractRepo.AddAsync(contract);
 

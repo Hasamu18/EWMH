@@ -9,7 +9,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class GetPagedRoomsHandler : IRequestHandler<GetPagedRoomsQuery, object>
+    public class GetPagedRoomsHandler : IRequestHandler<GetPagedRoomsQuery, List<object>>
     {
         private readonly IUnitOfWork _uow;
         public GetPagedRoomsHandler(IUnitOfWork uow)
@@ -17,7 +17,7 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetPagedRoomsQuery request, CancellationToken cancellationToken)
+        public async Task<List<object>> Handle(GetPagedRoomsQuery request, CancellationToken cancellationToken)
         {
             var items = await _uow.RoomRepo.GetAsync(
     filter: s => s.AreaId.Equals(request.AreaId),
@@ -27,7 +27,6 @@ namespace Users.Application.Handlers
             var result = new List<object>();
             int count = (await _uow.RoomRepo.GetAsync(
     filter: s => s.AreaId.Equals(request.AreaId))).Count();
-            result.Add(count);
 
             foreach (var item in items)
             {
@@ -43,7 +42,11 @@ namespace Users.Application.Handlers
                 });
             }
 
-            return result;
+            return new()
+{
+    result,
+    count
+};
 
         }
     }

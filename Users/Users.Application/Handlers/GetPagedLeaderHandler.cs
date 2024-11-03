@@ -10,7 +10,7 @@ using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
 {
-    public class GetPagedLeaderHandler : IRequestHandler<GetPagedLeaderQuery, object>
+    public class GetPagedLeaderHandler : IRequestHandler<GetPagedLeaderQuery, List<object>>
     {
         private readonly IUnitOfWork _uow;
         public GetPagedLeaderHandler(IUnitOfWork uow)
@@ -18,17 +18,18 @@ namespace Users.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetPagedLeaderQuery request, CancellationToken cancellationToken)
+        public async Task<List<object>> Handle(GetPagedLeaderQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Accounts> items;
             var result = new List<object>();
+            int count = 0;
             if (request.SearchByEmail == null && request.IsDisabled == null)
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER"),
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
-                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER"))).Count();
-                result.Add(count);
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER"))).Count();
+
             }
             else if (request.SearchByEmail == null && request.IsDisabled != null)
             {
@@ -36,9 +37,9 @@ namespace Users.Application.Handlers
                                                             s.IsDisabled == request.IsDisabled,
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
-                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
                                                             s.IsDisabled == request.IsDisabled)).Count();
-                result.Add(count);
+
             }
             else if (request.SearchByEmail != null && request.IsDisabled == null)
             {
@@ -46,9 +47,9 @@ namespace Users.Application.Handlers
                                                             s.Email.Contains(request.SearchByEmail),
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
-                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
                                                             s.Email.Contains(request.SearchByEmail))).Count();
-                result.Add(count);
+
             }
             else
             {
@@ -57,10 +58,10 @@ namespace Users.Application.Handlers
                                                             s.IsDisabled == request.IsDisabled,
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
-                int count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
+                count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("LEADER") &&
                                                             s.Email.Contains(request.SearchByEmail!) &&
                                                             s.IsDisabled == request.IsDisabled)).Count();
-                result.Add(count);
+
             }
 
             foreach (var get in items)
@@ -102,7 +103,11 @@ namespace Users.Application.Handlers
                 }                
             }
 
-            return result;
+            return new()
+            {
+                result,
+                count
+            };
         }
     }
 }
