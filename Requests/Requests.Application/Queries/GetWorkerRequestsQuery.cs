@@ -10,12 +10,12 @@ namespace Requests.Application.Queries
     public class GetWorkerRequestsQuery : IRequest<List<object>>
     {
         public string WorkerId { get; set; }
-        public bool IsWarranty { get; set; }
+        public int RequestType { get; set; } = 1;
 
-        public GetWorkerRequestsQuery(string workerId, bool isWarranty)
+        public GetWorkerRequestsQuery(string workerId, int requestType)
         {
             WorkerId = workerId;
-            IsWarranty = isWarranty;
+            RequestType = requestType;
         }
     }
 }

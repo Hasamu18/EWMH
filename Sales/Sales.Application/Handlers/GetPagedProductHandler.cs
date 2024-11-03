@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Sales.Application.Handlers
 {
-    public class GetPagedProductHandler : IRequestHandler<GetPagedProductQuery, List<object>>
+    public class GetPagedProductHandler : IRequestHandler<GetPagedProductQuery, object>
     {
         private readonly IUnitOfWork _uow;
         public GetPagedProductHandler(IUnitOfWork uow)
@@ -18,7 +18,7 @@ namespace Sales.Application.Handlers
             _uow = uow;
         }
 
-        public async Task<List<object>> Handle(GetPagedProductQuery request, CancellationToken cancellationToken)
+        public async Task<object> Handle(GetPagedProductQuery request, CancellationToken cancellationToken)
         {
             IEnumerable<Products> items;
             var result = new List<object>();
@@ -126,10 +126,10 @@ namespace Sales.Application.Handlers
                     currentProduct.PriceByDate
                 });
             }
-            return new()
+            return new
             {
-                result,
-                count
+                results=result,
+                count=count
             };
         }
     }
