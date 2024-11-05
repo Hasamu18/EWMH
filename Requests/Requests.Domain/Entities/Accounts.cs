@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Requests.Domain.Entities;
 
@@ -29,5 +30,6 @@ public partial class Accounts
 
     public virtual Leaders? Leaders { get; set; }
 
+    [JsonIgnore]
     public virtual Workers? Workers { get; set; }
 }
