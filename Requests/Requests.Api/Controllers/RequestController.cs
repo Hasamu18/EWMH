@@ -422,8 +422,8 @@ namespace Requests.Api.Controllers
         /// Sample request:
         ///     
         ///     When you finish paying online, you must call this api
-        ///     When you finish paying offline, you must call this api
-        ///     When this request has 0 vnd totalprice, call directly this api
+        ///     When you finish paying offline, you must call this api (OrderCode = null)
+        ///     When this request has 0 vnd totalprice, call directly this api (OrderCode = null)
         ///     
         /// </remarks>
         [Authorize(Roles = Role.WorkerRole)]
@@ -512,6 +512,39 @@ namespace Requests.Api.Controllers
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var query = new GetFreeWorkersFromLeaderQuery(accountId, isFree);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (MANAGER) Get all requests paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex       = 1    (default)
+        ///     Pagesize        = 8    (default)
+        ///     Status          = 0    (default)
+        ///     
+        ///     0 = Requested
+        ///     1 = Processing
+        ///     2 = Done
+        ///     3 = Canceled
+        ///   
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("18")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedRequests([FromQuery] GetPagedRequestsQuery query)
+        {
+            try
+            {
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }

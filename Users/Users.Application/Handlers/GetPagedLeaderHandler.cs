@@ -80,8 +80,8 @@ namespace Users.Application.Handlers
                         get.IsDisabled,
                         get.DisabledReason,
                         get.Role,
-                        AreaId = "null",
-                        ApartmentName = "null"
+                        AreaId = null as object,
+                        ApartmentName = null as object
                     });
                 }
                 else

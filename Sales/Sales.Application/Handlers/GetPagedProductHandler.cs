@@ -120,8 +120,10 @@ namespace Sales.Application.Handlers
                 {
                     item.ProductId,
                     item.Name,
+                    item.Description,
                     item.InOfStock,
                     item.ImageUrl,
+                    item.WarantyMonths,
                     item.Status,
                     currentProduct.PriceByDate
                 });
