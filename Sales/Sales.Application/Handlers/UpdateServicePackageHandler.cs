@@ -28,15 +28,20 @@ namespace Sales.Application.Handlers
             if (existingServicePackage.Count == 0)
                 return (404, "Service package does not exist");
 
-            var extensionFile = Path.GetExtension(request.Image.FileName);
-            string[] extensionSupport = [".png", ".jpg"];
-            if (!extensionSupport.Contains(extensionFile.ToLower()))
-                return (400, "The avatar should be .png or .jpg");
+            if (request.Image != null)
+            {
+                var extensionFile = Path.GetExtension(request.Image.FileName);
+                string[] extensionSupport = [".png", ".jpg"];
+                if (!extensionSupport.Contains(extensionFile.ToLower()))
+                    return (400, "The avatar should be .png or .jpg");
 
-            var bucketAndPath = await _uow.ServicePackageRepo.UploadFileToStorageAsync(request.ServicePackageId, request.Image, _config);
+                var bucketAndPath = await _uow.ServicePackageRepo.UploadFileToStorageAsync(request.ServicePackageId, request.Image, _config);
+                existingServicePackage[0].ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            }
+            
+            
             existingServicePackage[0].Name = request.Name;
             existingServicePackage[0].Description = request.Description;
-            existingServicePackage[0].ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             existingServicePackage[0].NumOfRequest = request.NumOfRequest;
             await _uow.ServicePackageRepo.UpdateAsync(existingServicePackage[0]);
 

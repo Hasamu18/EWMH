@@ -19,7 +19,7 @@ namespace Sales.Application.Commands
         [StringLength(int.MaxValue, MinimumLength = 4)]
         public required string Description { get; set; }
 
-        public required IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         public int InOfStock { get; set; }
 

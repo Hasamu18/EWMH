@@ -28,15 +28,19 @@ namespace Sales.Application.Handlers
             if (existingProduct.Count == 0)
                 return (404, "Product does not exist");
 
-            var extensionFile = Path.GetExtension(request.Image.FileName);
-            string[] extensionSupport = [".png", ".jpg"];
-            if (!extensionSupport.Contains(extensionFile.ToLower()))
-                return (400, "The avatar should be .png or .jpg");
+            if (request.Image != null)
+            {
+                var extensionFile = Path.GetExtension(request.Image.FileName);
+                string[] extensionSupport = [".png", ".jpg"];
+                if (!extensionSupport.Contains(extensionFile.ToLower()))
+                    return (400, "The avatar should be .png or .jpg");
 
-            var bucketAndPath = await _uow.ProductRepo.UploadFileToStorageAsync(request.ProductId, request.Image, _config);
+                var bucketAndPath = await _uow.ProductRepo.UploadFileToStorageAsync(request.ProductId, request.Image, _config);
+                existingProduct[0].ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            }
+
             existingProduct[0].Name = request.Name;
             existingProduct[0].Description = request.Description;
-            existingProduct[0].ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             existingProduct[0].InOfStock = request.InOfStock;
             existingProduct[0].WarantyMonths = request.WarantyMonths;
             await _uow.ProductRepo.UpdateAsync(existingProduct[0]);            
