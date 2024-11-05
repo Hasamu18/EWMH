@@ -452,5 +452,33 @@ namespace Users.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (MANAGER) Get all pending accounts paginated
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex       = 1    (default)
+        ///     Pagesize        = 8    (default)
+        ///     SearchByPhone   = null (default) 
+        ///   
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("18")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPendingAccounts([FromQuery] GetPagedPendingAccountsQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
