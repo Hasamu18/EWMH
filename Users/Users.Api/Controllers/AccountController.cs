@@ -480,5 +480,34 @@ namespace Users.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (MANAGER) Get all worker paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex       = 1    (default)
+        ///     Pagesize        = 8    (default)
+        ///     SearchByPhone   = null (default) 
+        ///     IsDisabled      = false (default)
+        ///   
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("19")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedWorkers([FromQuery] GetPagedWorkersQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
