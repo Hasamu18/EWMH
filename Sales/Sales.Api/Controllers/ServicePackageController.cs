@@ -360,5 +360,34 @@ namespace Sales.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Manager) Get all contracts paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex              = 1    (default)
+        ///     Pagesize               = 8    (default)
+        ///     SearchByPhone          = null (default)
+        ///     PurchaseTime_Des_Sort  = true (default)
+        ///   
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("14")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedContracts([FromQuery] GetPagedContractsQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
