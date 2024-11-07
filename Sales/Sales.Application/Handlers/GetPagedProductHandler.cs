@@ -23,93 +23,87 @@ namespace Sales.Application.Handlers
             IEnumerable<Products> items;
             var result = new List<object>();
             int count = 0;
-            if (request.SearchByName == null && request.Status == null && request.InOfStock_Sort)
+            if (request.SearchByName == null && request.Status == null && request.IncreasingPrice)
             {
-                items = await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderBy(o => o.InOfStock),
+                items = await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderBy(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
-                count = (await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
+                count = (await _uow.ProductRepo.GetAsync()).Count();
 
             }
-            else if (request.SearchByName == null && request.Status == null && !request.InOfStock_Sort)
+            else if (request.SearchByName == null && request.Status == null && !request.IncreasingPrice)
             {
-                items = await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderByDescending(o => o.InOfStock),
+                items = await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderByDescending(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
-                count = (await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
+                count = (await _uow.ProductRepo.GetAsync()).Count();
 
             }
-            else if (request.SearchByName == null && request.Status != null && request.InOfStock_Sort)
+            else if (request.SearchByName == null && request.Status != null && request.IncreasingPrice)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
-                                                        orderBy: s => s.OrderBy(o => o.InOfStock),
+                                                        orderBy: s => s.OrderBy(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
-                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
-                                                        orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
+                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status)).Count();
 
             }
-            else if (request.SearchByName == null && request.Status != null && !request.InOfStock_Sort)
+            else if (request.SearchByName == null && request.Status != null && !request.IncreasingPrice)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
-                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock),
-                                                        includeProperties: "ProductPrices", 
-                                                        pageIndex: request.PageIndex,
-                                                        pageSize: request.Pagesize);
-                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
-                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
-
-            }
-            else if (request.SearchByName != null && request.Status == null && request.InOfStock_Sort)
-            {
-                items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
-                                                        orderBy: s => s.OrderBy(o => o.InOfStock),
+                                                        orderBy: s => s.OrderByDescending(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
-                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
-                                                        orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
+                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status)).Count();
 
             }
-            else if (request.SearchByName != null && request.Status == null && !request.InOfStock_Sort)
+            else if (request.SearchByName != null && request.Status == null && request.IncreasingPrice)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
-                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock),
+                                                        orderBy: s => s.OrderBy(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
-                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
-                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
-   
+                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName))).Count();
+
             }
-            else if (request.SearchByName != null && request.Status != null && request.InOfStock_Sort)
+            else if (request.SearchByName != null && request.Status == null && !request.IncreasingPrice)
+            {
+                items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
+                                                        orderBy: s => s.OrderByDescending(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
+                                                        includeProperties: "ProductPrices",
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+                count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName))).Count();
+
+            }
+            else if (request.SearchByName != null && request.Status != null && request.IncreasingPrice)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName) &&
                                                                      f.Status == request.Status,
-                                                        orderBy: s => s.OrderBy(o => o.InOfStock),
+                                                        orderBy: s => s.OrderBy(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName) &&
-                                                                     f.Status == request.Status,
-                                                        orderBy: s => s.OrderBy(o => o.InOfStock))).Count();
-       
+                                                                     f.Status == request.Status)).Count();
+
             }
             else
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName!) &&
                                                                      f.Status == request.Status,
-                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock),
+                                                        orderBy: s => s.OrderByDescending(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName!) &&
-                                                                     f.Status == request.Status,
-                                                        orderBy: s => s.OrderByDescending(o => o.InOfStock))).Count();
- 
+                                                                     f.Status == request.Status)).Count();
+
             }
 
             foreach (var item in items)
@@ -130,8 +124,8 @@ namespace Sales.Application.Handlers
             }
             return new
             {
-                results=result,
-                count=count
+                results = result,
+                count = count
             };
         }
     }

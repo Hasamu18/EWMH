@@ -77,7 +77,7 @@ namespace Users.Api.Controllers
         /// </summary>
         [Authorize]
         [HttpGet("3")]
-        [ProducesResponseType(typeof(TResponse<Accounts>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TResponse<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAccount()
         {
             try
@@ -500,6 +500,28 @@ namespace Users.Api.Controllers
         {
             try
             {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Customer) Get leader and apartment info from a customer
+        /// </summary>
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpGet("20")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedWorkers()
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetLeaderInfoFromCustomerQuery(accountId);
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }

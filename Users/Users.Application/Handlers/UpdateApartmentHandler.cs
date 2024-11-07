@@ -28,12 +28,7 @@ namespace Users.Application.Handlers
 
             var existingName = await _uow.ApartmentAreaRepo.GetAsync(a => a.Name.Equals(request.Name));
             if (existingName.Any() && !existingName.ToList()[0].Name.Equals(request.Name))
-                return (409, $"{request.Name} apartment is existing, choose another name");
-
-            var extensionFile = Path.GetExtension(request.Image.FileName);
-            string[] extensionSupport = { ".png", ".jpg" };
-            if (!extensionSupport.Contains(extensionFile.ToLower()))
-                return (400, "Avatar should be .png or .jpg");
+                return (409, $"{request.Name} apartment is existing, choose another name");            
 
             var getLeader = (await _uow.LeaderRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).FirstOrDefault();
             if (getLeader is null)
@@ -43,13 +38,22 @@ namespace Users.Application.Handlers
             if (getLeaderApartment != null && !existingApartment[0].LeaderId.Equals(request.LeaderId))
                 return (409, $"This leader has assigned to another apartment");
 
-            var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(request.AreaId, request.Image, _config);
+            if (request.Image != null)
+            {
+                var extensionFile = Path.GetExtension(request.Image.FileName);
+                string[] extensionSupport = [".png", ".jpg"];
+                if (!extensionSupport.Contains(extensionFile.ToLower()))
+                    return (400, "The avatar should be .png or .jpg");
+
+                var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(request.AreaId, request.Image, _config);
+                existingApartment[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            }
+           
             existingApartment[0].LeaderId = request.LeaderId;
             existingApartment[0].Name = request.Name;
             existingApartment[0].Description = request.Description;
             existingApartment[0].Address = request.Address;
-            existingApartment[0].ManagementCompany = request.ManagementCompany;
-            existingApartment[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            existingApartment[0].ManagementCompany = request.ManagementCompany;            
             await _uow.ApartmentAreaRepo.UpdateAsync(existingApartment[0]);
 
             return (200, $"{request.Name} apartment is updated");

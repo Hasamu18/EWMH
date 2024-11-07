@@ -15,8 +15,8 @@ namespace Sales.Application.Queries
 
         public string? SearchByName { get; set; } = null;
 
-        public bool InOfStock_Sort { get; set; } = true;
+        public bool IncreasingPrice { get; set; } = true;
 
-        public bool? Status { get; set; } = null;
+        public bool? Status { get; set; } = null;       
     }
 }
