@@ -25,7 +25,7 @@ namespace Users.Application.Commands
         [StringLength(255, MinimumLength = 4)]
         public required string ManagementCompany { get; set; }
 
-        public required IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         public required string LeaderId { get; set; }
     }

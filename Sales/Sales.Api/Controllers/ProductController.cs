@@ -128,7 +128,7 @@ namespace Sales.Api.Controllers
         ///     PageIndex       = 1    (default)
         ///     Pagesize        = 8    (default)
         ///     SearchByName    = null (default)
-        ///     InOfStock_Sort  = true (default)
+        ///     IncreasingPrice = true (default)
         ///     Status          = null (default)
         ///   
         ///     Get all products paginated

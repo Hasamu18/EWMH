@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Users.Domain.Entities;
 
@@ -21,5 +22,6 @@ public partial class ApartmentAreas
 
     public virtual Leaders Leader { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual ICollection<Rooms> Rooms { get; set; } = new List<Rooms>();
 }

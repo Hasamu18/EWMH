@@ -5,16 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Responses;
-using Users.Domain.Entities;
 
 namespace Users.Application.Queries
 {
-    public class GetAccountQuery : IRequest<(int, TResponse<object>)>
+    public class GetLeaderInfoFromCustomerQuery : IRequest<object>
     {
-        public string AccountId { get; set; }
-        public GetAccountQuery(string accountId)
+        public string CustomerId { get; set; }
+        public GetLeaderInfoFromCustomerQuery(string customerId)
         {
-            AccountId = accountId;
+            CustomerId = customerId;
         }
     }
 }
