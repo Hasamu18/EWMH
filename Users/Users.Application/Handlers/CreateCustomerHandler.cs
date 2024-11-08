@@ -65,9 +65,14 @@ Cho nên yêu cầu tạo tài khoản của bạn bị từ chối!";
 
             var account = UserMapper.Mapper.Map<Accounts>(request);
             account.AccountId = $"C_{await _uow.CustomerRepo.Query().CountAsync() + 1:D10}";
+            account.FullName = pendingAccount.FullName;
+            account.Email = pendingAccount.Email;
             account.Password = Tools.HashString(pendingAccount.Password);
             account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";
+            account.PhoneNumber = pendingAccount.PhoneNumber;
+            account.DateOfBirth = pendingAccount.DateOfBirth;
             account.IsDisabled = false;
+            account.DisabledReason = null;
             account.Role = Role.CustomerRole;
             await _uow.AccountRepo.AddAsync(account);
 

@@ -26,6 +26,9 @@ namespace Requests.Application.Handlers
             if (getRequest == null)
                 return (404, "Yêu cầu không tồn tại");
 
+            if (getRequest.CategoryRequest == (int)Request.CategoryRequest.Warranty)
+                return (409, "Chỉ có thể thêm sản phẩm đính kèm khi yêu cầu này là \"yêu cầu sửa chữa (Repair Request)\"");
+
             var isHeadWorker = (await _uow.RequestWorkerRepo.GetAsync(a => a.RequestId.Equals(request.RequestId) &&
                                                                      a.WorkerId.Equals(request.HeadWorkerId))).ToList();
             if (isHeadWorker.Count == 0)
@@ -51,10 +54,6 @@ namespace Requests.Application.Handlers
             }
             foreach (var product in request.ProductList)
             {
-                //var getProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId))).ToList();
-                //getProduct[0].InOfStock -= (int)product.Quantity;
-                //await _uow.ProductRepo.UpdateAsync(getProduct[0]);
-
                 RequestDetails requestDetail = new()
                 {
                     RequestDetailId = $"RD_{Tools.GenerateRandomString(20)}",

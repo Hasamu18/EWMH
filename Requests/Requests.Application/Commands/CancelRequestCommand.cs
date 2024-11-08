@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Requests.Application.Commands
 {
-    public class CancelNewRequestCommand : IRequest<(int, string)>
+    public class CancelRequestCommand : IRequest<(int, string)>
     {
         public required string RequestId { get; set; }
     }

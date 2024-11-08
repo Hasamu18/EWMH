@@ -116,13 +116,13 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Leader) Cancel a new request
+        /// (Leader) Cancel a new or processing request
         /// </summary>
         /// 
         [Authorize(Roles = Role.TeamLeaderRole)]
         [HttpDelete("4")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CancelNewRequest([FromBody] CancelNewRequestCommand command)
+        public async Task<IActionResult> CancelRequest([FromBody] CancelRequestCommand command)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Worker) Add products to a request
+        /// (Worker) Add products to a repair request 
         /// </summary>
         /// 
         [Authorize(Roles = Role.WorkerRole)]
@@ -272,7 +272,7 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Worker) Update a product to a request
+        /// (Worker) Update a product to a repair request
         /// </summary>
         /// 
         [Authorize(Roles = Role.WorkerRole)]
@@ -300,7 +300,7 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Worker) Delete a product to a request
+        /// (Worker) Delete a product to a repair request
         /// </summary>
         /// 
         [Authorize(Roles = Role.WorkerRole)]
@@ -386,7 +386,7 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Worker) If this request is online payment, you must call this api
+        /// (Worker) Only repair request, If this request is online payment, you must call this api
         /// </summary>
         /// 
         [Authorize(Roles = Role.WorkerRole)]
@@ -421,15 +421,18 @@ namespace Requests.Api.Controllers
         /// <remarks>
         /// Sample request:
         ///     
-        ///     When you finish paying online, you must call this api
+        ///     - Repair Request
+        ///     When you finish paying online, you must call this api (OrderCode get from deeplink)
         ///     When you finish paying offline, you must call this api (OrderCode = null)
         ///     When this request has 0 vnd totalprice, call directly this api (OrderCode = null)
+        ///     - Warranty Request
+        ///     Call directly this api (OrderCode = null)
         ///     
         /// </remarks>
         [Authorize(Roles = Role.WorkerRole)]
         [HttpPost("14")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> SuccessRequestPayment([FromForm] SuccessRequestPaymentCommand command)
+        public async Task<IActionResult> SuccessRequestPayment([FromBody] SuccessRequestPaymentCommand command)
         {
             try
             {
