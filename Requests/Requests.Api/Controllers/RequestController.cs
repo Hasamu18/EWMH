@@ -557,5 +557,28 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Authentication) Get the details of a (repair/warranty) request.
+        /// </summary>     
+        [Authorize]
+        [HttpGet("19")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWorkerRequestDetails([FromQuery] GetRequestDetailQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }

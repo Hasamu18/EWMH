@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Sales.Domain.Entities;
 
@@ -36,7 +37,7 @@ public partial class Requests
     public long? OrderCode { get; set; }
 
     public bool? IsOnlinePayment { get; set; }
-
+    [JsonIgnore]
     public virtual Contracts Contract { get; set; } = null!;
 
     public virtual Customers Customer { get; set; } = null!;
