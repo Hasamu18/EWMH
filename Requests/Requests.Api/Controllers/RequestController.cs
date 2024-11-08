@@ -557,5 +557,27 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (CUSTOMER) Get details of the Leader being responsible for the Customer's apartment.
+        /// </summary> 
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpGet("19")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetLeaderDetailsByCustomerId()
+        {
+            try
+            {
+                var customerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetLeaderDetailsQuery(customerId);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
