@@ -14,6 +14,6 @@ namespace Requests.Application.Queries
 
         public int Pagesize { get; set; } = 8;
 
-        public Request.Status Status { get; set; } = Request.Status.Requested;
+        public Request.Status? Status { get; set; }
     }
 }
