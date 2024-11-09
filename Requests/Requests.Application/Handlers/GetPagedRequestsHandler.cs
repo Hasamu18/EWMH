@@ -43,16 +43,10 @@ namespace Requests.Application.Handlers
             {
                 var getCustomerAndLeader = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(item.LeaderId) ||
                                                                   a.AccountId.Equals(item.CustomerId))).ToList();
-                result.Add(new
-                {
-                    Request = item,   
-                    Customer_Leader = getCustomerAndLeader
-                });
-
+                var wokersList = new List<object>();
+                var productsList = new List<object>();
                 if (item.Status == 1 || item.Status == 2)
-                {
-                    var wokersList = new List<object>();
-                    var productsList = new List<object>();
+                {                    
                     var getWorkers = (await _uow.RequestWorkerRepo.GetAsync(a => a.RequestId.Equals(item.RequestId))).ToList();
                     var getAttachedOrder = (await _uow.RequestDetailRepo.GetAsync(a => a.RequestId.Equals(item.RequestId))).ToList();
                     foreach (var worker in getWorkers)
@@ -78,13 +72,15 @@ namespace Requests.Application.Handlers
                             product.Description,
                             product.IsCustomerPaying
                         });
-                    }
-                    result.Add(new
-                    {
-                        WorkerList = wokersList,
-                        ProductList = productsList
-                    });
+                    }                    
                 }
+                result.Add(new
+                {
+                    Request = item,
+                    Customer_Leader = getCustomerAndLeader,
+                    WorkerList = wokersList,
+                    ProductList = productsList
+                });
             }
             
             return
