@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace Sales.Domain.Entities;
 
@@ -24,7 +25,7 @@ public partial class Accounts
     public string? DisabledReason { get; set; }
 
     public string Role { get; set; } = null!;
-
+    
     public virtual Customers? Customers { get; set; }
 
     public virtual Leaders? Leaders { get; set; }
