@@ -559,16 +559,59 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
+        /// (Authentication) Get the details of a (repair/warranty) request.
+        /// </summary>     
+        [Authorize]
+        [HttpGet("19")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWorkerRequestDetails([FromQuery] GetRequestDetailQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
         /// (CUSTOMER) Get details of the Leader being responsible for the Customer's apartment.
         /// </summary> 
         [Authorize(Roles = Role.CustomerRole)]
-        [HttpGet("19")]
+        [HttpGet("20")]
         [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetLeaderDetailsByCustomerId()
         {
             try
             {
                 var customerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetLeaderDetailsQuery(customerId);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+        /// <summary>
+        /// (WORKER) Gets a list of WarrantyCards owned by a Customer
+        /// </summary> 
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpGet("20")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWarrantyCardsByCustomerId([FromQuery]string customerId)
+        {
+            try
+            {
                 var query = new GetLeaderDetailsQuery(customerId);
                 var result = await _mediator.Send(query);
                 return Ok(result);

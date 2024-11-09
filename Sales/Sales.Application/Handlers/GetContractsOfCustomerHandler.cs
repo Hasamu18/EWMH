@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Sales.Application.Queries;
 using Sales.Domain.IRepositories;
 using Users.Application.Queries;
+using Sales.Domain.Entities;
 
 namespace Users.Application.Handlers
 {
@@ -24,36 +25,37 @@ namespace Users.Application.Handlers
             if (getCustomer == null)
                 return (404, "Khách hàng không tồn tại");
 
-            var result = new List<object>();
+            List<Contracts> items;
             if (request.StartDate == null && request.EndDate == null)
             {
-                var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
-                                                                     a.PurchaseTime != null)).ToList();
-                result.Add(getContracts);
+                items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
+                                                                     a.PurchaseTime != null,
+                                                                     includeProperties: "Requests")).ToList();
             }
             else if (request.StartDate == null && request.EndDate != null)
             {
-                var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
+                items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
                                                                      a.PurchaseTime != null &&
-                                                                     DateOnly.FromDateTime((DateTime)a.PurchaseTime) == request.EndDate)).ToList();
-                result.Add(getContracts);
+                                                                     DateOnly.FromDateTime((DateTime)a.PurchaseTime) == request.EndDate,
+                                                                     includeProperties: "Requests")).ToList();
             }
             else if (request.StartDate != null && request.EndDate == null)
             {
-                var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
+                items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
                                                                      a.PurchaseTime != null &&
-                                                                     DateOnly.FromDateTime((DateTime)a.PurchaseTime) == request.StartDate)).ToList();
-                result.Add(getContracts);
+                                                                     DateOnly.FromDateTime((DateTime)a.PurchaseTime) == request.StartDate,
+                                                                     includeProperties: "Requests")).ToList();
             }
             else
             {
-                var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
+                items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
                                                                      a.PurchaseTime != null &&
                                                                      DateOnly.FromDateTime((DateTime)a.PurchaseTime) >= request.StartDate &&
-                                                                     DateOnly.FromDateTime((DateTime)a.PurchaseTime) <= request.EndDate)).ToList();
-                result.Add(getContracts);
+                                                                     DateOnly.FromDateTime((DateTime)a.PurchaseTime) <= request.EndDate,
+                                                                     includeProperties: "Requests")).ToList();
             }
-            return (200, result);
+
+            return (200, items);
         }
     }
 }

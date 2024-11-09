@@ -307,7 +307,7 @@ namespace Sales.Api.Controllers
         }
 
         /// <summary>
-        /// (Authentication) Get contracts of a customer
+        /// (Authentication) Get contracts and requests of a customer
         /// </summary>
         /// <remarks>
         /// Sample request:
