@@ -12,15 +12,13 @@ using Requests;
 using Requests.Application.ViewModels;
 using MimeKit.Cryptography;
 using Requests.Application.Mappers;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 
 namespace Requests.Application.Handlers
 {
     internal class GetWarrantyCardsHandler : IRequestHandler<GetWarrantyCardsQuery, object>
     {
-        private readonly IUnitOfWork _uow;
-        private List<RequestWorkers> _requestWorkers;
-        private List<Domain.Entities.Requests> _requests;
-        private List<ViewModels.Request> _requestsVM;
+        private readonly IUnitOfWork _uow;        
         private List<WarrantyCards> _warrantyCards;
         private List<ViewModels.WarrantyCard> _warrantyCardsVM;
         private GetWarrantyCardsQuery _query;
@@ -33,7 +31,8 @@ namespace Requests.Application.Handlers
         {
             _query = query;
             await FindWarrantyCardsByCustomer();
-            await MapWarrantyCardsVMFromWarrantyCards();
+            await MapWarrantyCardsVMFromWarrantyCards();            
+            await RemoveTakenWarrantyCards();
             ApplySearchParams();
             return new
             {
@@ -54,6 +53,16 @@ namespace Requests.Application.Handlers
                 var warrantyCardVM = await GetWarrantyCardVM(warrantyCard);
                 _warrantyCardsVM.Add(warrantyCardVM);
             }
+        }
+       
+        //In this function, Warranty Cards added to WarrantyRequests table are removed.
+        private async Task RemoveTakenWarrantyCards() 
+        {
+            var warrantyRequests = (await _uow.WarrantyRequestRepo.GetAsync(wr => wr.RequestId==_query.RequestId)).ToList();
+            var warrantyRequestIds = new HashSet<string>(warrantyRequests.Select(wr => wr.WarrantyCardId));
+            _warrantyCardsVM = _warrantyCardsVM
+                  .Where(wc => !warrantyRequestIds.Contains(wc.WarrantyCardId))
+                  .ToList();
         }
         private void ApplySearchParams()
         {
