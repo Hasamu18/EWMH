@@ -533,7 +533,7 @@ namespace Requests.Api.Controllers
         ///     
         ///     PageIndex       = 1    (default)
         ///     Pagesize        = 8    (default)
-        ///     Status          = 0    (default)
+        ///     Status          = null (default)
         ///     
         ///     0 = Requested
         ///     1 = Processing

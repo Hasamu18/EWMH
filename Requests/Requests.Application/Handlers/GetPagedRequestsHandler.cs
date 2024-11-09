@@ -23,10 +23,21 @@ namespace Requests.Application.Handlers
             IEnumerable<Requests.Domain.Entities.Requests> items;
             int count = 0;
             var result = new List<object>();
-            items = await _uow.RequestRepo.GetAsync(a => a.Status == (int)request.Status,
+            if (request.Status == null)
+            {
+                items = await _uow.RequestRepo.GetAsync(orderBy: s => s.OrderByDescending(o => o.Start),
+                                                    pageIndex: request.PageIndex,
+                                                    pageSize: request.Pagesize);
+                count = (await _uow.RequestRepo.GetAsync()).Count();
+            }
+            else
+            {
+                items = await _uow.RequestRepo.GetAsync(a => a.Status == (int)request.Status,
                                                     orderBy: s => s.OrderByDescending(o => o.Start),
                                                     pageIndex: request.PageIndex,
                                                     pageSize: request.Pagesize);
+                count = (await _uow.RequestRepo.GetAsync(a => a.Status == (int)request.Status)).Count();
+            }            
 
             foreach(var item in items)
             {
@@ -75,7 +86,7 @@ namespace Requests.Application.Handlers
                     });
                 }
             }
-            count = (await _uow.RequestRepo.GetAsync(a => a.Status == (int)request.Status)).Count();
+            
             return
             [
                 result,
