@@ -10,6 +10,7 @@ namespace Requests.Application.ViewModels
     {
         public string RequestId { get; set; } = null!;        
         public int Status { get; set; }
+        public string CustomerId { get; set; } = null!;
         public string CustomerAvatar { get; set; } = null!;
         public string CustomerName { get; set; } = null!;        
         public string CustomerEmail { get; set; } = null!;
@@ -17,7 +18,8 @@ namespace Requests.Application.ViewModels
         public string CustomerProblem { get; set; } = null!;
         public string RoomId { get; set; } = null!;
         public List<WorkerRequestDetailWorker> Workers { get; set; } = null!;   
-        public List<WorkerRequestDetailProduct> ReplacementProducts { get; set; } = null!;   
-     
+        public List<WorkerRequestDetailProduct> ReplacementProducts { get; set; } = null!;
+        public List<WorkerRequestDetailWarrantyRequest> WarrantyRequests { get; set; } = null!;
+
     }
 }

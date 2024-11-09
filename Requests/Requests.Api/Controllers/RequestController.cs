@@ -580,5 +580,74 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (CUSTOMER) Get details of the Leader being responsible for the Customer's apartment.
+        /// </summary> 
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpGet("20")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetLeaderDetailsByCustomerId()
+        {
+            try
+            {
+                var customerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetLeaderDetailsQuery(customerId);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+        /// <summary>
+        /// (WORKER) Gets a list of Warranty Cards owned by a Customer. Use this API before 
+        /// a Worker adds a Warranty Card to the Warranty Repair Request.
+        /// </summary> 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpGet("21")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWarrantyCardsByCustomerId(
+            [FromQuery] string requestId,
+            [FromQuery] string customerId,
+            [FromQuery] string? productName,
+            [FromQuery] int pageIndex,
+            [FromQuery] int pageSize)
+        {
+            try
+            {
+                var query = new GetWarrantyCardsQuery(requestId,customerId,productName,pageIndex,pageSize);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+        /// <summary>
+        /// (WORKER) Gets the details of a Warranty Card. Use this API before 
+        /// a Worker chooses one of them from the Warranty Card list.
+        /// </summary> 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpGet("22")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWarrantyCardDetails([FromQuery] string warrantyCardId)
+        {
+            try
+            {
+                var query = new GetWarrantyCardDetailsQuery(warrantyCardId);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
