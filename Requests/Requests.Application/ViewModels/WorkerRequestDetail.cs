@@ -10,6 +10,7 @@ namespace Requests.Application.ViewModels
     {
         public string RequestId { get; set; } = null!;        
         public int Status { get; set; }
+        public string CustomerId { get; set; } = null!;
         public string CustomerAvatar { get; set; } = null!;
         public string CustomerName { get; set; } = null!;        
         public string CustomerEmail { get; set; } = null!;

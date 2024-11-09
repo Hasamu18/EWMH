@@ -603,16 +603,20 @@ namespace Requests.Api.Controllers
             }
         }
         /// <summary>
-        /// (WORKER) Gets a list of WarrantyCards owned by a Customer
+        /// (WORKER) Gets a list of Warranty Cards owned by a Customer. Use this API before 
+        /// a Worker adds a Warranty Card to the Warranty Repair Request.
         /// </summary> 
-        [Authorize(Roles = Role.CustomerRole)]
-        [HttpGet("20")]
-        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetWarrantyCardsByCustomerId([FromQuery]string customerId)
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpGet("21")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWarrantyCardsByCustomerId([FromQuery] string customerId,
+            [FromQuery] string? productName,
+            [FromQuery] int pageIndex,
+            [FromQuery] int pageSize)
         {
             try
             {
-                var query = new GetLeaderDetailsQuery(customerId);
+                var query = new GetWarrantyCardsQuery(customerId,productName,pageIndex,pageSize);
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }

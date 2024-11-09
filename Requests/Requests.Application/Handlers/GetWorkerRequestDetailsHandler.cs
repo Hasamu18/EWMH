@@ -49,6 +49,7 @@ namespace Requests.Application.Handlers
             _workerRequestDetailVM = new ViewModels.WorkerRequestDetail();
             _workerRequestDetailVM.RequestId = request.RequestId;
             _workerRequestDetailVM.Status = request.Status;
+            _workerRequestDetailVM.CustomerId = customer.AccountId;
             _workerRequestDetailVM.CustomerAvatar = customer.AvatarUrl;
             _workerRequestDetailVM.CustomerName = customer.FullName;
             _workerRequestDetailVM.CustomerEmail = customer.Email;
