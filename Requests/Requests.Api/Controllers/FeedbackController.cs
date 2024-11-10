@@ -1,0 +1,52 @@
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Requests.Application.Commands;
+using Requests.Application.Queries;
+using Requests.Application.ViewModels;
+using System.Net;
+using static Logger.Utility.Constants;
+
+namespace Requests.Api.Controllers
+{
+    [Route("api/feedback")]
+    [ApiController]
+    public class FeedbackController : ControllerBase
+    {
+        private readonly IMediator _mediator;
+        private readonly ILogger<FeedbackController> _logger;
+        public FeedbackController(IMediator mediator, ILogger<FeedbackController> logger)
+        {
+            _mediator = mediator;
+            _logger = logger;
+        }
+        /// <summary>
+        /// (Manager) Get the list of customer feedback in the system.
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("1")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCustomerFeedbackList(
+            [FromQuery] int pageIndex,
+            [FromQuery] int pageSize)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetCustomerFeedbackListQuery(pageIndex, pageSize);
+                var result = await _mediator.Send(query);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);                
+
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+    }
+}
