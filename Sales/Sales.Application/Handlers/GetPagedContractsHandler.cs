@@ -26,17 +26,21 @@ namespace Sales.Application.Handlers
             int count = 0;
             if (request.SearchByPhone == null && request.PurchaseTime_Des_Sort)
             {
-                items = await _uow.ContractRepo.GetAsync(orderBy: s => s.OrderByDescending(d => d.PurchaseTime),
+                items = await _uow.ContractRepo.GetAsync(filter: c => c.OrderCode != 2, 
+                                                         orderBy: s => s.OrderByDescending(d => d.PurchaseTime),
+                                                         includeProperties: "ServicePackage",
                                                          pageIndex: request.PageIndex,
                                                          pageSize: request.Pagesize);
-                count = (await _uow.ContractRepo.GetAsync()).Count();
+                count = (await _uow.ContractRepo.GetAsync(filter: c => c.OrderCode != 2)).Count();
             }
             else if (request.SearchByPhone == null && request.PurchaseTime_Des_Sort == false)
             {
-                items = await _uow.ContractRepo.GetAsync(orderBy: s => s.OrderBy(d => d.PurchaseTime),
+                items = await _uow.ContractRepo.GetAsync(filter: c => c.OrderCode != 2, 
+                                                         orderBy: s => s.OrderBy(d => d.PurchaseTime),
+                                                         includeProperties: "ServicePackage",
                                                          pageIndex: request.PageIndex,
                                                          pageSize: request.Pagesize);
-                count = (await _uow.ContractRepo.GetAsync()).Count();
+                count = (await _uow.ContractRepo.GetAsync(filter: c => c.OrderCode != 2)).Count();
             }
             else if (request.SearchByPhone != null && request.PurchaseTime_Des_Sort)
             {
@@ -46,12 +50,13 @@ namespace Sales.Application.Handlers
                 if (customerIds.Any())
                 {
                     items = await _uow.ContractRepo.GetAsync(
-                        filter: a => customerIds.Contains(a.CustomerId),
+                        filter: a => customerIds.Contains(a.CustomerId) && a.OrderCode != 2,
                         orderBy: s => s.OrderByDescending(d => d.PurchaseTime),
+                        includeProperties: "ServicePackage",
                         pageIndex: request.PageIndex,
                         pageSize: request.Pagesize
                     );
-                    count = items.Count();
+                    count = (await _uow.ContractRepo.GetAsync(filter: a => customerIds.Contains(a.CustomerId) && a.OrderCode != 2)).Count();
                 }
                 else
                 {
@@ -67,12 +72,13 @@ namespace Sales.Application.Handlers
                 if (customerIds.Any())
                 {
                     items = await _uow.ContractRepo.GetAsync(
-                        filter: a => customerIds.Contains(a.CustomerId),
+                        filter: a => customerIds.Contains(a.CustomerId) && a.OrderCode != 2,
+                        includeProperties: "ServicePackage",
                         orderBy: s => s.OrderBy(d => d.PurchaseTime),
                         pageIndex: request.PageIndex,
                         pageSize: request.Pagesize
                     );
-                    count = items.Count();
+                    count = (await _uow.ContractRepo.GetAsync(filter: a => customerIds.Contains(a.CustomerId) && a.OrderCode != 2)).Count();
                 }
                 else
                 {
@@ -83,11 +89,24 @@ namespace Sales.Application.Handlers
 
             foreach (var item in items)
             {
-                var getCusInfo = await _uow.AccountRepo.GetByIdAsync(item.CustomerId);
+                var getCusInfo = await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(item.CustomerId),
+                                                                 includeProperties: "Customers");
 
                 result.Add(new
                 {
-                    item,
+                    Item = new
+                    {
+                        item.ContractId,
+                        item.CustomerId,
+                        item.ServicePackageId,
+                        item.ServicePackage.Name,
+                        item.FileUrl,
+                        item.PurchaseTime,
+                        item.RemainingNumOfRequests,
+                        item.OrderCode,
+                        item.IsOnlinePayment,
+                        item.TotalPrice
+                    },
                     getCusInfo
                 });
             }
