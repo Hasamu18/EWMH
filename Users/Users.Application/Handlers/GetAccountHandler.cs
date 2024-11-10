@@ -41,6 +41,25 @@ namespace Users.Application.Handlers
                         });
                     }
                 }
+                else if (existingUser[0].Role.Equals("CUSTOMER"))
+                {
+                    var getArea = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.AccountId))).FirstOrDefault();
+                    if (getArea != null)
+                    {
+                        var getApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(getArea.AreaId);
+                        var getLeader = await _uow.AccountRepo.GetByIdAsync(getApartment!.LeaderId);
+                        return (200, new TResponse<object>
+                        {
+                            Message = "Get account successfully",
+                            Response = new
+                            {
+                                Customer = existingUser[0],
+                                Leader = getLeader,
+                                Apartment = getApartment
+                            }
+                        });
+                    }
+                }
                 return (200, new TResponse<object>
                 {
                     Message = "Get account successfully",
@@ -48,7 +67,6 @@ namespace Users.Application.Handlers
                 });
             }
                 
-
             return (404, new TResponse<object>
             {
                 Message = "The user does not exist",

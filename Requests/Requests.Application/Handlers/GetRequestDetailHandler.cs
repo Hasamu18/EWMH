@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Google.Cloud.Firestore.V1.StructuredQuery.Types;
 
 namespace Requests.Application.Handlers
 {
@@ -29,22 +30,27 @@ namespace Requests.Application.Handlers
             var result = new List<object>();
             var getCustomerAndLeader = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(getRequest.LeaderId) ||
                                                                   a.AccountId.Equals(getRequest.CustomerId))).ToList();
-            result.Add(new
-            {
-                Request = getRequest,
-                Customer_Leader = getCustomerAndLeader
-            });
 
+            var getAreaId = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(getRequest.CustomerId))).ToList();
+            var apartment = await _uow.ApartmentAreaRepo.GetByIdAsync(getAreaId[0].AreaId);
+             
+            var wokersList = new List<object>();
+            var productsList = new List<object>();
             if (getRequest.Status == 1 || getRequest.Status == 2)
             {
-                var wokersList = new List<object>();
-                var productsList = new List<object>();
+               
                 var getWorkers = (await _uow.RequestWorkerRepo.GetAsync(a => a.RequestId.Equals(getRequest.RequestId))).ToList();
                 var getAttachedOrder = (await _uow.RequestDetailRepo.GetAsync(a => a.RequestId.Equals(getRequest.RequestId))).ToList();
                 foreach (var worker in getWorkers)
                 {
                     var getWokerInfo = await _uow.AccountRepo.GetByIdAsync(worker.WorkerId);
-                    wokersList.Add(getWokerInfo!);
+                    var getLead = (await _uow.RequestWorkerRepo.GetAsync(a => a.RequestId.Equals(request.RequestId) &&
+                                                                         a.WorkerId.Equals(worker.WorkerId))).First();
+                    wokersList.Add(new
+                    {
+                        workerInfo = getWokerInfo!,
+                        getLead.IsLead
+                    });
                 }
                 foreach (var product in getAttachedOrder)
                 {
@@ -64,13 +70,21 @@ namespace Requests.Application.Handlers
                         product.Description,
                         product.IsCustomerPaying
                     });
-                }
-                result.Add(new
-                {
-                    WorkerList = wokersList,
-                    ProductList = productsList
-                });
+                }               
             }
+
+            result.Add(new
+            {
+                Request = getRequest,
+                Customer_Leader = getCustomerAndLeader,
+                Apartment = new
+                {
+                    apartment!.Name,
+                    apartment.AvatarUrl
+                },
+                WorkerList = wokersList,
+                ProductList = productsList
+            });
 
             return (200, result);
         }

@@ -559,12 +559,12 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Authentication) Get the details of a (repair/warranty) request.
+        /// (Authentication) Get the details of a (warranty/repair) request
         /// </summary>     
         [Authorize]
         [HttpGet("19")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetWorkerRequestDetails([FromQuery] GetRequestDetailQuery query)
+        public async Task<IActionResult> GetRequestDetail([FromQuery] GetRequestDetailQuery query)
         {
             try
             {
@@ -640,6 +640,57 @@ namespace Requests.Api.Controllers
             try
             {
                 var query = new GetWarrantyCardDetailsQuery(warrantyCardId);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Customer) Get desired number of requests
+        /// </summary>     
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpGet("23")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetDesiredNumOfRequests([FromQuery] uint quantity)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetDesiredNumOfRequestsQuery(accountId, quantity);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Manager) Get all request's attatched orders paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex           = 1    (default)
+        ///     Pagesize            = 8    (default)
+        ///     SearchByPhone       = null (default)
+        ///     DescreasingDateSort = true (default)
+        ///     
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("24")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedOrders([FromQuery] GetPagedAttachedOrdersQuery query)
+        {
+            try
+            {
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }
