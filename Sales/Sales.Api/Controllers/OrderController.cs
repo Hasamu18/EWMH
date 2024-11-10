@@ -177,5 +177,55 @@ namespace Sales.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Manager) Get all orders paginated 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex           = 1    (default)
+        ///     Pagesize            = 8    (default)
+        ///     SearchByPhone       = null (default)
+        ///     DescreasingDateSort = true (default)
+        ///     
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("7")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedOrders([FromQuery] GetPagedOrdersQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Authentication) Get order detail from orderId 
+        /// </summary>
+        ///
+        [Authorize]
+        [HttpGet("8")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetOrderDetails([FromQuery] GetOrderDetailsQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }

@@ -56,7 +56,7 @@ namespace Sales.Application.Handlers
                         pageIndex: request.PageIndex,
                         pageSize: request.Pagesize
                     );
-                    count = items.Count();
+                    count = (await _uow.ContractRepo.GetAsync(filter: a => customerIds.Contains(a.CustomerId) && a.OrderCode != 2)).Count();
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace Sales.Application.Handlers
                         pageIndex: request.PageIndex,
                         pageSize: request.Pagesize
                     );
-                    count = items.Count();
+                    count = (await _uow.ContractRepo.GetAsync(filter: a => customerIds.Contains(a.CustomerId) && a.OrderCode != 2)).Count();
                 }
                 else
                 {
