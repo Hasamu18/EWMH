@@ -20,7 +20,10 @@ namespace Requests.Application.Mappers
             CreateMap<Domain.Entities.Accounts, ViewModels.LeaderDetails>()
                 .ForMember(dest => dest.LeaderId, opt => opt.Ignore()) 
             .ReverseMap();
-            CreateMap<Domain.Entities.WarrantyCards, ViewModels.WarrantyCardDetails>().ReverseMap();            
+            CreateMap<Domain.Entities.WarrantyCards, ViewModels.WarrantyCardDetails>().ReverseMap();
+            CreateMap<Domain.Entities.Feedbacks, ViewModels.CustomerFeedback>().ReverseMap();
+            CreateMap<Domain.Entities.Feedbacks, ViewModels.CustomerFeedbackDetails>().ReverseMap();
+            CreateMap<ViewModels.CreateNewCustomerFeedbackRequest, Domain.Entities.Feedbacks>().ReverseMap(); 
             //CreateMap<ServicePackages, AddServicePackageCommand>().ReverseMap();
             //CreateMap<Contracts, CheckServicePackagePaymentCommand>().ReverseMap();
             //CreateMap<Contracts, SuccessSPOnlinePaymentCommand>().ReverseMap();
