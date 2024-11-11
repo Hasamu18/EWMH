@@ -10,5 +10,6 @@ namespace Requests.Application.Commands
     public class CancelRequestCommand : IRequest<(int, string)>
     {
         public required string RequestId { get; set; }
+        //public required string Conclusion { get; set; }
     }
 }

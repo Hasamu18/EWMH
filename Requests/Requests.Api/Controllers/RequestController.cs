@@ -687,7 +687,7 @@ namespace Requests.Api.Controllers
         [Authorize(Roles = Role.ManagerRole)]
         [HttpGet("24")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetPagedOrders([FromQuery] GetPagedAttachedOrdersQuery query)
+        public async Task<IActionResult> GetPagedAttachedOrders([FromQuery] GetPagedAttachedOrdersQuery query)
         {
             try
             {

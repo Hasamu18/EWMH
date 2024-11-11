@@ -30,11 +30,11 @@ namespace Requests.Application.Handlers
 
             if (request.SearchByPhone == null)
             {
-                items = await _uow.RequestRepo.GetAsync(filter: a => a.Status == 2 && a.CategoryRequest == 1,
+                items = await _uow.RequestRepo.GetAsync(filter: a => a.Status == 2 && a.CategoryRequest == 1 && a.RequestDetails.Count != 0,
                                                          orderBy: orderBy,
                                                          pageIndex: request.PageIndex,
                                                          pageSize: request.Pagesize);
-                count = (await _uow.RequestRepo.GetAsync(filter: a => a.Status == 2 && a.CategoryRequest == 1)).Count();
+                count = (await _uow.RequestRepo.GetAsync(filter: a => a.Status == 2 && a.CategoryRequest == 1 && a.RequestDetails.Count != 0)).Count();
             }
             else
             {
@@ -44,12 +44,12 @@ namespace Requests.Application.Handlers
                 if (customerIds.Any())
                 {
                     items = await _uow.RequestRepo.GetAsync(
-                        filter: a => customerIds.Contains(a.CustomerId) && a.Status == 2 && a.CategoryRequest == 1,
+                        filter: a => customerIds.Contains(a.CustomerId) && a.Status == 2 && a.CategoryRequest == 1 && a.RequestDetails.Count != 0,
                         orderBy: orderBy,
                         pageIndex: request.PageIndex,
                         pageSize: request.Pagesize
                     );
-                    count = (await _uow.RequestRepo.GetAsync(filter: a => customerIds.Contains(a.CustomerId) && a.Status == 2 && a.CategoryRequest == 1)).Count();
+                    count = (await _uow.RequestRepo.GetAsync(filter: a => customerIds.Contains(a.CustomerId) && a.Status == 2 && a.CategoryRequest == 1 && a.RequestDetails.Count != 0)).Count();
                 }
                 else
                 {

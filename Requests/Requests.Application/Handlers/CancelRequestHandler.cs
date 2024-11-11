@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Logger.Utility;
+using MediatR;
 using Requests.Application.Commands;
 using Requests.Domain.IRepositories;
 using System;
@@ -48,6 +49,8 @@ namespace Requests.Application.Handlers
                 await _uow.ContractRepo.UpdateAsync(getContract);
             }
 
+            //getRequest.End = Tools.GetDynamicTimeZone();
+            //getRequest.Conclusion = request.Conclusion;
             getRequest.Status = (int)Request.Status.Canceled;
             await _uow.RequestRepo.UpdateAsync(getRequest);
 
