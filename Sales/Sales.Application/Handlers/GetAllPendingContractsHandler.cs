@@ -19,7 +19,7 @@ namespace Sales.Application.Handlers
 
         public async Task<object> Handle(GetAllPendingContractsQuery request, CancellationToken cancellationToken)
         {
-            var getPendingContracts = (await _uow.ContractRepo.GetAsync(a => a.OrderCode == 2, includeProperties: "ServicePackage")).ToList();
+            var getPendingContracts = (await _uow.ContractRepo.GetAsync(a => a.OrderCode == 2, includeProperties: "ServicePackage.ServicePackagePrices")).ToList();
             var result = new List<object>();
             foreach (var getPendingContract in getPendingContracts)
             {
@@ -44,7 +44,8 @@ namespace Sales.Application.Handlers
                         ImageUrl = getPendingContract.ServicePackage.ImageUrl,
                         NumOfRequest = getPendingContract.ServicePackage.NumOfRequest,
                         Policy = getPendingContract.ServicePackage.Policy,
-                        Status = getPendingContract.ServicePackage.Status
+                        Status = getPendingContract.ServicePackage.Status,
+                        Price = getPendingContract.ServicePackage.ServicePackagePrices.OrderByDescending(d => d.Date).First().PriceByDate
                     }
                 });
             }

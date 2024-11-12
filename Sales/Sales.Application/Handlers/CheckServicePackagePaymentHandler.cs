@@ -358,7 +358,7 @@ Mã hợp đồng: {contractId}")
                 var contract = SaleMapper.Mapper.Map<Contracts>(request);
                 contract.ContractId = contractId;
                 contract.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
-                contract.PurchaseTime = null;
+                contract.PurchaseTime = Tools.GetDynamicTimeZone();//This time, it is created date
                 contract.RemainingNumOfRequests = 0;
                 contract.OrderCode = 2;//2 is pending contract
                 contract.TotalPrice = null;

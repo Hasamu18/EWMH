@@ -87,8 +87,8 @@ namespace Requests.Application.Handlers
             var expiredAt = (int)(DateTime.UtcNow.AddMinutes(10) - new DateTime(1970, 1, 1)).TotalSeconds;
 
             PaymentData paymentData = new(orderCode, amount, description, itemDataList,
-                $"{_config["CustomerDeepLink:Url"]}",
-                $"{_config["CustomerDeepLink:Url"]}?requestId={request.RequestId}&conclusion={request.Conclusion}",
+                $"{_config["WorkerDeepLink:Url"]}?isCanceled=1",
+                $"{_config["WorkerDeepLink:Url"]}?requestId={request.RequestId}&conclusion={request.Conclusion}",
                 expiredAt: expiredAt);
 
             CreatePaymentResult createPayment = await _payOS.createPaymentLink(paymentData);

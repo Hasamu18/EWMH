@@ -116,10 +116,10 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Leader) Cancel a new or processing request
+        /// (Leader, Worker) Cancel a new or processing request
         /// </summary>
         /// 
-        [Authorize(Roles = Role.TeamLeaderRole)]
+        [Authorize(Roles = Role.TeamLeaderRole + "," + Role.WorkerRole)]
         [HttpDelete("4")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> CancelRequest([FromBody] CancelRequestCommand command)
