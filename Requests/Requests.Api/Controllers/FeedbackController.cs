@@ -35,7 +35,7 @@ namespace Requests.Api.Controllers
             try
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var query = new GetCustomerFeedbackListQuery(pageIndex, pageSize);
+                var query = new GetCustomerFeedbackListQuery(accountId,pageIndex, pageSize);
                 var result = await _mediator.Send(query);
                 if (result.Item1 is 404)
                     return NotFound(result.Item2);                

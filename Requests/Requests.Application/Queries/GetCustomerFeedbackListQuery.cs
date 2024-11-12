@@ -9,14 +9,16 @@ using static Logger.Utility.Constants;
 namespace Requests.Application.Queries
 {
     public class GetCustomerFeedbackListQuery : IRequest<(int,object)>
-    {        
+    {
 
+        public string AccountId { get; set; } = null!;
         public int PageIndex{ get; set; }
 
         public int PageSize{ get; set; }
 
-        public GetCustomerFeedbackListQuery(int pageIndex, int pageSize)
+        public GetCustomerFeedbackListQuery(string accountId,int pageIndex, int pageSize)
         {
+            AccountId = accountId;
             PageIndex = pageIndex;
             PageSize = pageSize;
         }
