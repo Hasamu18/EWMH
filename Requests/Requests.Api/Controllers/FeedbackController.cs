@@ -111,11 +111,11 @@ namespace Requests.Api.Controllers
         [HttpPost("4")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ApproveCustomerFeedback(
-            [FromQuery] string feedbackId)
+            [FromBody] ApproveCustomerFeedbackRequest request)
         {
             try
             {                
-                var query = new ApproveFeedbackCommand(feedbackId);
+                var query = new ApproveFeedbackCommand(request.FeedbackId);
                 var result = await _mediator.Send(query);
                 if (result.Item1 is 404)
                     return NotFound(result.Item2);
