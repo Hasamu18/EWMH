@@ -24,6 +24,9 @@ namespace Requests.Application.Handlers
         private List<Feedbacks> _feedbackList;
         private List<ViewModels.CustomerFeedback> _customerFeedbackVMList;
         private string CUSTOMER_ID_REGEX = @"^C_\d{10}$";
+        private string ASCENDING_ORDER = "asc";
+        private string DESCENDING_ORDER = "desc";
+        private int ALL_FEEDBACK = 2;
         private IMapper _mapper;
         public GetCustomerFeedbackListHandler(IUnitOfWork uow, IMapper mapper)
         {
@@ -38,7 +41,7 @@ namespace Requests.Application.Handlers
             if (_feedbackList.Count == 0) return (404, null!);
             await GetCustomerFeedbackVMList();
             if (IsCustomer()) FilterEnabledFeedback();
-            ApplyPagination();
+            ApplySearchParams();
             var response = GetResponse();
             return (200, response);
         }
@@ -64,8 +67,18 @@ namespace Requests.Application.Handlers
                 .Where(feedback => feedback.Status == true)
                 .ToList();
         }
-        private void ApplyPagination()
-        {
+        private void ApplySearchParams()
+        {            
+            //Only filter feedback when Status is either 1 (active) or 0 (inactive).
+            if(_query.Status != ALL_FEEDBACK)
+                _customerFeedbackVMList = _customerFeedbackVMList.Where(fb => fb.Status == Convert.ToBoolean(_query.Status)).ToList();            
+
+            //Order by stars (asc/desc)
+            if (_query.SortByStarOrder.Equals(ASCENDING_ORDER))
+                _customerFeedbackVMList = _customerFeedbackVMList.OrderBy(fb => fb.Rate).ToList();
+            else _customerFeedbackVMList = _customerFeedbackVMList.OrderByDescending(fb => fb.Rate).ToList();
+
+            //Apply pagination
             _customerFeedbackVMList = _customerFeedbackVMList.Skip((_query.PageIndex - 1) * _query.PageSize)
                     .Take(_query.PageSize).ToList();
         }
@@ -74,6 +87,7 @@ namespace Requests.Application.Handlers
             var request = await _uow.RequestRepo.GetByIdAsync(feedback.RequestId);
             var customer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             ViewModels.CustomerFeedback customerFeedback = _mapper.Map<ViewModels.CustomerFeedback>(feedback);
+            customerFeedback.RequestId = request.RequestId;
             customerFeedback.CustomerName = customer.FullName;
             customerFeedback.CustomerEmail = customer.Email;
             customerFeedback.AvatarUrl = customer.AvatarUrl;
