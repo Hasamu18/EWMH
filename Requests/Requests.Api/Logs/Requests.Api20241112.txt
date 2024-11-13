@@ -1,7 +1,0 @@
-2024-11-12 08:11:42.802 +07:00 [ERR] Error message: Value cannot be null. (Parameter 'input')
-
-Error   at System.Text.RegularExpressions.ThrowHelper.ThrowArgumentNullException(ExceptionArgument arg)
-   at System.Text.RegularExpressions.Regex.IsMatch(String input)
-   at Requests.Application.Handlers.GetCustomerFeedbackListHandler.IsCustomer() in E:\FPT_STUFFS\CHUYEN_NGANH\Semester_9\SEP490\PROJECT\EWMH\Requests\Requests.Application\Handlers\GetCustomerFeedbackListHandler.cs:line 56
-   at Requests.Application.Handlers.GetCustomerFeedbackListHandler.Handle(GetCustomerFeedbackListQuery query, CancellationToken cancellationToken) in E:\FPT_STUFFS\CHUYEN_NGANH\Semester_9\SEP490\PROJECT\EWMH\Requests\Requests.Application\Handlers\GetCustomerFeedbackListHandler.cs:line 40
-   at Requests.Api.Controllers.FeedbackController.GetCustomerFeedbackList(Int32 pageIndex, Int32 pageSize) in E:\FPT_STUFFS\CHUYEN_NGANH\Semester_9\SEP490\PROJECT\EWMH\Requests\Requests.Api\Controllers\FeedbackController.cs:line 39
