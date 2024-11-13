@@ -103,5 +103,31 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+        /// <summary>
+        /// (Manager) Allows the Manager to approve a customer's feedback.
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpPost("4")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> ApproveCustomerFeedback(
+            [FromQuery] string feedbackId)
+        {
+            try
+            {                
+                var query = new ApproveFeedbackCommand(feedbackId);
+                var result = await _mediator.Send(query);
+                if (result.Item1 is 404)
+                    return NotFound(result.Item2);
+                else if (result.Item1 is 409)
+                    return Conflict(result.Item2);                
+                return Ok(result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
