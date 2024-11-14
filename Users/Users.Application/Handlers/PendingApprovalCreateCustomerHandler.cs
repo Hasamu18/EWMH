@@ -55,6 +55,7 @@ namespace Users.Application.Handlers
 
             var pendingAccount = UserMapper.Mapper.Map<PendingAccounts>(request);
             pendingAccount.PendingAccountId = Tools.GenerateIdFormat32();
+            pendingAccount.FullName = $"{request.FullName} || {string.Join(", ", request.RoomIds)}";
             await _uow.PendingAccountRepo.AddAsync(pendingAccount);
 
             return (200, $"Tài khoản của bạn đang chờ duyệt, thời gian duyệt trong vòng 24 giờ");

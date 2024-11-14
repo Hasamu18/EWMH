@@ -24,18 +24,28 @@ namespace Requests.Api.Controllers
         /// <summary>
         /// (Manager/Customer) Get the list of customer feedback in the system.
         /// </summary>
-        /// 
+        /// <remarks>
+        /// Sample query parameters:
+        ///     
+        ///     pageIndex        =   1 (must be at least 1)
+        ///     pageSize         =   6 (Repair Request)
+        ///     sortByStarOrder  =   asc (asc/desc, must be input as string)
+        ///     status           =   1 (0/1/2, where 0 equals inactive, 1 equals active, 2 equals all)
+        ///     
+        /// </remarks>
         [Authorize(Roles = $"{Role.ManagerRole},{Role.CustomerRole}")]
         [HttpGet("1")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCustomerFeedbackList(
             [FromQuery] int pageIndex,
-            [FromQuery] int pageSize)
+            [FromQuery] int pageSize,
+            [FromQuery] string? sortByStarOrder,
+            [FromQuery] int status)
         {
             try
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var query = new GetCustomerFeedbackListQuery(accountId,pageIndex, pageSize);
+                var query = new GetCustomerFeedbackListQuery(accountId,pageIndex, pageSize,sortByStarOrder,status);
                 var result = await _mediator.Send(query);
                 if (result.Item1 is 404)
                     return NotFound(result.Item2);                
@@ -111,11 +121,11 @@ namespace Requests.Api.Controllers
         [HttpPost("4")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ApproveCustomerFeedback(
-            [FromQuery] string feedbackId)
+            [FromBody] ApproveCustomerFeedbackRequest request)
         {
             try
             {                
-                var query = new ApproveFeedbackCommand(feedbackId);
+                var query = new ApproveFeedbackCommand(request.FeedbackId);
                 var result = await _mediator.Send(query);
                 if (result.Item1 is 404)
                     return NotFound(result.Item2);

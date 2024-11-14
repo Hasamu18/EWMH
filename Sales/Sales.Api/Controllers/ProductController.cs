@@ -125,15 +125,15 @@ namespace Sales.Api.Controllers
         /// <remarks>
         /// Sample request:
         ///     
-        ///     PageIndex       = 1    (default)
-        ///     Pagesize        = 8    (default)
-        ///     SearchByName    = null (default)
-        ///     IncreasingPrice = true (default)
-        ///     Status          = null (default)
+        ///     PageIndex            = 1    (default)
+        ///     Pagesize             = 8    (default)
+        ///     SearchByName         = null (default)
+        ///     IncreasingPrice      = false (default)
+        ///     Status(IsDisabled)   = null (default)
         ///   
         ///     Get all products paginated
         /// </remarks>
-        [Authorize]
+        //[Authorize]
         [HttpGet("5")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedProduct([FromQuery] GetPagedProductQuery query)

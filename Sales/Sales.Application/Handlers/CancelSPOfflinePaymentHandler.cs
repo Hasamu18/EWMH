@@ -26,9 +26,6 @@ namespace Sales.Application.Handlers
             if (existingContract == null)
                 return (404, "Contract does not exist");
 
-            if (!existingContract.CustomerId.Equals(request.CustomerId))
-                return (409, "This contract is not yours");
-
             if (existingContract.IsOnlinePayment)
                 return (409, "You have paid for this contract, it cannot be canceled");
 

@@ -9,6 +9,7 @@ namespace Requests.Application.ViewModels
     public class CustomerFeedback
     {
         public string FeedbackId { get; set; } = null!;
+        public string RequestId { get; set; } = null!;
         public string CustomerName { get; set; } = null!;        
         public string CustomerEmail { get; set; } = null!;
         public string AvatarUrl { get; set; } = null!;

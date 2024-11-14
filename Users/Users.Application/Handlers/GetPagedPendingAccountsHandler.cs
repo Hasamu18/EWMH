@@ -40,11 +40,24 @@ namespace Users.Application.Handlers
             foreach (var get in items)
             {
                 var apartment = (await _uow.ApartmentAreaRepo.GetAsync(s => s.AreaId.Equals(get.AreaId))).ToList();
+                string[] parts = get.FullName.Split(new string[] { " || " }, StringSplitOptions.None);
                 result.Add(new
                 {
-                    get,
+                    get = new
+                    {
+                        get.PendingAccountId,
+                        FullName = parts[0],
+                        get.Email,
+                        get.Password,
+                        get.PhoneNumber,
+                        get.DateOfBirth,
+                        get.CMT_CCCD,
+                        RoomIds = parts[1].Split(',')
+                                 .Select(p => p.Trim())
+                                 .ToList()
+                    },
                     apartment
-                });                
+                });
             }
 
             return new()

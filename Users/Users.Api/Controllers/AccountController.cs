@@ -328,6 +328,13 @@ namespace Users.Api.Controllers
         /// <summary>
         /// (MANAGER) Create a customer's account
         /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     IsApproval   = true , Reason should be null
+        ///     IsApproval   = false, Reason should be required
+        ///     
+        /// </remarks>
         [Authorize(Roles = Role.ManagerRole)]
         [HttpPost("13")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]

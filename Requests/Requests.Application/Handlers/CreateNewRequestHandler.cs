@@ -56,7 +56,7 @@ namespace Requests.Application.Handlers
             }
             else
             {
-                var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId))).ToList();
+                var getContracts = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) && a.OrderCode != 2)).ToList();
                 if (getContracts.Count == 0)
                     newRequest.ContractId = null;
                 else

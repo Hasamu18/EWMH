@@ -40,13 +40,12 @@ namespace Users.Application.Handlers
                 {
                     EmailSender refuseEmailSender = new(_config);
                     string refuseSubject = "Đăng ký tài khoản EWMH";
-                    string refuseBody = $@"Tài khoản EWMH với CMT/CCCD: {pendingAccount.CMT_CCCD} không tồn tại trong kho dữ liệu sở hữu căn hộ tại chung cư {existingApartment[0].Name}
-Cho nên yêu cầu tạo tài khoản của bạn bị từ chối!";
+                    string refuseBody = $@"Người quản trị hệ thống đã từ chối duyệt tài khoản của bạn với lý do {request.Reason}";
                     await refuseEmailSender.SendEmailAsync(pendingAccount.Email, refuseSubject, refuseBody);
                 }
                 await _uow.PendingAccountRepo.RemoveAsync(pendingAccount);
 
-                return (409, $"Bạn đã từ chối yêu cầu tạo tài khoản do CMT/CCCD của khách hàng không tồn tại trong kho dữ liệu sở hữu căn hộ tại chung cư {existingApartment[0].Name}");
+                return (409, $"Bạn đã từ chối yêu cầu tạo tài khoản với lý do {request.Reason}");
             }
                 
             List<Rooms> customerRooms = [];
