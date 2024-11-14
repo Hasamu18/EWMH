@@ -27,5 +27,7 @@ namespace Users.Application.Commands
         public DateOnly DateOfBirth { get; set; }
 
         public required string AreaId { get; set; }
+
+        public required List<string> RoomIds { get; set; }
     }
 }

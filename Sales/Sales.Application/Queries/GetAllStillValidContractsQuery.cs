@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Sales.Application.Queries
 {
-    public class GetAllPendingContractsQuery : IRequest<object>
+    public class GetAllStillValidContractsQuery : IRequest<object>
     {
         public string LeaderId { get; set; }
         public string? Phone { get; set; }
 
-        public GetAllPendingContractsQuery(string leaderId, string? phone)
+        public GetAllStillValidContractsQuery(string leaderId, string? phone)
         {
             LeaderId = leaderId;
             Phone = phone;

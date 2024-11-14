@@ -126,10 +126,10 @@ namespace Sales.Api.Controllers
         /// <remarks>
         /// Sample request:
         ///     
-        ///     PageIndex       = 1    (default)
-        ///     Pagesize        = 8    (default)
-        ///     SearchByName    = null (default)
-        ///     Status          = null (default)
+        ///     PageIndex           = 1    (default)
+        ///     Pagesize            = 8    (default)
+        ///     SearchByName        = null (default)
+        ///     Status(IsDisabled)  = null (default)
         ///   
         ///     Get all service packages paginated
         /// </remarks>
@@ -263,18 +263,16 @@ namespace Sales.Api.Controllers
         }
 
         /// <summary>
-        /// (Customer) Cancel the contract when the customer has purchased the service package via offline payment
+        /// (Leader) Cancel the a pending contract when this contract is offline payment
         /// </summary>
         /// 
-        [Authorize(Roles = Role.CustomerRole)]
+        [Authorize(Roles = Role.TeamLeaderRole)]
         [HttpDelete("10")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CancelSPOfflinePayment([FromForm] string contractId)
+        public async Task<IActionResult> CancelSPOfflinePayment([FromForm] CancelSPOfflinePaymentCommand command)
         {
             try
             {
-                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var command = new CancelSPOfflinePaymentCommand(accountId, contractId);
                 var result = await _mediator.Send(command);
                 if (result.Item1 is 404)
                     return NotFound(result.Item2);
@@ -345,12 +343,12 @@ namespace Sales.Api.Controllers
         [Authorize(Roles = Role.TeamLeaderRole)]
         [HttpGet("13")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetAllPendingContracts()
+        public async Task<IActionResult> GetAllPendingContracts(string? phone)
         {
             try
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var query = new GetAllPendingContractsQuery(accountId);
+                var query = new GetAllPendingContractsQuery(accountId, phone);
                 var result = await _mediator.Send(query);                
                 return Ok(result);
             }
@@ -380,6 +378,52 @@ namespace Sales.Api.Controllers
         {
             try
             {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Leader) Get all still valid contracts of a leader
+        /// </summary>
+        ///
+        [Authorize(Roles = Role.TeamLeaderRole)]
+        [HttpGet("15")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllStillValidContracts(string? phone)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetAllStillValidContractsQuery(accountId, phone);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Leader) Get all expired contracts of a leader
+        /// </summary>
+        ///
+        [Authorize(Roles = Role.TeamLeaderRole)]
+        [HttpGet("16")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetAllExpireContracts(string? phone)
+        {
+            try
+            {
+                var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
+                var query = new GetAllExpireContractsQuery(accountId, phone);
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }

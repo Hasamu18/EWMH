@@ -7,23 +7,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Google.Cloud.Firestore.V1.StructuredAggregationQuery.Types.Aggregation.Types;
 
 namespace Sales.Application.Handlers
 {
-    internal class GetAllPendingContractsHandler : IRequestHandler<GetAllPendingContractsQuery, object>
+    internal class GetAllStillValidContractsHandler : IRequestHandler<GetAllStillValidContractsQuery, object>
     {
         private readonly IUnitOfWork _uow;
-        public GetAllPendingContractsHandler(IUnitOfWork uow)
+        public GetAllStillValidContractsHandler(IUnitOfWork uow)
         {
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetAllPendingContractsQuery request, CancellationToken cancellationToken)
+        public async Task<object> Handle(GetAllStillValidContractsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Contracts> getPendingContracts;
+            IEnumerable<Contracts> getStillValidContracts;
             if (request.Phone == null)
-                getPendingContracts = (await _uow.ContractRepo.GetAsync(a => a.OrderCode == 2, 
+                getStillValidContracts = (await _uow.ContractRepo.GetAsync(a => a.OrderCode != 2 && a.RemainingNumOfRequests != 0,
                     orderBy: o => o.OrderByDescending(p => p.PurchaseTime),
                     includeProperties: "ServicePackage.ServicePackagePrices")).ToList();
             else
@@ -33,18 +32,18 @@ namespace Sales.Application.Handlers
                     .ToList();
                 if (customerIds.Any())
                 {
-                    getPendingContracts = (await _uow.ContractRepo.GetAsync(a => customerIds.Contains(a.CustomerId) && a.OrderCode == 2,
+                    getStillValidContracts = (await _uow.ContractRepo.GetAsync(a => customerIds.Contains(a.CustomerId) && a.OrderCode != 2 && a.RemainingNumOfRequests != 0,
                     orderBy: o => o.OrderByDescending(p => p.PurchaseTime),
                     includeProperties: "ServicePackage.ServicePackagePrices")).ToList();
                 }
                 else
                 {
-                    getPendingContracts = Enumerable.Empty<Contracts>();
-                }                
+                    getStillValidContracts = Enumerable.Empty<Contracts>();
+                }
             }
-                           
+
             var result = new List<object>();
-            foreach (var getPendingContract in getPendingContracts)
+            foreach (var getPendingContract in getStillValidContracts)
             {
                 var getCusInfo = await _uow.AccountRepo.GetByIdAsync(getPendingContract.CustomerId);
 

@@ -34,7 +34,7 @@ namespace Sales.Application.Handlers
                                                                    a.Status == false)).ToList();
             if (existingCart.Count == 0)
             {
-                var orderId = $"O_{Tools.GenerateRandomString(20)}";
+                var orderId = $"O_{Tools.GetDynamicTimeZone():yyyyMMddHHmmss}_{request.CustomerId}";
                 Orders order = new()
                 {
                     OrderId = orderId,

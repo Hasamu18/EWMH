@@ -9,14 +9,6 @@ namespace Sales.Application.Commands
 {
     public class CancelSPOfflinePaymentCommand : IRequest<(int, string)>
     {
-        public string CustomerId { get; set; }
-
-        public string ContractId { get; set; }
-
-        public CancelSPOfflinePaymentCommand(string customerId, string contractId)
-        {
-            CustomerId = customerId;
-            ContractId = contractId;
-        }
+        public required string ContractId { get; set; }
     }
 }

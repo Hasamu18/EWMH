@@ -15,5 +15,7 @@ namespace Users.Application.Commands
         public required List<string> RoomIds { get; set; }
 
         public bool IsApproval { get; set; }
+
+        public string? Reason { get; set; }
     }
 }

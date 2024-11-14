@@ -47,7 +47,7 @@ namespace Sales.Application.Handlers
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             
-            var contractId = $"CT_{Tools.GenerateRandomString(20)}";
+            var contractId = $"CT_{Tools.GetDynamicTimeZone():yyyyMMddHHmmss}_{request.CustomerId}";
 
             if (request.IsOnlinePayment)
             {
