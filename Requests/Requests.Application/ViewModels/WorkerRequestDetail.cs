@@ -8,7 +8,8 @@ namespace Requests.Application.ViewModels
 {
     public class WorkerRequestDetail
     {
-        public string RequestId { get; set; } = null!;        
+        public string RequestId { get; set; } = null!;
+        public string ContractId { get; set; } = null!;
         public int Status { get; set; }
         public string CustomerId { get; set; } = null!;
         public string CustomerAvatar { get; set; } = null!;

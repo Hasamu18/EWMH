@@ -51,6 +51,7 @@ namespace Requests.Application.Handlers
             Accounts customer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             _workerRequestDetailVM = new ViewModels.WorkerRequestDetail();
             _workerRequestDetailVM.RequestId = request.RequestId;
+            _workerRequestDetailVM.ContractId = request.ContractId;
             _workerRequestDetailVM.Status = request.Status;
             _workerRequestDetailVM.CustomerId = customer.AccountId;
             _workerRequestDetailVM.CustomerAvatar = customer.AvatarUrl;
