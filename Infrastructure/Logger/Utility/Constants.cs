@@ -28,6 +28,11 @@ namespace Logger.Utility
             {
                 Warranty = 0, Repair = 1
             }
+
+            public enum ServiceType
+            {
+                Orders = 0, Contracts = 1, Requests = 2
+            }
         }
     }
 }

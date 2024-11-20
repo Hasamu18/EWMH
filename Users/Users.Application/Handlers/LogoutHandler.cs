@@ -22,10 +22,10 @@ namespace Users.Application.Handlers
         {
             var existingUser = (await _uow.RefreshTokenRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
             if (existingUser.Count == 0)
-                return "You must to login to logout";
+                return "Bạn phải đăng nhập để có thể xài chức năng đăng xuất";
 
             await _uow.RefreshTokenRepo.RemoveAsync(existingUser[0]);
-            return "You logged out successfully";
+            return "Bạn đã đăng xuất thành công";
         }
     }
 }

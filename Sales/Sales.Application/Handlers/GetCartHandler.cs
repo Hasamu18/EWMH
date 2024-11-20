@@ -22,7 +22,7 @@ namespace Sales.Application.Handlers
             var existingCart = (await _uow.OrderRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
                                                                    a.Status == false)).ToList();
             if (existingCart.Count == 0)
-                return (200, "Cart is empty");
+                return (200, "Giỏ hàng trống");
 
             var cartDetail = (await _uow.OrderDetailRepo.GetAsync(a => a.OrderId.Equals(existingCart[0].OrderId))).ToList();
             var result = new List<object>();
@@ -72,7 +72,7 @@ namespace Sales.Application.Handlers
             if (currentCartDetail.Count == 0)
             {
                 await _uow.OrderRepo.RemoveAsync(existingCart[0]);
-                return (200, "Cart is empty");
+                return (200, "Giỏ hàng trống");
             }               
 
             result.Add(new

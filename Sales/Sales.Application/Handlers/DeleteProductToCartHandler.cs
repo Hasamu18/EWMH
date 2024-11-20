@@ -21,17 +21,17 @@ namespace Sales.Application.Handlers
         {
             var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(request.ProductId))).ToList();
             if (existingProduct.Count == 0)
-                return (404, "Product does not exist");
+                return (404, "Sản phẩm không tồn tại");
 
             var existingCart = (await _uow.OrderRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
                                                                    a.Status == false)).ToList();
             if (existingCart.Count == 0)
-                return (404, "Cart is empty");
+                return (404, "Giỏ hàng trống");
 
             var cartDetail = (await _uow.OrderDetailRepo.GetAsync(a => a.OrderId.Equals(existingCart[0].OrderId) &&
                                                                   a.ProductId.Equals(request.ProductId))).ToList();
             if (cartDetail.Count == 0)
-                return (404, "This product is not in your cart");
+                return (404, "Sản phẩm này hiện không có trong giỏ hàng của bạn");
 
             await _uow.OrderDetailRepo.RemoveAsync(cartDetail[0]);
 
@@ -39,7 +39,7 @@ namespace Sales.Application.Handlers
             if (currentCartDetail.Count == 0)
                 await _uow.OrderRepo.RemoveAsync(existingCart[0]);
 
-            return (200, "This product is deleted");
+            return (200, "Sản phẩm đã bị xóa khỏi giỏ hành của bạn");
         }
     }
 }

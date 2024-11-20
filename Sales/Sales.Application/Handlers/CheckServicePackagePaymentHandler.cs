@@ -38,7 +38,7 @@ namespace Sales.Application.Handlers
             var existingServicePackage = (await _uow.ServicePackageRepo.GetAsync(a => a.ServicePackageId.Equals(request.ServicePackageId),
                                                                    includeProperties: "ServicePackagePrices")).ToList();
             if (existingServicePackage.Count == 0)
-                return (404, "Service package does not exist");
+                return (404, "Gói dịch vụ không tồn tại");
 
             var currentServicePackage = existingServicePackage[0].ServicePackagePrices.OrderByDescending(p => p.Date).First();
 
@@ -67,7 +67,7 @@ namespace Sales.Application.Handlers
                 var expiredAt = (int)(DateTime.UtcNow.AddMinutes(10) - new DateTime(1970, 1, 1)).TotalSeconds;
 
                 PaymentData paymentData = new(orderCode, amount, description, itemDataList,
-                    $"{_config["CustomerDeepLink:Url"]}",
+                    $"{_config["CustomerDeepLink:Url"]}isCanceled=1",
                     $"{_config["CustomerDeepLink:Url"]}?servicePackageId={servicePackageId}&contractId={contractId}",
                     buyerName: buyerName, buyerEmail: buyerEmail,
                     buyerPhone: buyerPhone, expiredAt: expiredAt);

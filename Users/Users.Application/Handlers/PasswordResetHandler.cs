@@ -23,12 +23,12 @@ namespace Users.Application.Handlers
             var email = Tools.DecryptString(request.Token);
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(email));
             if (!existingEmail.Any())
-                return (404, $"{email} is not registered account in our application");
+                return (404, $"Email: {email} chưa được đăng ký trong ứng dụng của chúng tôi");
 
             existingEmail.ToList()[0].Password = Tools.HashString(request.Password);
             await _uow.AccountRepo.UpdateAsync(existingEmail.ToList()[0]);
 
-            return (200, "Reseted password successfully");
+            return (200, "Đã đổi mật khẩu thành công");
         }
     }
 }

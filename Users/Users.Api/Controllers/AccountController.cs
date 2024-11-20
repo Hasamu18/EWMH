@@ -35,10 +35,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -58,12 +55,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -85,10 +77,7 @@ namespace Users.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var query = new GetAccountQuery(accountId);
                 var result = await _mediator.Send(query);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -113,12 +102,7 @@ namespace Users.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new UpdateAccountCommand(accountId, fullName, email, dateOfBirth);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -140,12 +124,7 @@ namespace Users.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new UpdatePhotoAccountCommand(accountId, photo);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 400)
-                    return BadRequest(result.Item2);
-                else if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -165,14 +144,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 400)
-                    return BadRequest(result.Item2);
-                else if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Created("", result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -211,10 +183,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -233,10 +202,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -286,10 +252,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 401)
-                    return Unauthorized(result.Item2);               
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -343,12 +306,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Created("", result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -398,12 +356,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -423,12 +376,7 @@ namespace Users.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {

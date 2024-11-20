@@ -24,26 +24,26 @@ namespace Users.Application.Handlers
         {
             var existingApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.AreaId.Equals(request.AreaId))).ToList();
             if (existingApartment.Count == 0)
-                return (404, "Unexisted apartment");
+                return (404, "Chung cư không tồn tại");
 
             var existingName = await _uow.ApartmentAreaRepo.GetAsync(a => a.Name.Equals(request.Name));
             if (existingName.Any() && !existingName.ToList()[0].Name.Equals(request.Name))
-                return (409, $"{request.Name} apartment is existing, choose another name");            
+                return (409, $"Chung cư: {request.Name} đang tồn tại, vui lòng chọn tên khác");            
 
             var getLeader = (await _uow.LeaderRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).FirstOrDefault();
             if (getLeader is null)
-                return (404, "Unexisted leader");
+                return (404, "Trưởng nhóm không tồn tại");
 
             var getLeaderApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).FirstOrDefault();
             if (getLeaderApartment != null && !existingApartment[0].LeaderId.Equals(request.LeaderId))
-                return (409, $"This leader has assigned to another apartment");
+                return (409, $"Trưởng nhóm đã được gán vào một chung cư khác");
 
             if (request.Image != null)
             {
                 var extensionFile = Path.GetExtension(request.Image.FileName);
                 string[] extensionSupport = [".png", ".jpg"];
                 if (!extensionSupport.Contains(extensionFile.ToLower()))
-                    return (400, "The avatar should be .png or .jpg");
+                    return (400, "Ảnh nên có định dạng .png or .jpg");
 
                 var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(request.AreaId, request.Image, _config);
                 existingApartment[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
@@ -56,7 +56,7 @@ namespace Users.Application.Handlers
             existingApartment[0].ManagementCompany = request.ManagementCompany;            
             await _uow.ApartmentAreaRepo.UpdateAsync(existingApartment[0]);
 
-            return (200, $"{request.Name} apartment is updated");
+            return (200, $"Chung cư: {request.Name} đã được cập nhật");
         }
     }
 }

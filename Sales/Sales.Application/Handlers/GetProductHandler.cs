@@ -22,7 +22,7 @@ namespace Sales.Application.Handlers
             var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(request.ProductId),
                                                                    includeProperties: "ProductPrices")).ToList();
             if (existingProduct.Count == 0)
-                return (404, "Product does not exist");
+                return (404, "Sản phẩm không tồn tại");
 
             var currentProduct = existingProduct[0].ProductPrices.OrderByDescending(p => p.Date).First();
 

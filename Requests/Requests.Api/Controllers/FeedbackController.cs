@@ -47,10 +47,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var query = new GetCustomerFeedbackListQuery(accountId,pageIndex, pageSize,sortByStarOrder,status);
                 var result = await _mediator.Send(query);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);                
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -72,10 +69,7 @@ namespace Requests.Api.Controllers
             {                
                 var query = new GetCustomerFeedbackQuery(feedbackId);
                 var result = await _mediator.Send(query);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -98,14 +92,7 @@ namespace Requests.Api.Controllers
                 var customerId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var query = new CreateNewCustomerFeedbackCommand(request, customerId);
                 var result = await _mediator.Send(query);
-
-                if (result.Item1 is 401)
-                    return Unauthorized(result.Item2);                
-                else if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -127,11 +114,7 @@ namespace Requests.Api.Controllers
             {                
                 var query = new ApproveFeedbackCommand(request.FeedbackId);
                 var result = await _mediator.Send(query);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);                
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {

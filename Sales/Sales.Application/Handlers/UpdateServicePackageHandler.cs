@@ -26,14 +26,14 @@ namespace Sales.Application.Handlers
         {
             var existingServicePackage = (await _uow.ServicePackageRepo.GetAsync(a => a.ServicePackageId.Equals(request.ServicePackageId))).ToList();
             if (existingServicePackage.Count == 0)
-                return (404, "Service package does not exist");
+                return (404, "Gói dịch vụ không tồn tại");
 
             if (request.Image != null)
             {
                 var extensionFile = Path.GetExtension(request.Image.FileName);
                 string[] extensionSupport = [".png", ".jpg"];
                 if (!extensionSupport.Contains(extensionFile.ToLower()))
-                    return (400, "The avatar should be .png or .jpg");
+                    return (400, "Ảnh nên có định dạng .png or .jpg");
 
                 var bucketAndPath = await _uow.ServicePackageRepo.UploadFileToStorageAsync(request.ServicePackageId, request.Image, _config);
                 existingServicePackage[0].ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
@@ -54,7 +54,7 @@ namespace Sales.Application.Handlers
             };
             await _uow.ServicePackagePriceRepo.AddAsync(servicePackagePrice);
 
-            return (200, $"{request.Name} service package is updated");
+            return (200, $"Gói dịch vụ: {request.Name} đã được cập nhật");
         }
     }
 }

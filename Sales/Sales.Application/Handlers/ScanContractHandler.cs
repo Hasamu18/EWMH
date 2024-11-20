@@ -28,7 +28,7 @@ namespace Sales.Application.Handlers
         {
             var existingContract = await _uow.ContractRepo.GetByIdAsync(request.ContractId);
             if (existingContract == null)
-                return (404, "Contract does not exist");
+                return (404, "Hợp đồng không tồn tại");
 
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(existingContract.CustomerId);
 
@@ -74,11 +74,11 @@ namespace Sales.Application.Handlers
             await _uow.ContractRepo.UpdateAsync(existingContract);
 
             EmailSender emailSender = new(_config);
-            string subject = "Contract";
-            string body = $"Here, your contract";
+            string subject = "Hợp đồng";
+            string body = $"Đây là hợp đồng của bạn";
             await emailSender.SendEmailAsync(infoCustomer!.Email, subject, body, request.File);
 
-            return (200, "Scaned successfully");
+            return (200, "Đã quét thành công");
         }
     }
 }

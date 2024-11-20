@@ -46,5 +46,39 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Authentication) Get paged transaction of a customer
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     PageIndex           = 1    (default)
+        ///     Pagesize            = 8    (default)
+        ///     ServiceType         = 0    (default)
+        ///     StartDate           = null (default)
+        ///     EndDate             = null (default)
+        ///     
+        ///     ServiceType = 0 (Orders)
+        ///                 = 1 (Contracts)
+        ///                 = 2 (Requests)
+        ///     
+        /// </remarks>
+        [Authorize]
+        [HttpGet("2")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetPagedTransactionOfCustomer([FromQuery] GetPagedTransactionOfCustomerQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
