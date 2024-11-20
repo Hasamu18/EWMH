@@ -323,7 +323,7 @@ namespace Sales.Application.Handlers
                 ContentType = "application/pdf"
             };
             var bucketAndPath = await _uow.OrderRepo.UploadFileToStorageAsync(existingCart[0].OrderId, file, _config);
-            existingCart[0].PurchaseTime = DateTime.Parse(transactionDateTime);
+            existingCart[0].PurchaseTime = TimeZoneInfo.ConvertTime(DateTime.Parse(transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             existingCart[0].Status = true;
             existingCart[0].FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             existingCart[0].OrderCode = request.OrderCode;

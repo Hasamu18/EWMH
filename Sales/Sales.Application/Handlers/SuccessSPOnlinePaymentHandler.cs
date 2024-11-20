@@ -59,7 +59,7 @@ namespace Sales.Application.Handlers
                     AccountNumber = item.accountNumber,
                     CounterAccountNumber = item.counterAccountNumber,
                     CounterAccountName = item.counterAccountName,
-                    PurchaseTime = DateTime.Parse(item.transactionDateTime),
+                    PurchaseTime = TimeZoneInfo.ConvertTime(DateTime.Parse(item.transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                     OrderCode = request.OrderCode,
                     Amount = item.amount,
                     Description = item.description

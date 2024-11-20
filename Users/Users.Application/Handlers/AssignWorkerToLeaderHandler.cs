@@ -24,15 +24,17 @@ namespace Users.Application.Handlers
                 return (404, $"Nhân viên này không tồn tại");
 
             var getLeader = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.LeaderId))).ToList();
-            if (getLeader.Count == 0)
-                return (404, $"Trưởng nhóm này không tồn tại");
-
+            if (request.LeaderId != null)
+            {
+                if (getLeader.Count == 0)
+                    return (404, $"Trưởng nhóm này không tồn tại");
+                if (getLeader[0].IsDisabled)
+                    return (409, "Trưởng nhóm này đã bị vô hiệu hóa, không thể gán");
+            }
+                       
             var getWorkerStatus = await _uow.AccountRepo.GetByIdAsync(request.WorkerId);
             if (getWorkerStatus!.IsDisabled)
-                return (409, "Nhân viên này đã bị vô hiệu hóa, không thể gán");
-
-            if (getLeader[0].IsDisabled)
-                return (409, "Trưởng nhóm này đã bị vô hiệu hóa, không thể gán");
+                return (409, "Nhân viên này đã bị vô hiệu hóa, không thể gán");            
 
             getWorker[0].LeaderId = request.LeaderId;
             await _uow.WorkerRepo.UpdateAsync(getWorker[0]);

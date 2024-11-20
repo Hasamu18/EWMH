@@ -67,8 +67,8 @@ namespace Sales.Application.Handlers
                 var expiredAt = (int)(DateTime.UtcNow.AddMinutes(10) - new DateTime(1970, 1, 1)).TotalSeconds;
 
                 PaymentData paymentData = new(orderCode, amount, description, itemDataList,
-                    $"{_config["CustomerDeepLink:Url"]}isCanceled=1",
-                    $"{_config["CustomerDeepLink:Url"]}?servicePackageId={servicePackageId}&contractId={contractId}",
+                    $"{_config["CustomerDeepLink:Url1"]}?isCanceled=1",
+                    $"{_config["CustomerDeepLink:Url1"]}?servicePackageId={servicePackageId}&contractId={contractId}",
                     buyerName: buyerName, buyerEmail: buyerEmail,
                     buyerPhone: buyerPhone, expiredAt: expiredAt);
 
