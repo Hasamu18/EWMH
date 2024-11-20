@@ -61,12 +61,27 @@ namespace Logger.Utility
 
         public static DateTime GetDynamicTimeZone()
         {
+            // Luôn làm việc với UTC để đảm bảo tính nhất quán
             DateTime utcNow = DateTime.UtcNow;
-            // Sử dụng múi giờ Việt Nam theo tiêu chuẩn IANA
-            TimeZoneInfo vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Ho_Chi_Minh");
-            DateTime vnTime = TimeZoneInfo.ConvertTimeFromUtc(utcNow, vnTimeZone);
-            return vnTime;
+
+            try
+            {
+                // Sử dụng TimeZoneInfo để chuyển sang múi giờ Việt Nam
+                TimeZoneInfo vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+                return TimeZoneInfo.ConvertTimeFromUtc(utcNow, vnTimeZone);
+            }
+            catch (TimeZoneNotFoundException)
+            {
+                // Fallback nếu không tìm thấy múi giờ
+                return utcNow.AddHours(7);
+            }
+            catch (InvalidTimeZoneException)
+            {
+                // Fallback nếu có lỗi múi giờ
+                return utcNow.AddHours(7);
+            }
         }
+
 
         public static string EncryptString(string aString)
         {

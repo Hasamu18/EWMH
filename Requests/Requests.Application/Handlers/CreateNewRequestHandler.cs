@@ -47,7 +47,7 @@ namespace Requests.Application.Handlers
                     return (409, $"Bạn không sở hữu căn hộ với mã phòng: {getRoom[0].RoomId}");
             }
 
-            var requestId = $"RQ_{Tools.GenerateRandomString(20)}";
+            var requestId = $"RQ_{Tools.GetDynamicTimeZone():yyyyMMddHHmmss}_{request.CustomerId}";
             var newRequest = RequestMapper.Mapper.Map<Requests.Domain.Entities.Requests>(request);
 
             if (request.CategoryRequest == Request.CategoryRequest.Warranty)

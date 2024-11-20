@@ -29,27 +29,27 @@ namespace Users.Application.Handlers
             if (request.StartDate == null && request.EndDate == null)
             {
                 items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
-                                                                     a.PurchaseTime != null,
+                                                                     a.PurchaseTime != null && a.OrderCode != 2,
                                                                      includeProperties: "Requests")).ToList();
             }
             else if (request.StartDate == null && request.EndDate != null)
             {
                 items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
-                                                                     a.PurchaseTime != null &&
+                                                                     a.PurchaseTime != null && a.OrderCode != 2 &&
                                                                      DateOnly.FromDateTime((DateTime)a.PurchaseTime) == request.EndDate,
                                                                      includeProperties: "Requests")).ToList();
             }
             else if (request.StartDate != null && request.EndDate == null)
             {
                 items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
-                                                                     a.PurchaseTime != null &&
+                                                                     a.PurchaseTime != null && a.OrderCode != 2 &&
                                                                      DateOnly.FromDateTime((DateTime)a.PurchaseTime) == request.StartDate,
                                                                      includeProperties: "Requests")).ToList();
             }
             else
             {
                 items = (await _uow.ContractRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
-                                                                     a.PurchaseTime != null &&
+                                                                     a.PurchaseTime != null && a.OrderCode != 2 &&
                                                                      DateOnly.FromDateTime((DateTime)a.PurchaseTime) >= request.StartDate &&
                                                                      DateOnly.FromDateTime((DateTime)a.PurchaseTime) <= request.EndDate,
                                                                      includeProperties: "Requests")).ToList();

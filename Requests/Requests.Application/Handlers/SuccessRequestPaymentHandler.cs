@@ -352,7 +352,7 @@ namespace Requests.Application.Handlers
                 {
                     var getPaymentLinkInfomation = await GetPaymentLinkInformation((long)request.OrderCode);
                     getRequest.End = DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime);
-                    getRequest.PurchaseTime = DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime);
+                    getRequest.PurchaseTime = TimeZoneInfo.ConvertTime(DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
                     getRequest.IsOnlinePayment = true;
 
                     Transaction transaction = new()
@@ -364,7 +364,7 @@ namespace Requests.Application.Handlers
                         AccountNumber = getPaymentLinkInfomation.transactions[0].accountNumber,
                         CounterAccountNumber = getPaymentLinkInfomation.transactions[0].counterAccountNumber,
                         CounterAccountName = getPaymentLinkInfomation.transactions[0].counterAccountName,
-                        PurchaseTime = DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime),
+                        PurchaseTime = TimeZoneInfo.ConvertTime(DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                         OrderCode = request.OrderCode,
                         Amount = getPaymentLinkInfomation.amount,
                         Description = getPaymentLinkInfomation.transactions[0].description

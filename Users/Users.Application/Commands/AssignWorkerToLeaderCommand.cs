@@ -11,6 +11,6 @@ namespace Users.Application.Commands
     {
         public required string WorkerId { get; set; }
 
-        public required string LeaderId { get; set; }
+        public string? LeaderId { get; set; }
     }
 }
