@@ -31,7 +31,7 @@ namespace Sales.Application.Handlers
             var existingCart = (await _uow.OrderRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
                                                                    a.Status == false)).ToList();
             if (existingCart.Count == 0)
-                return (200, "Cart is empty");
+                return (200, "Giỏ hàng trống");
 
             var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.CustomerId))).ToList();
 
@@ -56,14 +56,14 @@ namespace Sales.Application.Handlers
             var orderCode = long.Parse(Tools.GenerateRandomDigits(10));
             var id1 = existingCart[0].OrderId;
             var amount = totalPayment;
-            var description = $"Payment for {totalProducts} products";
+            var description = $"{totalProducts} sản phẩm";
             var buyerName = existingUser[0].FullName;
             var buyerEmail = existingUser[0].Email;
             var buyerPhone = existingUser[0].PhoneNumber;
             var expiredAt = (int)(DateTime.UtcNow.AddMinutes(10) - new DateTime(1970, 1, 1)).TotalSeconds;
 
             PaymentData paymentData = new(orderCode, amount, description, itemDataList,
-                $"{_config["CustomerDeepLink:Url"]}",
+                $"{_config["CustomerDeepLink:Url"]}isCanceled=1",
                 $"{_config["CustomerDeepLink:Url"]}?id1={id1}",
                 buyerName: buyerName, buyerEmail: buyerEmail, 
                 buyerPhone: buyerPhone, expiredAt: expiredAt);

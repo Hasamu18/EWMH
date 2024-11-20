@@ -37,12 +37,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var query = new GetCustomerRoomsQuery(accountId, email_Or_Phone);
                 var result = await _mediator.Send(query);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -75,12 +70,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new CreateNewRequestCommand(accountId, customerId, roomId, customerProblem, categoryRequest);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Created("", result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -101,12 +91,7 @@ namespace Requests.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -127,12 +112,7 @@ namespace Requests.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -155,14 +135,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new AddWorkersToRequestCommand(accountId, request.RequestId, request.WorkerList);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 400)
-                    return BadRequest(result.Item2);
-                else if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -185,12 +158,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new AddProductsToRequestCommand(accountId, request.RequestId, request.ProductList);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -285,12 +253,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new UpdateProductToRequestCommand(accountId, request.Product);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -313,12 +276,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new DeleteProductToRequestCommand(accountId, requestDetailId);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -341,12 +299,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new AddWarrantyCardsToRequestCommand(accountId, request.RequestId, request.WarrantyCardIdList);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Created("", result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -371,12 +324,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new DeleteWarrantyCardToRequestCommand(accountId, requestId, warrantyCardId);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -401,12 +349,7 @@ namespace Requests.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new CheckRequestOnlinePaymentCommand(accountId, requestId, conclusion);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -437,12 +380,7 @@ namespace Requests.Api.Controllers
             try
             {
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -569,10 +507,7 @@ namespace Requests.Api.Controllers
             try
             {
                 var result = await _mediator.Send(query);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -712,6 +647,27 @@ namespace Requests.Api.Controllers
             {
                 var result = await _mediator.Send(query);
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Manager) Update price of request
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpPut("26")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> UpdateRequestPrice([FromBody] UpdateRequestPriceCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {

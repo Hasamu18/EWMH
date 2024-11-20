@@ -45,7 +45,7 @@ namespace Users.Application.Handlers
                 }
                 await _uow.PendingAccountRepo.RemoveAsync(pendingAccount);
 
-                return (409, $"Bạn đã từ chối yêu cầu tạo tài khoản với lý do {request.Reason}");
+                return (200, $"Bạn đã từ chối yêu cầu tạo tài khoản với lý do {request.Reason}");
             }
                 
             List<Rooms> customerRooms = [];
@@ -64,7 +64,7 @@ namespace Users.Application.Handlers
 
             var account = UserMapper.Mapper.Map<Accounts>(request);
             account.AccountId = $"C_{await _uow.CustomerRepo.Query().CountAsync() + 1:D10}";
-            account.FullName = pendingAccount.FullName;
+            account.FullName = pendingAccount.FullName.Split("||")[0].Trim();
             account.Email = pendingAccount.Email;
             account.Password = Tools.HashString(pendingAccount.Password);
             account.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{_config["bucket_name"]}/o/default.png?alt=media";

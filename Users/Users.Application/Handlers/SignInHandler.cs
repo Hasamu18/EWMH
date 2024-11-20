@@ -40,11 +40,11 @@ namespace Users.Application.Handlers
             }
 
             if (!existingUser.Any())
-                return (404, "The user does not exist");
+                return (404, "Người dùng không tồn tại");
 
             if (existingUser.Any() && existingUser[0].IsDisabled)
-                return (200, $"Your account has been disabled " +
-                    $"for reason {existingUser[0].DisabledReason}");
+                return (200, $"Tài khoản của bạn đã bị vô hiệu hóa " +
+                    $"với lý do: {existingUser[0].DisabledReason}");
 
             JwtAuthen jwtAuthen = new(_config);
             var token = jwtAuthen.GenerateJwtToken(existingUser[0].AccountId, existingUser[0].Role);

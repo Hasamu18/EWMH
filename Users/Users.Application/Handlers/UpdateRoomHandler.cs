@@ -23,12 +23,12 @@ namespace Users.Application.Handlers
             var getRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
                                                              a.RoomId.Equals(request.OldRoomId))).ToList();
             if (getRoom.Count == 0)
-                return (404, $"Unexisted apartment or Unexisted {request.OldRoomId} room ");
+                return (404, $"Chung cư không tồn tại hoặc mã phòng: {request.OldRoomId} không tồn tại");
 
             var existingRoom = (await _uow.RoomRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
                                                              a.RoomId.Equals(request.NewRoomId))).ToList();
             if (existingRoom.Count != 0)
-                return (409, "This room code is existing");
+                return (409, "Mã phòng này đang tồn tại");
 
             await _uow.RoomRepo.RemoveAsync(getRoom[0]);
             Rooms room = new()
@@ -39,7 +39,7 @@ namespace Users.Application.Handlers
             };
             await _uow.RoomRepo.AddAsync(room);
 
-            return (200, "Updated successfully");
+            return (200, "Đã cập nhật thành công");
         }
     }
 }

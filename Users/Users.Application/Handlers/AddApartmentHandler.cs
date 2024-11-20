@@ -29,20 +29,20 @@ namespace Users.Application.Handlers
         {
             var existingApartment = await _uow.ApartmentAreaRepo.GetAsync(a => a.Name.Equals(request.Name));
             if (existingApartment.Any())
-                return (409, $"{request.Name} apartment is existing, choose another name");
+                return (409, $"Chung cư: {request.Name} đang tồn tại, vui lòng chọn một tên khác");
 
             var extensionFile = Path.GetExtension(request.Image.FileName);
             string[] extensionSupport = [".png", ".jpg"];
             if (!extensionSupport.Contains(extensionFile.ToLower()))
-                return (400, "The avatar should be .png or .jpg");
+                return (400, "Ảnh nên có định dạng .png or .jpg");
 
             var getLeader = (await _uow.LeaderRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).FirstOrDefault();
             if (getLeader is null)
-                return (404, "Unexisted leader");
+                return (404, "Trưởng nhóm không tồn tại");
 
             var getLeaderApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).FirstOrDefault();
             if (getLeaderApartment != null)
-                return (409, $"This leader has assigned to another apartment");
+                return (409, $"Trưởng nhóm đã được gán vào một chung cư khác");
 
             var areaId = $"AA_{await _uow.ApartmentAreaRepo.Query().CountAsync() + 1:D10}";
             var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(areaId, request.Image, _config);
@@ -51,7 +51,7 @@ namespace Users.Application.Handlers
             apartmentArea.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             await _uow.ApartmentAreaRepo.AddAsync(apartmentArea);
             
-            return (201, $"{request.Name} apartment is added");
+            return (201, $"Chung cư: {request.Name} đã được thêm");
         }
     }
 }

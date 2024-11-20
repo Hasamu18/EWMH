@@ -24,19 +24,19 @@ namespace Sales.Application.Handlers
         {
             var existingContract = await _uow.ContractRepo.GetByIdAsync(request.ContractId);
             if (existingContract == null)
-                return (404, "Contract does not exist");
+                return (404, "Hợp đồng không tồn tại");
 
             if (existingContract.IsOnlinePayment)
-                return (409, "You have paid for this contract, it cannot be canceled");
+                return (409, "Bạn đã thanh toán cho hợp đồng này, không thể hủy");
 
             var existingTransaction = await _uow.TransactionRepo.GetByIdAsync(request.ContractId);
             if (existingTransaction != null)
-                return (409, "You have paid for this contract, it cannot be canceled");
+                return (409, "Bạn đã thanh toán cho hợp đồng này, không thể hủy");
 
             await _uow.ContractRepo.DeleteFileToStorageAsync(existingContract.ContractId, _config);
             await _uow.ContractRepo.RemoveAsync(existingContract);
 
-            return (200, "You canceled successfully");
+            return (200, "Bạn đã hủy thành công");
         }
     }
 }

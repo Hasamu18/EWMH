@@ -26,14 +26,14 @@ namespace Sales.Application.Handlers
         {
             var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(request.ProductId))).ToList();
             if (existingProduct.Count == 0)
-                return (404, "Product does not exist");
+                return (404, "Sản phẩm không tồn tại");
 
             if (request.Image != null)
             {
                 var extensionFile = Path.GetExtension(request.Image.FileName);
                 string[] extensionSupport = [".png", ".jpg"];
                 if (!extensionSupport.Contains(extensionFile.ToLower()))
-                    return (400, "The avatar should be .png or .jpg");
+                    return (400, "Ảnh nên có định dạng .png or .jpg");
 
                 var bucketAndPath = await _uow.ProductRepo.UploadFileToStorageAsync(request.ProductId, request.Image, _config);
                 existingProduct[0].ImageUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
@@ -54,7 +54,7 @@ namespace Sales.Application.Handlers
             };
             await _uow.ProductPriceRepo.AddAsync(productPrice);
 
-            return (200, $"{request.Name} product is updated");
+            return (200, $"Sản phẩm: {request.Name} Đã được cập nhật");
         }
     }
 }

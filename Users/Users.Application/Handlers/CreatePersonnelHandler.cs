@@ -35,22 +35,22 @@ namespace Users.Application.Handlers
         {
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
             if (existingEmail.Any())
-                return (409, $"{request.Email} is existing");
+                return (409, $"Email: {request.Email} đang tồn tại");
 
             var existingPhone = await _uow.AccountRepo.GetAsync(a => a.PhoneNumber.Equals(request.PhoneNumber));
             if (existingPhone.Any())
-                return (409, $"{request.PhoneNumber} is existing");
+                return (409, $"Số điện thoại{request.PhoneNumber} đang tồn tại");
 
             var roles = await Tools.GetAllRole();
             var role = roles.Contains(request.Role.ToUpper());
             if (!role) 
-                return (404, $"{request.Role} role is not supported");
+                return (404, $"Vai trò: {request.Role} không được hỗ trợ");
 
             var account = UserMapper.Mapper.Map<Accounts>(request);
             if (request.Role.ToUpper().Equals(Role.AdminRole) ||
                 request.Role.ToUpper().Equals(Role.ManagerRole) ||
                 request.Role.ToUpper().Equals(Role.CustomerRole))
-                return (400, $"You can not create {request.Role} account");
+                return (400, $"Bạn không thể tạo tài khoản với vai trò: {request.Role}");
             else if (request.Role.ToUpper().Equals(Role.TeamLeaderRole))
                 account.AccountId = $"{char.ToUpper(request.Role[0])}_{await _uow.LeaderRepo.Query().CountAsync() + 1:D10}";
             else
@@ -82,13 +82,13 @@ namespace Users.Application.Handlers
 
             EmailSender emailSender = new(_config);
             var link = $"https://loloca.id.vn/change-password?token={Tools.EncryptString(request.Email)}";
-            string subject = "Reset password";
-            string body = $"<p>Click here to reset your password:</p>" +
+            string subject = "Thiết lập lại mật khẩu";
+            string body = $"<p>Nhấp vào đây để đổi mật khẩu:</p>" +
             $"<a href=\"{link}\" style=\"padding: 10px; color: white; background-color: #007BFF; text-decoration: none;\">" +
-            $"Reset password</a>";
+            $"Thiết lập lại mật khẩu</a>";
             await emailSender.SendEmailAsync(request.Email, subject, body);
 
-            return (201, $"The personnel with {request.Role} role has been created");
+            return (201, $"Nhân sự với vai trò: {request.Role} đã được tạo");
         }
     }
 }

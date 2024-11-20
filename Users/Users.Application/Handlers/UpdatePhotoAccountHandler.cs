@@ -28,18 +28,18 @@ namespace Users.Application.Handlers
         {
             var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
             if (!existingUser.Any())
-                return (404, "The user does not exist");
+                return (404, "Người dùng không tồn tại");
 
             var extensionFile = Path.GetExtension(request.Image.FileName);
             string[] extensionSupport = { ".png", ".jpg" };
             if (!extensionSupport.Contains(extensionFile.ToLower()))
-                return (400, "Avatar should be .png or .jpg");
+                return (400, "Ảnh nên có định dạng .png or .jpg");
 
             var bucketAndPath = await _uow.AccountRepo.UploadFileToStorageAsync(request.AccountId, request.Image, _config);
             existingUser[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 
-            return (200, "Updated avatar successfully");
+            return (200, "Ảnh đã được cập nhật thành công");
         }
     }
 }

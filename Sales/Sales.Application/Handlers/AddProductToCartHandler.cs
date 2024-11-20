@@ -25,10 +25,10 @@ namespace Sales.Application.Handlers
         {
             var existingProduct = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(request.ProductId))).ToList();
             if (existingProduct.Count == 0)
-                return (404, "Product does not exist");
+                return (404, "Sản phẩm không tồn tại");
 
             if (request.Quantity > existingProduct[0].InOfStock)
-                return (409, "This product is not available in sufficient quantity");
+                return (409, "Sản phẩm này không có đủ số lượng");
 
             var existingCart = (await _uow.OrderRepo.GetAsync(a => a.CustomerId.Equals(request.CustomerId) &&
                                                                    a.Status == false)).ToList();
@@ -78,7 +78,7 @@ namespace Sales.Application.Handlers
                     await _uow.OrderDetailRepo.UpdateAsync(existingProductInCart[0]);
                 }
             }
-            return (201, "Added product to cart");
+            return (201, "Đã thêm sản phẩm này vào giỏ hàng");
         }
     }
 }

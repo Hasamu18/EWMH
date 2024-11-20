@@ -24,18 +24,18 @@ namespace Users.Application.Handlers
         {
             var existingUser = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(request.AccountId))).ToList();
             if (!existingUser.Any())
-                return (404, "The user does not exist");
+                return (404, "Người dùng không tồn tại");
 
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
             if (existingEmail.Any() && !existingUser.ToList()[0].Email.Equals(request.Email))
-                return (409, $"{request.Email} is existing");
+                return (409, $"Email: {request.Email} đang tồn tại");
 
             existingUser[0].FullName = request.FullName;
             existingUser[0].Email = request.Email;
             existingUser[0].DateOfBirth = request.DateOfBirth;
             await _uow.AccountRepo.UpdateAsync(existingUser[0]);
 
-            return (200, "Updated successfully");
+            return (200, "Đã cập nhật thành công");
         }
     }
 }

@@ -29,10 +29,10 @@ namespace Sales.Application.Handlers
             var extensionFile = Path.GetExtension(request.Image.FileName);
             string[] extensionSupport = [".png", ".jpg"];
             if (!extensionSupport.Contains(extensionFile.ToLower()))
-                return (400, "The avatar should be .png or .jpg");
+                return (400, "Ảnh nên có định dạng .png or .jpg");
 
             if (request.NumOfRequest <= 0)
-                return (400, "Number of requests must be more than 1");
+                return (400, "Số lượng yêu cầu phải lớn hơn 0");
 
             var servicePackageId = $"SP_{(await _uow.ServicePackageRepo.Query().CountAsync() + 1):D10}";
             var bucketAndPath = await _uow.ServicePackageRepo.UploadFileToStorageAsync(servicePackageId, request.Image, _config);
@@ -73,7 +73,7 @@ namespace Sales.Application.Handlers
             };
             await _uow.ServicePackagePriceRepo.AddAsync(servicePackagePrice);
 
-            return (201, $"{request.Name} service package is added");
+            return (201, $"Gói dịch vụ: {request.Name} đã được thêm");
         }
     }
 }

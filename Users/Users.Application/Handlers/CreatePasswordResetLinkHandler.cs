@@ -25,17 +25,17 @@ namespace Users.Application.Handlers
         {
             var existingEmail = await _uow.AccountRepo.GetAsync(a => a.Email.Equals(request.Email));
             if (!existingEmail.Any())
-                return (404, $"{request.Email} is not registered account in our application");
+                return (404, $"Email: {request.Email} chưa được đăng ký trong ứng dụng của chúng tôi");
 
             EmailSender emailSender = new(_config);
             var link = $"https://loloca.id.vn/change-password?token={Tools.EncryptString(request.Email)}";
-            string subject = "Reset password";
-            string body = $"<p>Click here to reset your password:</p>" +
+            string subject = "Thiết lập lại mật khẩu";
+            string body = $"<p>Nhấp vào đây để đổi mật khẩu:</p>" +
             $"<a href=\"{link}\" style=\"padding: 10px; color: white; background-color: #007BFF; text-decoration: none;\">" +
-            $"Reset password</a>";
+            $"Thiết lập lại mật khẩu</a>";
             await emailSender.SendEmailAsync(request.Email, subject, body);
 
-            return (200, $"Password reset link sent to {request.Email}");
+            return (200, $"Đường liên kết đổi mật khẩu đã được gửi đến email: {request.Email}");
         }
     }
 }

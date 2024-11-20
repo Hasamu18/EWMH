@@ -32,7 +32,7 @@ namespace Users.Application.Handlers
                     {
                         return (200, new TResponse<object>
                         {
-                            Message = "Get account successfully",
+                            Message = "Thành công",
                             Response = new
                             {
                                 User = existingUser[0],
@@ -50,7 +50,7 @@ namespace Users.Application.Handlers
                         var getLeader = await _uow.AccountRepo.GetByIdAsync(getApartment!.LeaderId);
                         return (200, new TResponse<object>
                         {
-                            Message = "Get account successfully",
+                            Message = "Thành công",
                             Response = new
                             {
                                 Customer = existingUser[0],
@@ -62,14 +62,14 @@ namespace Users.Application.Handlers
                 }
                 return (200, new TResponse<object>
                 {
-                    Message = "Get account successfully",
+                    Message = "Thành công",
                     Response = existingUser[0]
                 });
             }
                 
             return (404, new TResponse<object>
             {
-                Message = "The user does not exist",
+                Message = "Người dùng không tồn tại",
                 Response = null
             });
         }

@@ -41,7 +41,7 @@ namespace Sales.Application.Handlers
             var existingServicePackage = (await _uow.ServicePackageRepo.GetAsync(a => a.ServicePackageId.Equals(request.ServicePackageId),
                                                                    includeProperties: "ServicePackagePrices")).ToList();
             if (existingServicePackage.Count == 0)
-                return (404, "Service package does not exist");
+                return (404, "Gói dịch vụ không tồn tại");
 
             var currentServicePackage = existingServicePackage[0].ServicePackagePrices.OrderByDescending(p => p.Date).First();
             

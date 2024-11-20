@@ -26,11 +26,11 @@ namespace Users.Application.Handlers
         {            
             var getRefreshToken = (await _uow.RefreshTokenRepo.GetAsync(e => e.Token.Equals(request.RT))).ToList();
             if (getRefreshToken.Count == 0)
-                return (401, "Unexisted refresh token");
+                return (401, "RefreshToken không tồn tại");
 
             var currentTime = Tools.GetDynamicTimeZone();
             if (currentTime.CompareTo(getRefreshToken[0].ExpiredAt) > 0)
-                return (401, "You have been logged out of the system, you need to log in again");
+                return (401, "Bạn đã đăng xuất, cần đăng nhập lại");
 
             JwtAuthen jwtAuthen = new(_config);
             var claims = jwtAuthen.ReadClaimsFromExpiredToken(request.AT);

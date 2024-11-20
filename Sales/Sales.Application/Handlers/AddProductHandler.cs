@@ -29,7 +29,7 @@ namespace Sales.Application.Handlers
             var extensionFile = Path.GetExtension(request.Image.FileName);
             string[] extensionSupport = [".png", ".jpg"];
             if (!extensionSupport.Contains(extensionFile.ToLower()))
-                return (400, "The avatar should be .png or .jpg");
+                return (400, "Ảnh nên có định dạng .png or .jpg");
 
             var productId = $"P_{(await _uow.ProductRepo.Query().CountAsync() + 1):D10}";
             var bucketAndPath = await _uow.ProductRepo.UploadFileToStorageAsync(productId, request.Image, _config);
@@ -48,7 +48,7 @@ namespace Sales.Application.Handlers
             };
             await _uow.ProductPriceRepo.AddAsync(productPrice);
 
-            return (201, $"{request.Name} product is added");
+            return (201, $"Sản phẩm: {request.Name} đã được thêm");
         }
     }
 }

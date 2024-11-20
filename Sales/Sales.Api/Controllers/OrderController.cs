@@ -37,12 +37,7 @@ namespace Sales.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new AddProductToCartCommand(accountId, productId, quantity);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-                else if (result.Item1 is 409)
-                    return Conflict(result.Item2);
-
-                return Created("", result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -64,8 +59,7 @@ namespace Sales.Api.Controllers
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var query = new GetCartQuery(accountId);
-                var result = await _mediator.Send(query);
-                
+                var result = await _mediator.Send(query);               
                 return Ok(result.Item2);
             }
             catch (Exception ex)
@@ -89,10 +83,7 @@ namespace Sales.Api.Controllers
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new DeleteProductToCartCommand(accountId, productId);
                 var result = await _mediator.Send(command);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {
@@ -114,8 +105,7 @@ namespace Sales.Api.Controllers
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var command = new CheckOrderPaymentCommand(accountId);
-                var result = await _mediator.Send(command);
-                
+                var result = await _mediator.Send(command);                
                 return Ok(result.Item2);
             }
             catch (Exception ex)
@@ -166,10 +156,7 @@ namespace Sales.Api.Controllers
             try
             {
                 var result = await _mediator.Send(query);
-                if (result.Item1 is 404)
-                    return NotFound(result.Item2);
-
-                return Ok(result.Item2);
+                return StatusCode(result.Item1, result.Item2);
             }
             catch (Exception ex)
             {

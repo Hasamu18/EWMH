@@ -24,12 +24,12 @@ namespace Users.Application.Handlers
             var existingApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.AreaId.Equals(request.AreaId),
                                                                            includeProperties: "Rooms")).ToList();
             if (existingApartment.Count == 0)
-                return (404, "Unexisted apartment");
+                return (404, "Chung cư không tồn tại");
 
             foreach (var room in request.RoomIds)
             {
                 if (room.Length > 10)
-                    return (404, $"{room} is invalid, room Id must be less or than 10 letters");
+                    return (404, $"Mã phòng: {room} không hợp lệ, room Id phải ít hơn hoặc bằng 10 ký tự");
             }
 
             var roomsInApartmentCurrent = existingApartment[0].Rooms.Select(r => r.RoomId).ToList();
@@ -41,7 +41,7 @@ namespace Users.Application.Handlers
                 .ToList();
 
             if (duplicateRooms.Count != 0)
-                return (409, $"The following rooms are duplicated: {string.Join(", ", duplicateRooms)}");
+                return (409, $"Những phòng sau đang bị trùng lặp: {string.Join(", ", duplicateRooms)}");
 
             foreach (var room in request.RoomIds)
             {
@@ -54,7 +54,7 @@ namespace Users.Application.Handlers
                 await _uow.RoomRepo.AddAsync(rooms);
             }
 
-            return (201, $"{existingApartment[0].Name} apartment has added {request.RoomIds.Count} rooms");
+            return (201, $"Chung cư: {existingApartment[0].Name} đã thêm {request.RoomIds.Count} phòng");
         }
     }
 }
