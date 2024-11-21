@@ -7,47 +7,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Google.Cloud.Firestore.V1.StructuredAggregationQuery.Types.Aggregation.Types;
 
 namespace Sales.Application.Handlers
 {
-    internal class GetAllPendingContractsHandler : IRequestHandler<GetAllPendingContractsQuery, object>
+    internal class GetAllPendingContractsOfCustomerHandler : IRequestHandler<GetAllPendingContractsOfCustomerQuery, object>
     {
         private readonly IUnitOfWork _uow;
-        public GetAllPendingContractsHandler(IUnitOfWork uow)
+        public GetAllPendingContractsOfCustomerHandler(IUnitOfWork uow)
         {
             _uow = uow;
         }
 
-        public async Task<object> Handle(GetAllPendingContractsQuery request, CancellationToken cancellationToken)
+        public async Task<object> Handle(GetAllPendingContractsOfCustomerQuery request, CancellationToken cancellationToken)
         {
-            var getAreaId = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).ToList().First().AreaId;
-            var getCustomerIds = (await _uow.RoomRepo
-                                .GetAsync(a => a.AreaId.Equals(getAreaId) && a.CustomerId != null))
-                                .Select(a => a.CustomerId)
-                                .ToList();
-            IEnumerable<Contracts> getPendingContracts;
-            if (request.Phone == null)
-                getPendingContracts = (await _uow.ContractRepo.GetAsync(a => a.OrderCode == 2 && getCustomerIds.Contains(a.CustomerId), 
+            IEnumerable<Contracts> getPendingContracts = (await _uow.ContractRepo.GetAsync(a => a.OrderCode == 2 && a.CustomerId.Equals(request.CustomerId),
                     orderBy: o => o.OrderByDescending(p => p.PurchaseTime),
                     includeProperties: "ServicePackage.ServicePackagePrices")).ToList();
-            else
-            {
-                var customerIds = (await _uow.AccountRepo.GetAsync(c => c.PhoneNumber.Contains(request.Phone)))
-                    .Select(c => c.AccountId)
-                    .ToList();
-                if (customerIds.Any())
-                {
-                    getPendingContracts = (await _uow.ContractRepo.GetAsync(a => customerIds.Contains(a.CustomerId) && a.OrderCode == 2 && getCustomerIds.Contains(a.CustomerId),
-                    orderBy: o => o.OrderByDescending(p => p.PurchaseTime),
-                    includeProperties: "ServicePackage.ServicePackagePrices")).ToList();
-                }
-                else
-                {
-                    getPendingContracts = Enumerable.Empty<Contracts>();
-                }                
-            }
-                           
+
             var result = new List<object>();
             foreach (var getPendingContract in getPendingContracts)
             {
