@@ -26,7 +26,7 @@ namespace Requests.Application.Handlers
             var getRequest = await _uow.RequestRepo.GetByIdAsync(request.RequestId);
             if (getRequest == null)
                 return (404, "Yêu cầu không tồn tại");
-
+            var getRequestPrice = (await _uow.PriceRequestRepo.GetAsync()).ToList();
             var result = new List<object>();
             var getCustomerAndLeader = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(getRequest.LeaderId) ||
                                                                   a.AccountId.Equals(getRequest.CustomerId))).ToList();
@@ -56,7 +56,11 @@ namespace Requests.Application.Handlers
                 {
                     var getProductInfo = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId),
                                                                    includeProperties: "ProductPrices")).ToList();
-                    int currentPriceProduct = getProductInfo[0].ProductPrices.OrderByDescending(p => p.Date).First().PriceByDate;
+                    int currentPriceProduct = getProductInfo[0].ProductPrices
+                    .OrderByDescending(p => p.Date)
+                    .FirstOrDefault(p => getRequest.Start >= p.Date)?.PriceByDate
+                    ?? getProductInfo[0].ProductPrices.Last().PriceByDate;
+
                     if (!product.IsCustomerPaying)
                         currentPriceProduct = 0;
 
@@ -75,7 +79,32 @@ namespace Requests.Application.Handlers
 
             result.Add(new
             {
-                Request = getRequest,
+                Request = new
+                {
+                    getRequest.RequestId,
+                    getRequest.LeaderId,
+                    getRequest.CustomerId,
+                    getRequest.ContractId,
+                    getRequest.RoomId,
+                    getRequest.Start,
+                    getRequest.End,
+                    getRequest.CustomerProblem,
+                    getRequest.Conclusion,
+                    getRequest.Status,
+                    getRequest.CategoryRequest,
+                    getRequest.PurchaseTime,
+                    getRequest.TotalPrice,
+                    getRequest.FileUrl,
+                    getRequest.OrderCode,
+                    getRequest.IsOnlinePayment,
+                    requestPrice = getRequest.CategoryRequest == 0
+                    ? 0
+                    : getRequest.CategoryRequest == 1 && getRequest.ContractId != null
+                        ? 0
+                        : (getRequestPrice
+                           .OrderByDescending(p => p.Date)
+                           .FirstOrDefault(p => getRequest.Start >= p.Date) ?? getRequest.PriceRequests.Last()).PriceByDate
+                },
                 Customer_Leader = getCustomerAndLeader,
                 Apartment = new
                 {

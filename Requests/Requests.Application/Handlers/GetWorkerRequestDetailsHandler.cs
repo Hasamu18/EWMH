@@ -66,7 +66,7 @@ namespace Requests.Application.Handlers
                 _workerRequestDetailVM.WarrantyRequests = await GetWorkerRequestDetailWarrantyRequests(request);
             }
 
-            else _workerRequestDetailVM.ReplacementProducts = await GetWorkerRequestDetailProducts(request);
+            else _workerRequestDetailVM.ReplacementProducts = await GetWorkerRequestDetailProducts(request, request.Start);
         }
         private async Task<List<ViewModels.WorkerRequestDetailWorker>> GetWorkersForRepairRequest(Domain.Entities.Requests request)
         {
@@ -105,13 +105,13 @@ namespace Requests.Application.Handlers
             }
             return workerRequestDetailWarrantyRequests;
         }
-        private async Task<List<ViewModels.WorkerRequestDetailProduct>> GetWorkerRequestDetailProducts(Domain.Entities.Requests request)
+        private async Task<List<ViewModels.WorkerRequestDetailProduct>> GetWorkerRequestDetailProducts(Domain.Entities.Requests request, DateTime start)
         {
             List<ViewModels.WorkerRequestDetailProduct> workerRequestDetailProducts = new List<ViewModels.WorkerRequestDetailProduct>();
             List<Domain.Entities.RequestDetails> requestDetails = (await _uow.RequestDetailRepo.GetAsync(rd => rd.RequestId == request.RequestId)).ToList();
             foreach (var requestDetail in requestDetails)
             {
-                ViewModels.WorkerRequestDetailProduct workerRequestDetailProduct = await GetWorkerRequestDetailProduct(requestDetail);
+                ViewModels.WorkerRequestDetailProduct workerRequestDetailProduct = await GetWorkerRequestDetailProduct(requestDetail, start);
                 workerRequestDetailProducts.Add(workerRequestDetailProduct);
             }
             return workerRequestDetailProducts;
@@ -133,7 +133,7 @@ namespace Requests.Application.Handlers
             return workerRequestDetailWarrantyRequest;
 
         }
-        private async Task<ViewModels.WorkerRequestDetailProduct> GetWorkerRequestDetailProduct(Domain.Entities.RequestDetails requestDetail)
+        private async Task<ViewModels.WorkerRequestDetailProduct> GetWorkerRequestDetailProduct(Domain.Entities.RequestDetails requestDetail, DateTime start)
         {
             ViewModels.WorkerRequestDetailProduct workerRequestDetailProduct = new ViewModels.WorkerRequestDetailProduct();
             Domain.Entities.Products product = await _uow.ProductRepo.GetByIdAsync(requestDetail.ProductId);
@@ -144,7 +144,7 @@ namespace Requests.Application.Handlers
             workerRequestDetailProduct.ProductName = product.Name;
             workerRequestDetailProduct.ImageUrl = product.ImageUrl;
 
-            workerRequestDetailProduct.ProductPrice = await GetLatestProductPrice(product);
+            workerRequestDetailProduct.ProductPrice = await GetLatestProductPrice(product, start);
 
             workerRequestDetailProduct.IsCustomerPaying = requestDetail.IsCustomerPaying;
             workerRequestDetailProduct.Quantity = requestDetail.Quantity;
@@ -152,13 +152,15 @@ namespace Requests.Application.Handlers
             workerRequestDetailProduct.ReplacementReason = requestDetail.Description;
             return workerRequestDetailProduct;
         }
-        private async Task<int> GetLatestProductPrice(Domain.Entities.Products product)
+        private async Task<int> GetLatestProductPrice(Domain.Entities.Products product, DateTime start)
         {
             List<ProductPrices> productPrices = (await _uow.ProductPriceRepo
                 .GetAsync(pp => pp.ProductId == product.ProductId)).ToList();
             ProductPrices latestPrice = productPrices
                 .OrderByDescending(pp => pp.Date)
-                .FirstOrDefault()!;
+                .FirstOrDefault(p => start >= p.Date)
+                    ?? productPrices.Last();
+
             return latestPrice.PriceByDate;
         }
     }
