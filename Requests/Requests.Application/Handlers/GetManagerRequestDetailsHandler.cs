@@ -22,7 +22,7 @@ namespace Requests.Application.Handlers
         public async Task<object> Handle(GetManagerRequestDetailsQuery query, CancellationToken cancellationToken)
         {
             _query = query;
-            var request = await _uow.RequestRepo.GetByIdAsync(_query.RequestId);
+            var request = (await _uow.RequestRepo.GetAsync(a => a.RequestId.Equals(_query.RequestId))).ToList().First();
             var customerAndLeaderPair = await GetCustomerLeaderPair(request);
 
             //else
@@ -39,23 +39,32 @@ namespace Requests.Application.Handlers
                                                               a.AccountId.Equals(request.CustomerId))).ToList();
             var wokersList = new List<object>();
             var productsList = new List<object>();
+            var getRequestPrice = (await _uow.PriceRequestRepo.GetAsync()).ToList();
             if (request.Status == 1 || request.Status == 2)
             {
                 var getWorkers = (await _uow.RequestWorkerRepo.GetAsync(a => a.RequestId.Equals(request.RequestId))).ToList();
-                var getAttachedOrder = (await _uow.RequestDetailRepo.GetAsync(a => a.RequestId.Equals(request.RequestId))).ToList();
+                var getAttachedOrder = (await _uow.RequestDetailRepo.GetAsync(a => a.RequestId.Equals(request.RequestId))).ToList();             
                 foreach (var worker in getWorkers)
                 {
                     var getWokerInfo = await _uow.AccountRepo.GetByIdAsync(worker.WorkerId);
-                    wokersList.Add(getWokerInfo!);
+                    wokersList.Add(new
+                    {
+                        getWokerInfo = getWokerInfo!,
+                        worker.IsLead
+                    });
                 }
                 foreach (var product in getAttachedOrder)
                 {
                     var getProductInfo = (await _uow.ProductRepo.GetAsync(a => a.ProductId.Equals(product.ProductId),
                                                                    includeProperties: "ProductPrices")).ToList();
-                    int currentPriceProduct = getProductInfo[0].ProductPrices.OrderByDescending(p => p.Date).First().PriceByDate;
+                    int currentPriceProduct = getProductInfo[0].ProductPrices
+                    .OrderByDescending(p => p.Date)
+                    .FirstOrDefault(p => request.Start >= p.Date)?.PriceByDate
+                    ?? getProductInfo[0].ProductPrices.Last().PriceByDate;
+
                     if (!product.IsCustomerPaying)
                         currentPriceProduct = 0;
-
+                    
                     productsList.Add(new
                     {
                         getProductInfo[0].Name,
@@ -71,7 +80,32 @@ namespace Requests.Application.Handlers
             }
             return new
             {
-                Request = request,
+                Request = new
+                {
+                    request.RequestId,
+                    request.LeaderId,
+                    request.CustomerId,
+                    request.ContractId,
+                    request.RoomId,
+                    request.Start,
+                    request.End,
+                    request.CustomerProblem,
+                    request.Conclusion,
+                    request.Status,
+                    request.CategoryRequest,
+                    request.PurchaseTime,
+                    request.TotalPrice,
+                    request.FileUrl,
+                    request.OrderCode,
+                    request.IsOnlinePayment,
+                    requestPrice = request.CategoryRequest == 0
+                    ? 0
+                    : request.CategoryRequest == 1 && request.ContractId != null
+                        ? 0
+                        : (getRequestPrice
+                           .OrderByDescending(p => p.Date)
+                           .FirstOrDefault(p => request.Start >= p.Date) ?? request.PriceRequests.Last()).PriceByDate
+                },
                 Customer_Leader = getCustomerAndLeader,
                 WorkerList = wokersList,
                 ProductList = productsList

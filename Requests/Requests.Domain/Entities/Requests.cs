@@ -45,7 +45,7 @@ public partial class Requests
     public virtual ICollection<Feedbacks> Feedbacks { get; set; } = new List<Feedbacks>();
 
     public virtual Leaders Leader { get; set; } = null!;
-
+    [JsonIgnore]
     public virtual ICollection<PriceRequests> PriceRequests { get; set; } = new List<PriceRequests>();
     [JsonIgnore]
     public virtual ICollection<RequestDetails> RequestDetails { get; set; } = new List<RequestDetails>();

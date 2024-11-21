@@ -25,7 +25,7 @@ namespace Requests.Application.Handlers
                     pageIndex: 1,
                     pageSize: (int)request.Quantity)).ToList();
             
-            var requestDetail = (await _uow.RequestDetailRepo.GetAsync()).ToList();
+            //var requestDetail = (await _uow.RequestDetailRepo.GetAsync()).ToList();
             return items;
         }
     }
