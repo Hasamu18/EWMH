@@ -359,7 +359,7 @@ Mã hợp đồng: {contractId}")
                 contract.ContractId = contractId;
                 contract.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
                 contract.PurchaseTime = Tools.GetDynamicTimeZone();//This time, it is created date
-                contract.RemainingNumOfRequests = 0;
+                contract.RemainingNumOfRequests = existingServicePackage[0].NumOfRequest;
                 contract.OrderCode = 2;//2 is pending contract
                 contract.TotalPrice = null;
                 await _uow.ContractRepo.AddAsync(contract);
