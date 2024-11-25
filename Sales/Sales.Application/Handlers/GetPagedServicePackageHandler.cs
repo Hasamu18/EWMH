@@ -25,7 +25,7 @@ namespace Sales.Application.Handlers
             int count = 0;
             if (request.SearchByName == null && request.Status == null)
             {
-                items = await _uow.ServicePackageRepo.GetAsync(includeProperties: "ServicePackagePrices",
+                items = await _uow.ServicePackageRepo.GetAsync(orderBy: q => q.OrderByDescending(a => a.ServicePackageId), includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
                 count = (await _uow.ServicePackageRepo.GetAsync()).Count();

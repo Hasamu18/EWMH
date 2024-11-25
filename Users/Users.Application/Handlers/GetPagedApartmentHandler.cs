@@ -25,8 +25,8 @@ namespace Users.Application.Handlers
             int count = 0;
             if (request.SearchByName == null)
             {
-                var items = await _uow.ApartmentAreaRepo.GetAsync(pageIndex: request.PageIndex,
-                                                                  pageSize: request.Pagesize);
+                var items = await _uow.ApartmentAreaRepo.GetAsync(orderBy: q => q.OrderByDescending(a => a.AreaId), pageIndex: request.PageIndex,
+                                                                  pageSize: request.Pagesize, includeProperties:"Rooms");
                 count = (await _uow.ApartmentAreaRepo.GetAsync()).Count();
 
                 foreach (var get in items)
@@ -42,7 +42,8 @@ namespace Users.Application.Handlers
                         get.Description,
                         get.Address,
                         get.ManagementCompany,
-                        get.AvatarUrl
+                        get.AvatarUrl,
+                        RoomIds = get.Rooms.Select(s => s.RoomId).ToList()
                     });
                 }
             }
@@ -51,10 +52,10 @@ namespace Users.Application.Handlers
                 var items = await _uow.ApartmentAreaRepo.GetAsync(
                     filter: s => s.Name.Contains(request.SearchByName),
                     pageIndex: request.PageIndex,
-                    pageSize: request.Pagesize);
+                    pageSize: request.Pagesize, includeProperties: "Rooms");
                 count = (await _uow.ApartmentAreaRepo.GetAsync(filter: s => s.Name.Contains(request.SearchByName))).Count();
 
-                foreach (var get in items)
+                foreach (var get in items.Reverse())
                 {
                     var account = await _uow.AccountRepo.GetByIdAsync(get.LeaderId);
 
@@ -67,7 +68,8 @@ namespace Users.Application.Handlers
                         get.Description,
                         get.Address,
                         get.ManagementCompany,
-                        get.AvatarUrl
+                        get.AvatarUrl,
+                        RoomIds = get.Rooms.Select(s => s.RoomId).ToList()
                     });
                 }
             }

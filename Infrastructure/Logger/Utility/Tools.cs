@@ -63,23 +63,24 @@ namespace Logger.Utility
         {
             // Luôn làm việc với UTC để đảm bảo tính nhất quán
             DateTime utcNow = DateTime.UtcNow;
-
-            try
-            {
-                // Sử dụng TimeZoneInfo để chuyển sang múi giờ Việt Nam
-                TimeZoneInfo vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
-                return TimeZoneInfo.ConvertTimeFromUtc(utcNow, vnTimeZone);
-            }
-            catch (TimeZoneNotFoundException)
-            {
-                // Fallback nếu không tìm thấy múi giờ
-                return utcNow.AddHours(7);
-            }
-            catch (InvalidTimeZoneException)
-            {
-                // Fallback nếu có lỗi múi giờ
-                return utcNow.AddHours(7);
-            }
+            TimeZoneInfo vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            return TimeZoneInfo.ConvertTimeFromUtc(utcNow, vnTimeZone);
+            //try
+            //{
+            //    // Sử dụng TimeZoneInfo để chuyển sang múi giờ Việt Nam
+            //    TimeZoneInfo vnTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
+            //    return TimeZoneInfo.ConvertTimeFromUtc(utcNow, vnTimeZone);
+            //}
+            //catch (TimeZoneNotFoundException)
+            //{
+            //    // Fallback nếu không tìm thấy múi giờ
+            //    return utcNow.AddHours(7);
+            //}
+            //catch (InvalidTimeZoneException)
+            //{
+            //    // Fallback nếu có lỗi múi giờ
+            //    return utcNow.AddHours(7);
+            //}
         }
 
 
