@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 using Requests.Application.Commands;
 using Requests.Application.Queries;
 using Requests.Application.ViewModels;
@@ -693,6 +694,28 @@ namespace Requests.Api.Controllers
         {
             try
             {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Manager) Get current price of request
+        /// </summary>
+        /// 
+        //[Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("28")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCurrentRequestPrice()
+        {
+            try
+            {
+                var query = new GetCurrentRequestPriceQuery();
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }

@@ -104,7 +104,7 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (MANAGER) Get all apartment paginated 
+        /// Get all apartment paginated 
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -115,7 +115,6 @@ namespace Users.Api.Controllers
         ///   
         ///     Get all apartment paginated
         /// </remarks>
-        [Authorize(Roles = Role.ManagerRole)]
         [HttpGet("5")]
         [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedApartment([FromQuery] GetPagedApartmentQuery query)
