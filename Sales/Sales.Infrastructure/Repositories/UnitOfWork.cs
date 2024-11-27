@@ -94,5 +94,10 @@ namespace Sales.Infrastructure.Repositories
             get => _transactionRepo ??= new GenericRepository<Transaction>(_context, _fireStore);
         }
 
+        private IGenericRepository<Requests> _requestRepo;
+        public IGenericRepository<Requests> RequestRepo
+        {
+            get => _requestRepo ??= new GenericRepository<Requests>(_context, _fireStore);
+        }
     }
 }

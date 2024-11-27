@@ -24,6 +24,7 @@ using Unit = QuestPDF.Infrastructure.Unit;
 using Requests.Application.ViewModels;
 using Newtonsoft.Json;
 using Request = Logger.Utility.Constants.Request;
+using Constants.Utility;
 namespace Requests.Application.Handlers
 {
     internal class SuccessRequestPaymentHandler : IRequestHandler<SuccessRequestPaymentCommand, (int, string)>
@@ -394,6 +395,11 @@ namespace Requests.Application.Handlers
                     await _uow.TransactionRepo.AddAsync(transaction);
                 }
                 await _uow.RequestRepo.UpdateAsync(getRequest);
+
+                EmailSender emailSender = new(_config);
+                string subject = "Hóa đơn";
+                string body = $"Hóa đơn của bạn";
+                await emailSender.SendEmailAsync(existingCustomer!.Email, subject, body, file);
             }
             return (200, "Thanh toán thành công");
         }

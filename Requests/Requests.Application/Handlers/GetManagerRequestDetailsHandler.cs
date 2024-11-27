@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Requests.Application.Queries;
 using Requests.Domain.IRepositories;
+using Requests.Domain.Entities;
 
 
 namespace Requests.Application.Handlers
@@ -40,6 +41,13 @@ namespace Requests.Application.Handlers
             var wokersList = new List<object>();
             var productsList = new List<object>();
             var getRequestPrice = (await _uow.PriceRequestRepo.GetAsync()).ToList();
+            
+            Contracts? contract = null;
+            if (request.ContractId != null)
+            {
+                contract = (await _uow.ContractRepo.GetAsync(a => (a.ContractId ?? "").Equals(request.ContractId), includeProperties: "ServicePackage")).First();
+            }
+            
             if (request.Status == 1 || request.Status == 2)
             {
                 var getWorkers = (await _uow.RequestWorkerRepo.GetAsync(a => a.RequestId.Equals(request.RequestId))).ToList();
@@ -108,7 +116,22 @@ namespace Requests.Application.Handlers
                 },
                 Customer_Leader = getCustomerAndLeader,
                 WorkerList = wokersList,
-                ProductList = productsList
+                ProductList = productsList,
+                Contract = contract == null ? null : new
+                {
+                    contract.ContractId,
+                    contract.CustomerId,
+                    contract.ServicePackageId,
+                    contract.ServicePackage.Name,
+                    contract.ServicePackage.NumOfRequest,
+                    contract.FileUrl,
+                    contract.PurchaseTime,
+                    ExpireDate = contract.PurchaseTime!.Value.AddYears(2),
+                    contract.RemainingNumOfRequests,
+                    contract.OrderCode,
+                    contract.IsOnlinePayment,
+                    contract.TotalPrice
+                }
             };
 
         }

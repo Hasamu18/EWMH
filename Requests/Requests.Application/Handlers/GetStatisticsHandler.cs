@@ -35,6 +35,10 @@ namespace Requests.Application.Handlers
                 var serviceTotal = spTransaction.Where(t => t.PurchaseTime.Year == year).Sum(t => t.Amount);
                 var requestTotal = requestTransaction.Where(t => t.PurchaseTime.Year == year).Sum(t => t.Amount);
 
+                var orderNums = orderTransaction.Where(t => t.PurchaseTime.Year == year).Count();
+                var servicePackageNums = spTransaction.Where(t => t.PurchaseTime.Year == year).Count();
+                var requestNums = requestTransaction.Where(t => t.PurchaseTime.Year == year).Count();
+
                 var yearlyTotal = orderTotal + serviceTotal + requestTotal;
 
                 var orderPercentage = yearlyTotal > 0 ? (int)Math.Round((orderTotal * 100.0 / yearlyTotal)) : 0;
@@ -46,21 +50,30 @@ namespace Requests.Application.Handlers
                     name = "Đơn hàng",
                     x = year,
                     y = orderTotal,
-                    z = orderPercentage
+                    z = orderPercentage,
+                    orderNums
+
                 });
                 transactionSummary.Add(new
                 {
                     name = "Dịch vụ",
                     x = year,
                     y = serviceTotal,
-                    z = servicePercentage
+                    z = servicePercentage,
+                    servicePackageNums
                 });
                 transactionSummary.Add(new
                 {
                     name = "Yêu cầu",
                     x = year,
                     y = requestTotal,
-                    z = requestPercentage
+                    z = requestPercentage,
+                    requestNums
+                });
+                transactionSummary.Add(new
+                {
+                    TotalNums = orderNums + servicePackageNums + requestNums,
+                    TotalPrice = orderTotal + serviceTotal + requestTotal
                 });
             }
 

@@ -32,9 +32,10 @@ namespace Sales.Application.Handlers
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);            
 
             string header = @"CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
-                                Độc lập – Tự do – Hạnh phúc
-                                         ——————-
-                                HỢP ĐỒNG MUA GÓI DỊCH VỤ";
+Độc lập – Tự do – Hạnh phúc
+         ——————-
+HỢP ĐỒNG MUA GÓI DỊCH VỤ
+Mã hợp đồng: .............";
 
             string date = $"Thứ: {(int)Tools.GetDynamicTimeZone().DayOfWeek + 1}, Ngày: {Tools.GetDynamicTimeZone().Day}, Tháng: {Tools.GetDynamicTimeZone().Month}, Năm: {Tools.GetDynamicTimeZone().Year}";
 
@@ -45,9 +46,8 @@ namespace Sales.Application.Handlers
                 ApartmentName = $"Tên chung cư: {existingApartment.Name}",
                 Address = $"Địa chỉ: {existingApartment.Address}",
                 PhoneNumber = $"Điện thoại: {infoLeader!.PhoneNumber}",
-                Email = $"Email: {infoLeader!.Email}",
                 Role = @"Chức vụ: Trưởng nhóm (Leader)
-                -------------------------------------------------------------------------------------------------------"                             
+                -------------------------------------------------------------"                             
             };
 
             object Side_B = new
@@ -56,9 +56,8 @@ namespace Sales.Application.Handlers
                 UserName = $"Tên người mua: {infoCustomer!.FullName}",
                 ApartmentName = $"Tên chung cư: {existingApartment.Name}",
                 PhoneNumber = $"Điện thoại: {infoCustomer!.PhoneNumber}",
-                Email = $"Email: {infoCustomer!.Email}",
                 Role = @"Chức vụ: Khách hàng (Customer)
-                Trên cơ sở thỏa thuận, hai bên thống nhất ký kết hợp đồng mua bán dịch vụ với các điều khoản như sau: "
+Trên cơ sở thỏa thuận, hai bên thống nhất ký kết hợp đồng mua bán dịch vụ với các điều khoản như sau: "
             };
 
             object clause1 = new
@@ -81,31 +80,21 @@ namespace Sales.Application.Handlers
             object clause3 = new
             {
                 Title3 = "Điều 3: ĐIỀU KHOẢN PHẠT VI PHẠM HỢP ĐỒNG",
-                Rule = @" - Hai bên cam kết thực hiện nghiêm túc các điều khoản đã thỏa thuận trên, không được đơn phương thay đổi 
-                              hoặc hủy bỏ hợp đồng, bên nào không thực hiện hoặc đơn phương đình chỉ thực hiện hợp đồng mà không có 
-                              lý do chính đáng thì sẽ bị phạt tới 100% giá trị của hợp đồng bị vi phạm.
+                Rule = @" - Hai bên cam kết thực hiện nghiêm túc các điều khoản đã thỏa thuận trên, không được đơn phương thay đổi hoặc hủy bỏ hợp đồng, bên nào không thực hiện hoặc đơn phương đình chỉ thực hiện hợp đồng mà không có lý do chính đáng thì sẽ bị phạt tới 100% giá trị của hợp đồng bị vi phạm.
 
-                            - Bên nào vi phạm các điều khoản trên đây sẽ phải chịu trách nhiệm vật chất theo quy định của các văn bản 
-                              pháp luật có hiệu lực hiện hành về phạt vi phạm chất lượng, số lượng, thời gian, địa điểm, thanh toán, 
-                              bảo hành v.v… mức phạt cụ thể do hai bên thỏa thuận dựa trên khung phạt Nhà nước đã quy định trong các 
-                              văn bản pháp luật về loại hợp đồng này."
+- Bên nào vi phạm các điều khoản trên đây sẽ phải chịu trách nhiệm vật chất theo quy định của các văn bản pháp luật có hiệu lực hiện hành về phạt vi phạm chất lượng, số lượng, thời gian, địa điểm, thanh toán, bảo hành v.v… mức phạt cụ thể do hai bên thỏa thuận dựa trên khung phạt Nhà nước đã quy định trong các văn bản pháp luật về loại hợp đồng này."
             };
 
             object clause4 = new
             {
                 Title4 = "Điều 4: ĐIỀU KHOẢN CHUNG",
-                GeneralTerms = @" - Hợp đồng này có hiệu lực từ ngày ký và tự động thanh lý hợp đồng kể từ khi Bên B đã nhận đủ hàng 
-                                    và Bên A đã nhận đủ tiền.
+                GeneralTerms = @" - Hợp đồng này có hiệu lực từ ngày ký và tự động thanh lý hợp đồng kể từ khi Bên B đã nhận đủ hàng và Bên A đã nhận đủ tiền.
 
-                                  - Hợp đồng này có giá trị thay thế mọi giao dịch, thỏa thuận trước đây của hai bên. Mọi sự bổ sung, 
-                                    sửa đổi hợp đồng này đều phải có sự đồng ý bằng văn bản của hai bên.
+- Hợp đồng này có giá trị thay thế mọi giao dịch, thỏa thuận trước đây của hai bên. Mọi sự bổ sung, sửa đổi hợp đồng này đều phải có sự đồng ý bằng văn bản của hai bên.
 
-                                  - Trừ các trường hợp được quy định ở trên, Hợp đồng này không thể bị hủy bỏ nếu không có thỏa thuận
-                                    bằng văn bản của các bên. Trong trường hợp hủy hợp đồng, trách nhiệm liên quan tới phạt vi phạm 
-                                    và bồi thường thiệt hại được bảo lưu.
+- Trừ các trường hợp được quy định ở trên, Hợp đồng này không thể bị hủy bỏ nếu không có thỏa thuận bằng văn bản của các bên. Trong trường hợp hủy hợp đồng, trách nhiệm liên quan tới phạt vi phạm và bồi thường thiệt hại được bảo lưu.
 
-                                  - Hợp đồng này được làm thành 2 bản, có giá trị như nhau. Mỗi bên giữ 1 bản và có giá trị pháp lý 
-                                    như nhau."
+- Hợp đồng này được làm thành 2 bản, có giá trị như nhau. Mỗi bên giữ 1 bản và có giá trị pháp lý như nhau."
             };
 
             object signature_A = new

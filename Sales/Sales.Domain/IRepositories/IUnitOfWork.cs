@@ -21,5 +21,6 @@ namespace Sales.Domain.IRepositories
         IGenericRepository<Rooms> RoomRepo { get; }
         IGenericRepository<ApartmentAreas> ApartmentAreaRepo { get; }
         IGenericRepository<Transaction> TransactionRepo { get; }
+        IGenericRepository<Requests> RequestRepo { get; }
     }
 }
