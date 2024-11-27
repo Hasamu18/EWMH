@@ -89,9 +89,13 @@ namespace Sales.Application.Handlers
 
             foreach (var item in items)
             {
-                var getCusInfo = await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(item.CustomerId),
-                                                                 includeProperties: "Customers");
-
+                var getCusInfo = (await _uow.AccountRepo.GetAsync(a => a.AccountId.Equals(item.CustomerId),
+                                                                 includeProperties: "Customers")).First();
+                var getRequestList = (await _uow.RequestRepo.GetAsync(a => (a.ContractId ?? "").Equals(item.ContractId), orderBy: o => o.OrderByDescending(s => s.Start))).Select(s => new
+                {
+                    s.RequestId,
+                    s.Start
+                }).ToList();
                 result.Add(new
                 {
                     Item = new
@@ -100,14 +104,26 @@ namespace Sales.Application.Handlers
                         item.CustomerId,
                         item.ServicePackageId,
                         item.ServicePackage.Name,
+                        item.ServicePackage.NumOfRequest,
                         item.FileUrl,
                         item.PurchaseTime,
+                        ExpireDate = item.PurchaseTime!.Value.AddYears(2),
                         item.RemainingNumOfRequests,
                         item.OrderCode,
                         item.IsOnlinePayment,
                         item.TotalPrice
                     },
-                    getCusInfo
+                    getCusInfo = new
+                    {
+                        getCusInfo.AccountId,
+                        getCusInfo.FullName,
+                        getCusInfo.Email,
+                        getCusInfo.PhoneNumber,
+                        getCusInfo.AvatarUrl,
+                        getCusInfo.DateOfBirth,
+                        getCusInfo.Customers!.CMT_CCCD
+                    },
+                    RequestIdList = getRequestList
                 });
             }
 

@@ -23,23 +23,27 @@ namespace Requests.Application.Handlers
             var result = new List<object>();
             if (request.Status == null && request.StartDate == null)
             {
-                requestList = (await _uow.RequestRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).ToList();
+                requestList = (await _uow.RequestRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId), 
+                    orderBy: o => o.OrderByDescending(s => s.Start))).ToList();
             }
             else if (request.Status == null && request.StartDate != null)
             {
                 requestList = (await _uow.RequestRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId) &&
-                                                               DateOnly.FromDateTime(a.Start) == request.StartDate)).ToList();
+                                                               DateOnly.FromDateTime(a.Start) == request.StartDate,
+                    orderBy: o => o.OrderByDescending(s => s.Start))).ToList();
             }
             else if (request.Status != null && request.StartDate == null)
             {
                 requestList = (await _uow.RequestRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId) &&
-                                                               a.Status == (int)request.Status)).ToList();
+                                                               a.Status == (int)request.Status,
+                    orderBy: o => o.OrderByDescending(s => s.Start))).ToList();
             }
             else
             {
                 requestList = (await _uow.RequestRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId) &&
                                                                a.Status == (int)request.Status! &&
-                                                               DateOnly.FromDateTime(a.Start) == request.StartDate)).ToList();
+                                                               DateOnly.FromDateTime(a.Start) == request.StartDate,
+                    orderBy: o => o.OrderByDescending(s => s.Start))).ToList();
             }
 
             foreach (var get in requestList)
