@@ -23,11 +23,11 @@ namespace Sales.Application.Handlers
         public async Task<object> Handle(GetCurrentOrdersQuery request, CancellationToken cancellationToken)
         {
             var result = new List<object>();
-            var items = await _uow.OrderRepo.GetAsync(filter: a => a.Status == true && a.PurchaseTime!.Value.Date == Tools.GetDynamicTimeZone().Date,
+            var items = await _uow.OrderRepo.GetAsync(filter: a => a.Status == true && a.PurchaseTime!.Value.Date == request.Date.Date,
                                                          includeProperties: "OrderDetails",
                                                          pageIndex: request.PageIndex,
                                                          pageSize: request.Pagesize);
-            int count = (await _uow.OrderRepo.GetAsync(filter: a => a.Status == true && a.PurchaseTime!.Value.Date == Tools.GetDynamicTimeZone().Date)).Count();
+            int count = (await _uow.OrderRepo.GetAsync(filter: a => a.Status == true && a.PurchaseTime!.Value.Date == request.Date.Date)).Count();
 
             foreach (var item in items)
             {

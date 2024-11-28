@@ -44,14 +44,17 @@ namespace Requests.Application.Handlers
                 var orderPercentage = yearlyTotal > 0 ? (int)Math.Round((orderTotal * 100.0 / yearlyTotal)) : 0;
                 var servicePercentage = yearlyTotal > 0 ? (int)Math.Round((serviceTotal * 100.0 / yearlyTotal)) : 0;
                 var requestPercentage = yearlyTotal > 0 ? (int)Math.Round((requestTotal * 100.0 / yearlyTotal)) : 0;
-
+                int totalNums = orderNums + servicePackageNums + requestNums;
+                int totalPrice = orderTotal + serviceTotal + requestTotal;
                 transactionSummary.Add(new
                 {
                     name = "Đơn hàng",
                     x = year,
                     y = orderTotal,
                     z = orderPercentage,
-                    orderNums
+                    u = orderNums,
+                    v = totalNums,
+                    r = totalPrice
 
                 });
                 transactionSummary.Add(new
@@ -60,7 +63,9 @@ namespace Requests.Application.Handlers
                     x = year,
                     y = serviceTotal,
                     z = servicePercentage,
-                    servicePackageNums
+                    u = servicePackageNums,
+                    v = totalNums,
+                    r = totalPrice
                 });
                 transactionSummary.Add(new
                 {
@@ -68,13 +73,11 @@ namespace Requests.Application.Handlers
                     x = year,
                     y = requestTotal,
                     z = requestPercentage,
-                    requestNums
+                    u = requestNums,
+                    v = totalNums,
+                    r = totalPrice
                 });
-                transactionSummary.Add(new
-                {
-                    TotalNums = orderNums + servicePackageNums + requestNums,
-                    TotalPrice = orderTotal + serviceTotal + requestTotal
-                });
+                
             }
 
             var currentMonth = DateTime.Now.Month;

@@ -1,10 +1,10 @@
 Deployed DB
-ServerName: 34.132.82.245
+ServerName: 34.124.219.59
 username: sqlserver 
 password: 12345
 
 Deployed DB : database first
-dotnet ef dbcontext scaffold "Server=34.132.82.245;Uid=sqlserver;Pwd=12345;Database=Sep490;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir Entities --no-pluralize --force
+dotnet ef dbcontext scaffold "Server=34.124.219.59;Uid=sqlserver;Pwd=12345;Database=Sep490;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer --output-dir Entities --no-pluralize --force
 
 
 Docker DB

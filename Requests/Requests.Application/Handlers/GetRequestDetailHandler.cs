@@ -66,6 +66,7 @@ namespace Requests.Application.Handlers
 
                     productsList.Add(new
                     {
+                        getProductInfo[0].ProductId,
                         getProductInfo[0].Name,
                         getProductInfo[0].ImageUrl,
                         Price = currentPriceProduct,
