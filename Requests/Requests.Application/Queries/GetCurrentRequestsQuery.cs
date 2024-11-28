@@ -9,6 +9,8 @@ namespace Requests.Application.Queries
 {
     public class GetCurrentRequestsQuery : IRequest<object>
     {
+        public DateTime Date {  get; set; }
+
         public int PageIndex { get; set; } = 1;
 
         public int Pagesize { get; set; } = 8;

@@ -66,9 +66,12 @@ namespace Sales.Application.Handlers
             {
                 Customer = new
                 {
+                    customer!.AccountId,
                     customer!.FullName,
                     customer.PhoneNumber,
-                    customer.Email
+                    customer.Email,
+                    customer.AvatarUrl,
+                    customer.DateOfBirth
                 },
                 Apartment = apartment,
                 Leader = leader,

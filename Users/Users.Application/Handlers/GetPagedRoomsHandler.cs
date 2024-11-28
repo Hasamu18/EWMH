@@ -38,7 +38,8 @@ namespace Users.Application.Handlers
                 {
                     item.AreaId,
                     item.RoomId,
-                    Customer = customerAccount?.FullName
+                    Customer = customerAccount?.FullName,
+                    CustomerEmail = customerAccount?.Email
                 });
             }
 

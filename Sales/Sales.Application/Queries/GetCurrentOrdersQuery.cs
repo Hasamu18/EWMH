@@ -9,6 +9,7 @@ namespace Sales.Application.Queries
 {
     public class GetCurrentOrdersQuery : IRequest<object>
     {
+        public DateTime Date { get; set; }
         public int PageIndex { get; set; } = 1;
 
         public int Pagesize { get; set; } = 8;

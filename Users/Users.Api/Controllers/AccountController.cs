@@ -212,7 +212,7 @@ namespace Users.Api.Controllers
         }
 
         /// <summary>
-        /// (ADMIN) Get all accounts paginated 
+        /// (ADMIN, MANAGER) Get all accounts paginated 
         /// </summary>
         /// <remarks>
         /// Sample request:
@@ -225,7 +225,7 @@ namespace Users.Api.Controllers
         ///   
         ///     Get all accounts paginated
         /// </remarks>
-        [Authorize(Roles = Role.AdminRole)]
+        [Authorize(Roles = Role.AdminRole + "," + Role.ManagerRole)]
         [HttpGet("10")]
         [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedAccount([FromQuery] GetPagedAccountQuery query)

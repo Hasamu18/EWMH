@@ -7,6 +7,7 @@ using static Logger.Utility.Constants;
 using System.Net;
 using Sales.Application.Queries;
 using Users.Application.Queries;
+using Sales.Application.Handlers;
 
 namespace Sales.Api.Controllers
 {
@@ -413,6 +414,47 @@ namespace Sales.Api.Controllers
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
                 var query = new GetAllPendingContractsOfCustomerQuery(accountId);
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Authentication) Get renevue and number of purchasing from (a service package or top service packages)
+        /// </summary>
+        [Authorize]
+        [HttpGet("18")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetNumOfPurchaseAndRevenueOfSP([FromQuery] GetNumOfPurchaseAndRevenueOfSPQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Authentication) Get contract detail and requests from contractId
+        /// </summary>
+        /// 
+        [Authorize]
+        [HttpGet("19")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetContractAndRequests([FromQuery] GetContractAndRequestsQuery query)
+        {
+            try
+            {
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }

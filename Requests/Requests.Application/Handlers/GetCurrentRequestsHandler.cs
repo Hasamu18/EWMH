@@ -21,11 +21,11 @@ namespace Requests.Application.Handlers
         public async Task<object> Handle(GetCurrentRequestsQuery request, CancellationToken cancellationToken)
         {
             var result = new List<object>();
-            var items = await _uow.RequestRepo.GetAsync(filter: a => a.Start.Date == Tools.GetDynamicTimeZone().Date,
+            var items = await _uow.RequestRepo.GetAsync(filter: a => a.Start.Date == request.Date.Date,
                                                 orderBy: s => s.OrderByDescending(o => o.Start),
                                                 pageIndex: request.PageIndex,
                                                 pageSize: request.Pagesize);
-            int count = (await _uow.RequestRepo.GetAsync(a => a.Start.Date == Tools.GetDynamicTimeZone().Date)).Count();
+            int count = (await _uow.RequestRepo.GetAsync(a => a.Start.Date == request.Date.Date)).Count();
 
             foreach (var item in items)
             {

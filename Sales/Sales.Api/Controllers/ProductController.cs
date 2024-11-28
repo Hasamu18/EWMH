@@ -119,10 +119,30 @@ namespace Sales.Api.Controllers
         ///   
         ///     Get all products paginated
         /// </remarks>
-        //[Authorize]
+        [Authorize]
         [HttpGet("5")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetPagedProduct([FromQuery] GetPagedProductQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Authentication) Get renevue and number of purchasing from (a product or top products)
+        /// </summary>
+        [Authorize]
+        [HttpGet("6")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetNumOfPurchaseAndRevenueOfProducts([FromQuery] GetNumOfPurchaseAndRevenueOfProductsQuery query)
         {
             try
             {

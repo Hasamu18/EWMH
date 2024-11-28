@@ -29,6 +29,15 @@ namespace Requests.Api.Controllers
         ///     StartYear    = 2021    (default)
         ///     EndYear      = 2024    (default)
         ///     
+        ///       "name" "Dịch vụ" 
+        ///       "x": 2024,    (year)
+        ///       "y": 2113000, (Total price of name)
+        ///       "z": 57,      (% of name)
+        ///       "u": 45,      (Total nums of name)
+        ///       --------------------------------------
+        ///       "v": 98,      (Total nums of đơn hàng, dịch vụ, yêu cầu)
+        ///       "r": 3716000  (Total price of đơn hàng, dịch vụ, yêu cầu)
+        ///     
         /// </remarks>
         [Authorize(Roles = Role.ManagerRole)]
         [HttpGet("1")]
