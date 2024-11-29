@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Logger.Utility;
+using MediatR;
 using Sales.Application.Queries;
 using Sales.Domain.Entities;
 using Sales.Domain.IRepositories;
@@ -23,10 +24,10 @@ namespace Sales.Application.Handlers
         {
             var result = new List<object>();
             var getOrderDetail = (await _uow.OrderDetailRepo.GetAsync(a => a.OrderId.Equals(request.OrderId),
-                                                                      includeProperties:"Product")).ToList();
+                                                                      includeProperties: "Product")).ToList();
             if (getOrderDetail.Count == 0)
                 return result;
-            
+
             ApartmentAreas? apartment = null;
             Accounts? leader = null;
             var order = await _uow.OrderRepo.GetByIdAsync(getOrderDetail[0].OrderId);
@@ -42,14 +43,17 @@ namespace Sales.Application.Handlers
             foreach (var orderDetail in getOrderDetail)
             {
                 var product = await _uow.ProductRepo.GetByIdAsync(orderDetail.ProductId);
-
+                var getWarrantyCards = (await _uow.WarrantyCardRepo.GetAsync(a => a.StartDate == order.PurchaseTime &&
+                                                                             a.ProductId.Equals(orderDetail.ProductId))).ToList();
                 result.Add(new
                 {
                     Product = new
                     {
                         product!.ProductId,
                         product.Name,
-                        product.ImageUrl
+                        product.ImageUrl,
+                        product.Description,
+                        product.WarantyMonths
                     },
                     OrderDetail = new
                     {
@@ -57,7 +61,12 @@ namespace Sales.Application.Handlers
                         orderDetail.ProductId,
                         orderDetail.Quantity,
                         orderDetail.Price,
-                        orderDetail.TotalPrice
+                        orderDetail.TotalPrice,
+                        WarrantyCards = new
+                        {
+                            getWarrantyCards,
+                            RemainingDays = getWarrantyCards.Select(card =>Math.Max(0, Math.Round((card.ExpireDate - Tools.GetDynamicTimeZone()).TotalDays)))
+                        }
                     }
                 });
             }
