@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Logger.Utility;
+using MediatR;
 using Requests.Application.Queries;
 using Requests.Application.ViewModels;
 using Requests.Domain.Entities;
@@ -64,6 +65,10 @@ namespace Requests.Application.Handlers
                     if (!product.IsCustomerPaying)
                         currentPriceProduct = 0;
 
+                    var getWarrantyCards = (await _uow.WarrantyCardRepo.GetAsync(a => a.StartDate == getRequest.PurchaseTime &&
+                                                                             a.ProductId.Equals(product.ProductId) &&
+                                                                             a.CustomerId.Equals(getRequest.CustomerId))).ToList();
+
                     productsList.Add(new
                     {
                         getProductInfo[0].ProductId,
@@ -73,7 +78,12 @@ namespace Requests.Application.Handlers
                         product.Quantity,
                         TotalPrice = currentPriceProduct * product.Quantity,
                         product.Description,
-                        product.IsCustomerPaying
+                        product.IsCustomerPaying,
+                        WarrantyCards = new
+                        {
+                            getWarrantyCards,
+                            RemainingDays = getWarrantyCards.Select(card => Math.Max(0, Math.Round((card.ExpireDate - Tools.GetDynamicTimeZone()).TotalDays)))
+                        }
                     });
                 }               
             }
