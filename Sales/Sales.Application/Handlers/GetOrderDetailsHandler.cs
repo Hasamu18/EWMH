@@ -44,7 +44,8 @@ namespace Sales.Application.Handlers
             {
                 var product = await _uow.ProductRepo.GetByIdAsync(orderDetail.ProductId);
                 var getWarrantyCards = (await _uow.WarrantyCardRepo.GetAsync(a => a.StartDate == order.PurchaseTime &&
-                                                                             a.ProductId.Equals(orderDetail.ProductId))).ToList();
+                                                                             a.ProductId.Equals(orderDetail.ProductId) &&
+                                                                             a.CustomerId.Equals(customer!.AccountId))).ToList();
                 result.Add(new
                 {
                     Product = new
