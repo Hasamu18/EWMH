@@ -43,10 +43,10 @@ namespace Users.Application.Handlers
                 }
                 else if (existingUser[0].Role.Equals("CUSTOMER"))
                 {
-                    var getArea = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.AccountId))).FirstOrDefault();
-                    if (getArea != null)
+                    var getArea = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.AccountId))).ToList();
+                    if (getArea.Count != 0)
                     {
-                        var getApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(getArea.AreaId);
+                        var getApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(getArea[0].AreaId);
                         var getLeader = await _uow.AccountRepo.GetByIdAsync(getApartment!.LeaderId);
                         return (200, new TResponse<object>
                         {
@@ -55,7 +55,8 @@ namespace Users.Application.Handlers
                             {
                                 Customer = existingUser[0],
                                 Leader = getLeader,
-                                Apartment = getApartment
+                                Apartment = getApartment,
+                                Rooms = getArea.Select(s => s.RoomId).ToList()
                             }
                         });
                     }
