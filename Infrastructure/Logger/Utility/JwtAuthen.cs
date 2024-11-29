@@ -36,7 +36,7 @@ namespace Logger.Utility
                 _configuration["Jwt:Issuer"],
                 _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: Tools.GetDynamicTimeZone().AddMinutes(60),
+                expires: Tools.GetDynamicTimeZone().AddMinutes(120),
                 signingCredentials: signingCredentials
                 );
             var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
