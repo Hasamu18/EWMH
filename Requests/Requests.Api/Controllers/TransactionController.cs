@@ -89,5 +89,31 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Manager) Get statistics transaction by months
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     Num (get current month and previous (num - 1) months) 
+        ///     
+        /// </remarks>
+        [Authorize(Roles = Role.ManagerRole)]
+        [HttpGet("3")]
+        [ProducesResponseType(typeof(List<object>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetStatisticsByMonths([FromQuery] GetStatisticsByMonthsQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }

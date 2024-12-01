@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sales.Application.Handlers
+namespace Sales.Application.Queries
 {
     public class GetContractAndRequestsQuery : IRequest<object>
     {

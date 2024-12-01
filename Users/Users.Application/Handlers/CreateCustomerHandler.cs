@@ -90,10 +90,13 @@ namespace Users.Application.Handlers
 
             await _uow.PendingAccountRepo.RemoveAsync(pendingAccount);
 
-            EmailSender emailSender = new(_config);
-            string subject = "Đăng ký tài khoản EWMH";
-            string body = $"Tài khoản EWMH với CMT/CCCD: {pendingAccount.CMT_CCCD} đã được duyệt và được tạo thành công, hãy trải nghiệm dịch vụ của chúng tôi";
-            await emailSender.SendEmailAsync(pendingAccount.Email, subject, body);
+            if (!string.IsNullOrEmpty(pendingAccount.Email))
+            {
+                EmailSender emailSender = new(_config);
+                string subject = "Đăng ký tài khoản EWMH";
+                string body = $"Tài khoản EWMH với CMT/CCCD: {pendingAccount.CMT_CCCD} đã được duyệt và được tạo thành công, hãy trải nghiệm dịch vụ của chúng tôi";
+                await emailSender.SendEmailAsync(pendingAccount.Email, subject, body);
+            }
 
             return (201, $"Tài khoản khách hàng đã được tạo");
         }

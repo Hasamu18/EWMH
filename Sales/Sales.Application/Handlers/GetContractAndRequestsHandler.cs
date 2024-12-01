@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Sales.Application.Queries;
 using Sales.Domain.Entities;
 using Sales.Domain.IRepositories;
 using System;
@@ -41,7 +42,11 @@ namespace Sales.Application.Handlers
                     item?.IsOnlinePayment,
                     item?.TotalPrice
                 },
-                RequestIdList = item?.Requests.Select(s => s.RequestId).ToArray(),
+                RequestIdList = item?.Requests.Select(s => new
+                {
+                    s.RequestId,
+                    s.PurchaseTime
+                }).OrderByDescending(o => o.PurchaseTime).ToArray(),
                 CustomerInfo = new
                 {
                     cusInfo?.AccountId,
