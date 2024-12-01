@@ -7,7 +7,6 @@ using static Logger.Utility.Constants;
 using System.Net;
 using Sales.Application.Queries;
 using Users.Application.Queries;
-using Sales.Application.Handlers;
 
 namespace Sales.Api.Controllers
 {

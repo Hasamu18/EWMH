@@ -36,8 +36,12 @@ namespace Sales.Application.Handlers
                                                                  ProductId = group.Key,
                                                                  TotalQuantity = group.Sum(d => d.Quantity),
                                                                  TotalPrice = group.Sum(d => d.TotalPrice),
-                                                                 OrderIds = group.Select(d => d.OrderId).Distinct().ToList(),
-                                                                 DoneRequestIds = new List<string>()
+                                                                 OrderIds = group.Select(d => new
+                                                                 {
+                                                                     d.OrderId,
+                                                                     getPurchasedOrders.First(o => o.OrderId == d.OrderId).PurchaseTime
+                                                                 }).Distinct().Cast<object>().ToList(),
+                                                                 DoneRequestIds = new List<object>()
                                                              })
                                                              .OrderByDescending(o => o.TotalQuantity);
                 
@@ -66,8 +70,12 @@ namespace Sales.Application.Handlers
                                                         ProductId = group.Key,
                                                         TotalQuantity = group.Sum(d => d.Item2),
                                                         TotalPrice = group.Sum(d => d.Item3),
-                                                        OrderIds = new List<string>(),
-                                                        DoneRequestIds = group.Select(d => d.Item4).Distinct().ToList()
+                                                        OrderIds = new List<object>(),
+                                                        DoneRequestIds = group.Select(d => new
+                                                        {
+                                                            RequestId = d.Item4,
+                                                            getDoneRequests.First(o => o.RequestId == d.Item4).PurchaseTime
+                                                        }).Distinct().Cast<object>().ToList()
                                                     })
                                                     .OrderByDescending(o => o.TotalQuantity);
 
@@ -78,8 +86,16 @@ namespace Sales.Application.Handlers
                                                    ProductId = group.Key,
                                                    TotalQuantity = group.Sum(g => g.TotalQuantity), 
                                                    TotalPrice = group.Sum(g => g.TotalPrice),
-                                                   OrderIds = group.SelectMany(g => g.OrderIds).Distinct().ToList(),
-                                                   DoneRequestIds = group.SelectMany(g => g.DoneRequestIds).Distinct().ToList()
+                                                   OrderIds = group.SelectMany(g => g.OrderIds).Distinct().OrderByDescending(o =>
+                                                   {
+                                                       var purchaseTimeProperty = o.GetType().GetProperty("PurchaseTime");
+                                                       return purchaseTimeProperty != null ? (DateTime?)purchaseTimeProperty.GetValue(o) : null;
+                                                   }).ToList(),
+                                                   DoneRequestIds = group.SelectMany(g => g.DoneRequestIds).Distinct().OrderByDescending(d =>
+                                                   {
+                                                       var purchaseTimeProperty = d.GetType().GetProperty("PurchaseTime");
+                                                       return purchaseTimeProperty != null ? (DateTime?)purchaseTimeProperty.GetValue(d) : null;
+                                                   }).ToList()
                                                })
                                                .OrderByDescending(o => o.TotalQuantity) 
                                                .Take((int)request.NumOfTop).ToList();
@@ -125,8 +141,12 @@ namespace Sales.Application.Handlers
                                                                  ProductId = group.Key,
                                                                  TotalQuantity = group.Sum(d => d.Quantity),
                                                                  TotalPrice = group.Sum(d => d.TotalPrice),
-                                                                 OrderIds = group.Select(d => d.OrderId).Distinct().ToList(),
-                                                                 DoneRequestIds = new List<string>()
+                                                                 OrderIds = group.Select(d => new
+                                                                 {
+                                                                     d.OrderId,
+                                                                     getPurchasedOrders.First(o => o.OrderId == d.OrderId).PurchaseTime
+                                                                 }).Distinct().Cast<object>().ToList(),
+                                                                 DoneRequestIds = new List<object>()
                                                              });
 
                 List<(string, int, int, string)> productsList = [];
@@ -158,8 +178,12 @@ namespace Sales.Application.Handlers
                                                         ProductId = group.Key,
                                                         TotalQuantity = group.Sum(d => d.Item2),
                                                         TotalPrice = group.Sum(d => d.Item3),
-                                                        OrderIds = new List<string>(),
-                                                        DoneRequestIds = group.Select(d => d.Item4).Distinct().ToList()
+                                                        OrderIds = new List<object>(),
+                                                        DoneRequestIds = group.Select(d => new
+                                                        {
+                                                            RequestId = d.Item4,
+                                                            getDoneRequests.First(o => o.RequestId == d.Item4).PurchaseTime
+                                                        }).Distinct().Cast<object>().ToList()
                                                     });
 
                 var combinedGroup = purchasedOrdersGroup.Union(doneRequestsGroup)
@@ -169,8 +193,16 @@ namespace Sales.Application.Handlers
                                                    ProductId = group.Key,
                                                    TotalQuantity = group.Sum(g => g.TotalQuantity),
                                                    TotalPrice = group.Sum(g => g.TotalPrice),
-                                                   OrderIds = group.SelectMany(g => g.OrderIds).Distinct().ToList(),
-                                                   DoneRequestIds = group.SelectMany(g => g.DoneRequestIds).Distinct().ToList()
+                                                   OrderIds = group.SelectMany(g => g.OrderIds).Distinct().OrderByDescending(o =>
+                                                   {
+                                                       var purchaseTimeProperty = o.GetType().GetProperty("PurchaseTime");
+                                                       return purchaseTimeProperty != null ? (DateTime?)purchaseTimeProperty.GetValue(o) : null;
+                                                   }).ToList(),
+                                                   DoneRequestIds = group.SelectMany(g => g.DoneRequestIds).Distinct().OrderByDescending(d =>
+                                                   {
+                                                       var purchaseTimeProperty = d.GetType().GetProperty("PurchaseTime");
+                                                       return purchaseTimeProperty != null ? (DateTime?)purchaseTimeProperty.GetValue(d) : null;
+                                                   }).ToList()
                                                })
                                                .OrderByDescending(o => o.TotalQuantity).ToList();
 

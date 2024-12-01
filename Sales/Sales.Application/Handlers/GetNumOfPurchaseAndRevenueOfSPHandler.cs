@@ -31,7 +31,11 @@ namespace Sales.Application.Handlers
                                                      ServicePackageId = group.Key,
                                                      TotalQuantity = group.Count(),
                                                      TotalPrice = group.Sum(d => d.TotalPrice),
-                                                     ContractIds = group.Select(d => d.ContractId).Distinct().ToList()
+                                                     ContractIds = group.Select(d => new
+                                                     {
+                                                         d.ContractId,
+                                                         getContracts.First(o => o.ContractId == d.ContractId).PurchaseTime
+                                                     }).Distinct().ToList()
                                                  })
                                                  .OrderByDescending(o => o.TotalQuantity)
                                                  .Take((int)request.NumOfTop).ToList();
@@ -55,7 +59,7 @@ namespace Sales.Application.Handlers
                         spInfo?.Policy,
                         spInfo?.Status,
                         latestPrice,
-                        ContractIdList = group.ContractIds
+                        ContractIdList = group.ContractIds.OrderByDescending(d => d.PurchaseTime)
                     };
                 }).ToList());
             }
@@ -71,7 +75,11 @@ namespace Sales.Application.Handlers
                                                      ServicePackageId = group.Key,
                                                      TotalQuantity = group.Count(),
                                                      TotalPrice = group.Sum(d => d.TotalPrice),
-                                                     ContractIds = group.Select(d => d.ContractId).Distinct().ToList()
+                                                     ContractIds = group.Select(d => new
+                                                     {
+                                                         d.ContractId,
+                                                         getContracts.First(o => o.ContractId == d.ContractId).PurchaseTime
+                                                     }).Distinct().ToList()
                                                  })
                                                  .OrderByDescending(o => o.TotalQuantity);
 
@@ -94,7 +102,7 @@ namespace Sales.Application.Handlers
                         spInfo?.Policy,
                         spInfo?.Status,
                         latestPrice,
-                        ContractIdList = group.ContractIds
+                        ContractIdList = group.ContractIds.OrderByDescending(d => d.PurchaseTime)
                     };
                 }).ToList());
             }
