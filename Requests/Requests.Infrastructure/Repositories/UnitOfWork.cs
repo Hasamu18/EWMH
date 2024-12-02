@@ -111,5 +111,11 @@ namespace Requests.Infrastructure.Repositories
         {
             get => _transactionRepo ??= new GenericRepository<Transaction>(_context, _fireStore);
         }
+
+        private IGenericRepository<Shipping> _shippingRepo;
+        public IGenericRepository<Shipping> ShippingRepo
+        {
+            get => _shippingRepo ??= new GenericRepository<Shipping>(_context, _fireStore);
+        }
     }
 }

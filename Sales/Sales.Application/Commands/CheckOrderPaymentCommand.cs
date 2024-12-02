@@ -12,9 +12,12 @@ namespace Sales.Application.Commands
     {
         public string CustomerId { get; set; }
 
-        public CheckOrderPaymentCommand(string customerId)
+        public string? CustomerNote { get; set; }
+
+        public CheckOrderPaymentCommand(string customerId, string? customerNote)
         {
             CustomerId = customerId;
+            CustomerNote = customerNote;
         }
     }
 }

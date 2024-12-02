@@ -11,5 +11,6 @@ namespace Sales.Application.Commands
     {
         public long OrderCode { get; set; }
         public required string Id1 { get; set; }
+        public string? CustomerNote { get; set; }
     }
 }
