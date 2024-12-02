@@ -24,5 +24,6 @@ namespace Requests.Domain.IRepositories
         IGenericRepository<WarrantyCards> WarrantyCardRepo { get; }
         IGenericRepository<WarrantyRequests> WarrantyRequestRepo { get; }
         IGenericRepository<Transaction> TransactionRepo { get; }
+        IGenericRepository<Shipping> ShippingRepo { get; }
     }
 }

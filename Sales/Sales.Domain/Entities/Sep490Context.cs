@@ -53,6 +53,8 @@ public partial class Sep490Context : DbContext
 
     public virtual DbSet<ServicePackages> ServicePackages { get; set; }
 
+    public virtual DbSet<Shipping> Shipping { get; set; }
+
     public virtual DbSet<Transaction> Transaction { get; set; }
 
     public virtual DbSet<WarrantyCards> WarrantyCards { get; set; }
@@ -456,6 +458,21 @@ public partial class Sep490Context : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e => e.Name).HasMaxLength(255);
+        });
+
+        modelBuilder.Entity<Shipping>(entity =>
+        {
+            entity.HasKey(e => e.ShippingId).HasName("PK__Shipping__5FACD580FEFB08FA");
+
+            entity.Property(e => e.ShippingId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.ShipmentDate).HasColumnType("datetime");
+            entity.Property(e => e.DeliveriedDate).HasColumnType("datetime");
+            entity.Property(e => e.CustomerNote).IsUnicode(false);
+            entity.Property(e => e.ProofFileUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
         });
 
         modelBuilder.Entity<Transaction>(entity =>
