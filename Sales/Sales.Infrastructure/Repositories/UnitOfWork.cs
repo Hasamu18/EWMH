@@ -99,5 +99,11 @@ namespace Sales.Infrastructure.Repositories
         {
             get => _requestRepo ??= new GenericRepository<Requests>(_context, _fireStore);
         }
+
+        private IGenericRepository<Shipping> _shippingRepo;
+        public IGenericRepository<Shipping> ShippingRepo
+        {
+            get => _shippingRepo ??= new GenericRepository<Shipping>(_context, _fireStore);
+        }
     }
 }

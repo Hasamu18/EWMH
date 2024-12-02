@@ -24,6 +24,20 @@ CREATE TABLE [Orders] (
 )
 GO
 
+CREATE TABLE [Shipping] (
+  [ShippingId] varchar(32) NOT NULL,
+  [LeaderId] varchar(32) NOT NULL,
+  [CustomerId] varchar(32) NOT NULL,
+  [WorkerId] varchar(32),
+  [ShipmentDate] datetime,
+  [DeliveriedDate] datetime,
+  [Status] int NOT NULL,
+  [CustomerNote] nvarchar(max),
+  [ProofFileUrl] varchar(255)
+  PRIMARY KEY ([ShippingId])
+)
+GO
+
 CREATE TABLE [WarrantyCards] (
   [WarrantyCardId] varchar(32) NOT NULL,
   [CustomerId] varchar(32) NOT NULL,

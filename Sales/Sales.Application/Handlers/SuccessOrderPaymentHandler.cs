@@ -329,6 +329,20 @@ namespace Sales.Application.Handlers
             existingCart[0].OrderCode = request.OrderCode;
             await _uow.OrderRepo.UpdateAsync(existingCart[0]);
 
+            Shipping shipping = new()
+            {
+                ShippingId = existingCart[0].OrderId,
+                LeaderId = existingApartment.LeaderId,
+                CustomerId = existingCart[0].CustomerId,
+                WorkerId = null,
+                ShipmentDate = TimeZoneInfo.ConvertTime(DateTime.Parse(transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
+                DeliveriedDate = null,
+                Status = 0,
+                CustomerNote = request.CustomerNote == null ? null : Uri.UnescapeDataString(request.CustomerNote),
+                ProofFileUrl = null
+            };
+            await _uow.ShippingRepo.AddAsync(shipping);
+
             EmailSender emailSender = new(_config);
             string subject = "Hóa đơn";
             string body = $"Hóa đơn của bạn";
