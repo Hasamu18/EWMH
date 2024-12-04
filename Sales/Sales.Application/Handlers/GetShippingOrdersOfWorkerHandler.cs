@@ -24,7 +24,8 @@ namespace Sales.Application.Handlers
             if (request.ShippingId == null)
             {
                 getProccessingShippingOrder = (await _uow.ShippingRepo.GetAsync(g => (g.WorkerId == request.WorkerId && g.Status == 1) ||
-                                                                                     (g.WorkerId == request.WorkerId && g.Status == 2))).ToArray();
+                                                                                     (g.WorkerId == request.WorkerId && g.Status == 2) ||
+                                                                                     (g.WorkerId == request.WorkerId && g.Status == 4))).ToArray();
             }
             else
             {

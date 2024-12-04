@@ -351,7 +351,7 @@ Mã hợp đồng: {request.ContractId}")
             var bucketAndPath = await _uow.ContractRepo.UploadFileToStorageAsync(request.ContractId, file, _config);
             var contract = SaleMapper.Mapper.Map<Contracts>(request);
             contract.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
-            contract.PurchaseTime = DateTime.Parse(transactionDateTime);
+            contract.PurchaseTime = TimeZoneInfo.ConvertTime(DateTime.Parse(transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
             contract.RemainingNumOfRequests = existingServicePackage[0].NumOfRequest;
             contract.OrderCode = 2;//2 is pending contract
             contract.IsOnlinePayment = true;
