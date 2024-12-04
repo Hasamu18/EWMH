@@ -62,7 +62,7 @@ namespace Sales.Application.Handlers
                     AccountNumber = item.accountNumber,
                     CounterAccountNumber = item.counterAccountNumber,
                     CounterAccountName = item.counterAccountName,
-                    PurchaseTime = DateTime.Parse(item.transactionDateTime),
+                    PurchaseTime = TimeZoneInfo.ConvertTime(DateTime.Parse(item.transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
                     OrderCode = request.OrderCode,
                     Amount = item.amount,
                     Description = item.description
@@ -105,8 +105,8 @@ namespace Sales.Application.Handlers
                             WarrantyCardId = $"WC_{Tools.GenerateRandomString(20)}",
                             CustomerId = existingCart[0].CustomerId,
                             ProductId = productId,
-                            StartDate = DateTime.Parse(transactionDateTime),
-                            ExpireDate = DateTime.Parse(transactionDateTime).AddMonths(existingProduct[0].WarantyMonths)
+                            StartDate = TimeZoneInfo.ConvertTime(DateTime.Parse(transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time")),
+                            ExpireDate = TimeZoneInfo.ConvertTime(DateTime.Parse(transactionDateTime).AddMonths(existingProduct[0].WarantyMonths), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"))
                         };
                         await _uow.WarrantyCardRepo.AddAsync(warrantyCard);
                     }                    

@@ -352,7 +352,7 @@ namespace Requests.Application.Handlers
                 if (request.OrderCode != null)
                 {
                     var getPaymentLinkInfomation = await GetPaymentLinkInformation((long)request.OrderCode);
-                    getRequest.End = DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime);
+                    getRequest.End = TimeZoneInfo.ConvertTime(DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
                     getRequest.PurchaseTime = TimeZoneInfo.ConvertTime(DateTime.Parse(getPaymentLinkInfomation.transactions[0].transactionDateTime), TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"));
                     getRequest.IsOnlinePayment = true;
 
