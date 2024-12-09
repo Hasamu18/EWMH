@@ -16,6 +16,7 @@ namespace Requests.Application.ViewModels
         public string Content { get; set; } = null!;
         public int Rate { get; set; }
         public bool Status { get; set; }
+        public DateTime? Time { get; set; }
 
     }
 }

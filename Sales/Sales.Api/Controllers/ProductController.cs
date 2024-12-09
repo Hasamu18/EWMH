@@ -114,7 +114,7 @@ namespace Sales.Api.Controllers
         ///     PageIndex            = 1    (default)
         ///     Pagesize             = 8    (default)
         ///     SearchByName         = null (default)
-        ///     IncreasingPrice      = false (default)
+        ///     IncreasingPrice      = null (default)
         ///     Status(IsDisabled)   = null (default)
         ///   
         ///     Get all products paginated

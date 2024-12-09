@@ -23,13 +23,15 @@ namespace Users.Application.Handlers
             int count = 0;
             if (request.SearchByEmail == null && request.Role == null && request.IsDisabled == null)
             {
-                items = await _uow.AccountRepo.GetAsync(pageIndex: request.PageIndex,
+                items = await _uow.AccountRepo.GetAsync(orderBy: q => q.OrderByDescending(x => x.AccountId),
+                                                        pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync()).Count();
             }
             else if (request.SearchByEmail == null && request.Role != null && request.IsDisabled == null)
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role),
+                                                        orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role))).Count();
@@ -38,6 +40,7 @@ namespace Users.Application.Handlers
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role) &&
                                                                 s.IsDisabled == request.IsDisabled,
+                                                        orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals(request.Role) &&
@@ -46,6 +49,7 @@ namespace Users.Application.Handlers
             else if (request.SearchByEmail == null && request.Role == null && request.IsDisabled != null)
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.IsDisabled == request.IsDisabled,
+                                                        orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.IsDisabled == request.IsDisabled)).Count();
@@ -53,6 +57,7 @@ namespace Users.Application.Handlers
             else if (request.SearchByEmail != null && request.Role == null && request.IsDisabled == null)
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail),
+                                                        orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail))).Count();
@@ -61,6 +66,7 @@ namespace Users.Application.Handlers
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
                                                                 s.Role.Equals(request.Role),
+                                                        orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
@@ -71,6 +77,7 @@ namespace Users.Application.Handlers
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
                                                                 s.Role.Equals(request.Role) &&
                                                                 s.IsDisabled == request.IsDisabled,
+                                                        orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail) &&
@@ -81,6 +88,7 @@ namespace Users.Application.Handlers
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail!) &&
                                                                 s.IsDisabled == request.IsDisabled,
+                                                        orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                         pageIndex: request.PageIndex,
                                                         pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Email.Contains(request.SearchByEmail!) &&

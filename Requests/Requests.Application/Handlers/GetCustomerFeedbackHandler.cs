@@ -48,6 +48,7 @@ namespace Requests.Application.Handlers
             _customerFeedbackVM.AvatarUrl = customer.AvatarUrl;
             _customerFeedbackVM.CustomerAddress = await GetCustomerAddress(customer);
             _customerFeedbackVM.CustomerPhone = customer.PhoneNumber;
+            _customerFeedbackVM.Time = request.End;
         }
         private async Task<string> GetCustomerAddress(Accounts customer)
         {

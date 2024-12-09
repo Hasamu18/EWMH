@@ -54,7 +54,7 @@ namespace Users.Application.Handlers
             }
 
             var pendingAccount = UserMapper.Mapper.Map<PendingAccounts>(request);
-            pendingAccount.PendingAccountId = Tools.GenerateIdFormat32();
+            pendingAccount.PendingAccountId = $"PDA_{await _uow.PendingAccountRepo.Query().CountAsync() + 1:D10}";
             pendingAccount.FullName = $"{request.FullName} || {string.Join(", ", request.RoomIds)}";
             await _uow.PendingAccountRepo.AddAsync(pendingAccount);
 

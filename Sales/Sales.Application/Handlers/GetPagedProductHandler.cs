@@ -23,7 +23,16 @@ namespace Sales.Application.Handlers
             IEnumerable<Products> items;
             var result = new List<object>();
             int count = 0;
-            if (request.SearchByName == null && request.Status == null && request.IncreasingPrice)
+            if (request.IncreasingPrice == null)
+            {
+                items = await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderByDescending(p => p.ProductId),
+                                                        includeProperties: "ProductPrices",
+                                                        pageIndex: request.PageIndex,
+                                                        pageSize: request.Pagesize);
+                count = (await _uow.ProductRepo.GetAsync()).Count();
+            }
+
+            else if (request.SearchByName == null && request.Status == null && request.IncreasingPrice.HasValue)
             {
                 items = await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderBy(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
@@ -32,7 +41,7 @@ namespace Sales.Application.Handlers
                 count = (await _uow.ProductRepo.GetAsync()).Count();
 
             }
-            else if (request.SearchByName == null && request.Status == null && !request.IncreasingPrice)
+            else if (request.SearchByName == null && request.Status == null && !request.IncreasingPrice.HasValue)
             {
                 items = await _uow.ProductRepo.GetAsync(orderBy: s => s.OrderByDescending(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
                                                         includeProperties: "ProductPrices",
@@ -41,7 +50,7 @@ namespace Sales.Application.Handlers
                 count = (await _uow.ProductRepo.GetAsync()).Count();
 
             }
-            else if (request.SearchByName == null && request.Status != null && request.IncreasingPrice)
+            else if (request.SearchByName == null && request.Status != null && request.IncreasingPrice.HasValue)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
                                                         orderBy: s => s.OrderBy(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
@@ -51,7 +60,7 @@ namespace Sales.Application.Handlers
                 count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status)).Count();
 
             }
-            else if (request.SearchByName == null && request.Status != null && !request.IncreasingPrice)
+            else if (request.SearchByName == null && request.Status != null && !request.IncreasingPrice.HasValue)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status,
                                                         orderBy: s => s.OrderByDescending(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
@@ -61,7 +70,7 @@ namespace Sales.Application.Handlers
                 count = (await _uow.ProductRepo.GetAsync(filter: f => f.Status == request.Status)).Count();
 
             }
-            else if (request.SearchByName != null && request.Status == null && request.IncreasingPrice)
+            else if (request.SearchByName != null && request.Status == null && request.IncreasingPrice.HasValue)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
                                                         orderBy: s => s.OrderBy(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
@@ -71,7 +80,7 @@ namespace Sales.Application.Handlers
                 count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName))).Count();
 
             }
-            else if (request.SearchByName != null && request.Status == null && !request.IncreasingPrice)
+            else if (request.SearchByName != null && request.Status == null && !request.IncreasingPrice.HasValue)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
                                                         orderBy: s => s.OrderByDescending(p => p.ProductPrices.OrderByDescending(pp => pp.Date).First().PriceByDate),
@@ -81,7 +90,7 @@ namespace Sales.Application.Handlers
                 count = (await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName))).Count();
 
             }
-            else if (request.SearchByName != null && request.Status != null && request.IncreasingPrice)
+            else if (request.SearchByName != null && request.Status != null && request.IncreasingPrice.HasValue)
             {
                 items = await _uow.ProductRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName) &&
                                                                      f.Status == request.Status,
