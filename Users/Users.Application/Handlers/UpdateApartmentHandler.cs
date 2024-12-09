@@ -27,7 +27,7 @@ namespace Users.Application.Handlers
                 return (404, "Chung cư không tồn tại");
 
             var existingName = await _uow.ApartmentAreaRepo.GetAsync(a => a.Name.Equals(request.Name));
-            if (existingName.Any() && !existingName.ToList()[0].Name.Equals(request.Name))
+            if (existingName.Any() && !existingName.ToList()[0].Name.Equals(existingApartment[0].Name))
                 return (409, $"Chung cư: {request.Name} đang tồn tại, vui lòng chọn tên khác");            
 
             var getLeader = (await _uow.LeaderRepo.GetAsync(a => a.LeaderId.Equals(request.LeaderId))).FirstOrDefault();
