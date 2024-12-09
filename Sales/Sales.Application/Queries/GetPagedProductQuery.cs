@@ -15,7 +15,7 @@ namespace Sales.Application.Queries
 
         public string? SearchByName { get; set; } = null;
 
-        public bool IncreasingPrice { get; set; } = false;
+        public bool? IncreasingPrice { get; set; } = null;
 
         public bool? Status { get; set; } = null;       
     }

@@ -25,13 +25,15 @@ namespace Users.Application.Handlers
             int count = 0;
             if (request.SearchByPhone == null)
             {
-                items = await _uow.PendingAccountRepo.GetAsync(pageIndex: request.PageIndex,
+                items = await _uow.PendingAccountRepo.GetAsync(orderBy: q => q.OrderByDescending(x => x.PendingAccountId),
+                                                               pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
                 count = (await _uow.PendingAccountRepo.GetAsync()).Count();
             }
             else
             {
                 items = await _uow.PendingAccountRepo.GetAsync(a => a.PhoneNumber.Contains(request.SearchByPhone),
+                                                               orderBy: q => q.OrderByDescending(x => x.PendingAccountId),
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
                 count = (await _uow.PendingAccountRepo.GetAsync(a => a.PhoneNumber.Contains(request.SearchByPhone))).Count();

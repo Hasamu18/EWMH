@@ -91,6 +91,7 @@ namespace Requests.Application.Handlers
             customerFeedback.CustomerName = customer.FullName;
             customerFeedback.CustomerEmail = customer.Email;
             customerFeedback.AvatarUrl = customer.AvatarUrl;
+            customerFeedback.Time = request.End;
             return customerFeedback;
         }
         private object GetResponse()
