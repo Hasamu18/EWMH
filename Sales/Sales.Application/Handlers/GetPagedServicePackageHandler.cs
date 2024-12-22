@@ -34,6 +34,7 @@ namespace Sales.Application.Handlers
             else if (request.SearchByName == null && request.Status != null)
             {
                 items = await _uow.ServicePackageRepo.GetAsync(filter: f => f.Status == request.Status,
+                                                               orderBy: q => q.OrderByDescending(a => a.ServicePackageId),
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
@@ -43,6 +44,7 @@ namespace Sales.Application.Handlers
             else if (request.SearchByName != null && request.Status == null)
             {
                 items = await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName),
+                                                               orderBy: q => q.OrderByDescending(a => a.ServicePackageId),
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);
@@ -53,6 +55,7 @@ namespace Sales.Application.Handlers
             {
                 items = await _uow.ServicePackageRepo.GetAsync(filter: f => f.Name.Contains(request.SearchByName!) &&
                                                                             f.Status == request.Status,
+                                                               orderBy: q => q.OrderByDescending(a => a.ServicePackageId),
                                                                includeProperties: "ServicePackagePrices",
                                                                pageIndex: request.PageIndex,
                                                                pageSize: request.Pagesize);

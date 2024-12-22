@@ -528,5 +528,47 @@ namespace Users.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Authentication) Get leader history
+        /// </summary>
+        ///
+        [Authorize]
+        [HttpGet("23")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetLeaderHistory([FromQuery] GetLeaderHistoryQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Authentication) Get worker history
+        /// </summary>
+        ///
+        [Authorize]
+        [HttpGet("24")]
+        [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetWorkerHistory([FromQuery] GetWorkerHistoryQuery query)
+        {
+            try
+            {
+                var result = await _mediator.Send(query);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }

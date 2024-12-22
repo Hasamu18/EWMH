@@ -61,6 +61,12 @@ public partial class Sep490Context : DbContext
 
     public virtual DbSet<Workers> Workers { get; set; }
 
+    public virtual DbSet<LeaderHistory> LeaderHistory { get; set; }
+
+    public virtual DbSet<WorkerHistory> WorkerHistory { get; set; }
+
+    public virtual DbSet<Shipping> Shipping { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Accounts>(entity =>
@@ -530,6 +536,55 @@ public partial class Sep490Context : DbContext
                 .HasForeignKey<Workers>(d => d.WorkerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Workers__WorkerI__72C60C4A");
+        });
+
+        modelBuilder.Entity<LeaderHistory>(entity =>
+        {
+            entity.HasKey(e => e.LeaderHistoryId).HasName("PK__LeaderHi__733885D6E33247A7");
+
+            entity.Property(e => e.LeaderHistoryId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.AreaId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.LeaderId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.From).HasColumnType("datetime");
+            entity.Property(e => e.To).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<WorkerHistory>(entity =>
+        {
+            entity.HasKey(e => e.WorkerHistoryId).HasName("PK__WorkerHi__05EB8971293BB495");
+
+            entity.Property(e => e.WorkerHistoryId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.WorkerId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.LeaderId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.From).HasColumnType("datetime");
+            entity.Property(e => e.To).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<Shipping>(entity =>
+        {
+            entity.HasKey(e => e.ShippingId).HasName("PK__Shipping__5FACD580FEFB08FA");
+
+            entity.Property(e => e.ShippingId)
+                .HasMaxLength(32)
+                .IsUnicode(false);
+            entity.Property(e => e.ShipmentDate).HasColumnType("datetime");
+            entity.Property(e => e.DeliveriedDate).HasColumnType("datetime");
+            entity.Property(e => e.CustomerNote).IsUnicode(false);
+            entity.Property(e => e.ProofFileUrl)
+                .HasMaxLength(255)
+                .IsUnicode(false);
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Logger.Utility;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -6,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Users.Application.Commands;
+using Users.Domain.Entities;
 using Users.Domain.IRepositories;
 
 namespace Users.Application.Handlers
@@ -48,7 +51,34 @@ namespace Users.Application.Handlers
                 var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(request.AreaId, request.Image, _config);
                 existingApartment[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             }
-           
+
+            if (request.LeaderId != existingApartment[0].LeaderId)
+            {
+                var time = Tools.GetDynamicTimeZone(); ;
+                var getCurrent = (await _uow.LeaderHistoryRepo.GetAsync(a => a.AreaId.Equals(request.AreaId) &&
+                                                                             a.LeaderId.Equals(existingApartment[0].LeaderId) &&
+                                                                             a.To == null)).First();
+
+                getCurrent.To = time;
+                await _uow.LeaderHistoryRepo.UpdateAsync(getCurrent);
+
+                var leaderHistoryId = $"LH_{await _uow.LeaderHistoryRepo.Query().CountAsync() + 1:D10}";
+                LeaderHistory leaderHistory = new()
+                {
+                    LeaderHistoryId = leaderHistoryId,
+                    AreaId = request.AreaId,
+                    LeaderId = request.LeaderId,
+                    From = time
+                };
+                await _uow.LeaderHistoryRepo.AddAsync(leaderHistory);
+
+                //var getLeaderInfo = await _uow.AccountRepo.GetByIdAsync(existingApartment[0].LeaderId);
+                //getLeaderInfo!.IsDisabled = true;
+                //getLeaderInfo!.DisabledReason = "Đã nghỉ việc hoặc chuyển công tác";
+                //await _uow.AccountRepo.UpdateAsync(getLeaderInfo);
+            }
+            
+
             existingApartment[0].LeaderId = request.LeaderId;
             existingApartment[0].Name = request.Name;
             existingApartment[0].Description = request.Description;

@@ -43,14 +43,12 @@ namespace Sales.Application.Handlers
  - Cần cung cấp đầy đủ thông tin về số phòng ở chung cư muốn sửa, loại hư hỏng
  - Dịch vụ sẽ phản hồi yêu cầu trong vòng 24 giờ kể từ khi nhận yêu cầu
  - Các thợ đánh giá sơ bộ rồi sẽ báo giá
- - Báo giá sẽ được cung cấp trước khi thực hiện bất kỳ dịch vụ nào
  - Nếu có bất kỳ phát sinh nào trong quá trình sửa chữa, thợ sẽ thông báo ngay cho khách hàng để xác nhận chi phí bổ sung
- - Các dịch vụ sửa chữa khẩn cấp hoặc ngoài giờ hành chính có thể tính phí cao hơn
- - Trong thời gian bảo hành, nếu có sự cố tương tự xảy ra, dịch vụ sẽ sửa chữa lại mà không tính phí
- 
+ - Giá sửa chữa sẽ tùy thuộc vào từng thời điểm hoặc sẽ miễn phí nếu có gói dịch vụ
+
 - Sửa chữa điện:
- + Thay thế bóng đèn, ổ cắm, công tắc: Thay mới bóng đèn bị hỏng, ổ cắm điện bị cháy, hoặc công tắc bị hư
- + Sửa chữa, thay thế thiết bị điện: Kiểm tra và sửa chữa các thiết bị điện như quạt trần, quạt thông gió, hoặc hệ thống chiếu sáng
+ + Sửa chữa bóng đèn bị hỏng, ổ cắm điện bị cháy, hoặc công tắc bị hư
+ + Sửa chữa thiết bị điện: Kiểm tra và sửa chữa các thiết bị điện như quạt trần, quạt thông gió, hoặc hệ thống chiếu sáng
  + Sửa chữa hệ thống điện âm tường: Sửa chữa các sự cố về đứt mạch điện, mất điện cục bộ, hoặc sự cố chập điện do quá tải
  + Lắp đặt thiết bị điện: Lắp đặt các thiết bị mới như máy lạnh, quạt hút, hoặc các thiết bị gia dụng khác liên quan đến hệ thống điện
  + Khắc phục sự cố chập cháy điện: Kiểm tra và sửa chữa ngay lập tức khi có dấu hiệu chập cháy điện, đảm bảo an toàn cho căn hộ.

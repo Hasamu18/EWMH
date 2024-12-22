@@ -27,6 +27,7 @@ namespace Users.Application.Handlers
             {
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("WORKER") &&
                                                             s.IsDisabled == request.IsDisabled,
+                                                            orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("WORKER") &&
@@ -37,6 +38,7 @@ namespace Users.Application.Handlers
                 items = await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("WORKER") &&
                                                             s.PhoneNumber.Contains(request.SearchByPhone!) &&
                                                             s.IsDisabled == request.IsDisabled,
+                                                            orderBy: q => q.OrderByDescending(x => x.AccountId),
                                                             pageIndex: request.PageIndex,
                                                             pageSize: request.Pagesize);
                 count = (await _uow.AccountRepo.GetAsync(filter: s => s.Role.Equals("WORKER") &&

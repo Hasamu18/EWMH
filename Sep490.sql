@@ -100,6 +100,26 @@ CREATE TABLE [ServicePackages] (
 )
 GO
 
+CREATE TABLE [LeaderHistory] (
+  [LeaderHistoryId] varchar(32) NOT NULL,
+  [AreaId] varchar(32) NOT NULL,
+  [LeaderId] varchar(32) NOT NULL,
+  [From] datetime NOT NULL,
+  [To] datetime,
+  PRIMARY KEY ([LeaderHistoryId])
+)
+GO
+
+CREATE TABLE [WorkerHistory] (
+  [WorkerHistoryId] varchar(32) NOT NULL,
+  [LeaderId] varchar(32) NOT NULL,
+  [WorkerId] varchar(32) NOT NULL,
+  [From] datetime NOT NULL,
+  [To] datetime,
+  PRIMARY KEY ([WorkerHistoryId])
+)
+GO
+
 CREATE TABLE [Customers] (
   [CustomerId] varchar(32) NOT NULL,
   [CMT_CCCD] varchar(32) NOT NULL

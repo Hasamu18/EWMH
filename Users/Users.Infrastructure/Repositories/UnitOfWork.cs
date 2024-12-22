@@ -69,5 +69,41 @@ namespace Users.Infrastructure.Repositories
         {
             get => _roomRepo ??= new GenericRepository<Rooms>(_context, _fireStore);
         }
+
+        private IGenericRepository<LeaderHistory> _leaderHistoryRepo;
+        public IGenericRepository<LeaderHistory> LeaderHistoryRepo
+        {
+            get => _leaderHistoryRepo ??= new GenericRepository<LeaderHistory>(_context, _fireStore);
+        }
+
+        private IGenericRepository<WorkerHistory> _workerHistoryRepo;
+        public IGenericRepository<WorkerHistory> WorkerHistoryRepo
+        {
+            get => _workerHistoryRepo ??= new GenericRepository<WorkerHistory>(_context, _fireStore);
+        }
+
+        private IGenericRepository<Orders> _orderRepo;
+        public IGenericRepository<Orders> OrderRepo
+        {
+            get => _orderRepo ??= new GenericRepository<Orders>(_context, _fireStore);
+        }
+
+        private IGenericRepository<Requests> _requestRepo;
+        public IGenericRepository<Requests> RequestRepo
+        {
+            get => _requestRepo ??= new GenericRepository<Requests>(_context, _fireStore);
+        }
+
+        private IGenericRepository<Contracts> _contractRepo;
+        public IGenericRepository<Contracts> ContractRepo
+        {
+            get => _contractRepo ??= new GenericRepository<Contracts>(_context, _fireStore);
+        }
+
+        private IGenericRepository<Shipping> _shippingRepo;
+        public IGenericRepository<Shipping> ShippingRepo
+        {
+            get => _shippingRepo ??= new GenericRepository<Shipping>(_context, _fireStore);
+        }
     }
 }
