@@ -17,5 +17,11 @@ namespace Users.Domain.IRepositories
         IGenericRepository<PendingAccounts> PendingAccountRepo { get; }
         IGenericRepository<ApartmentAreas> ApartmentAreaRepo { get; }
         IGenericRepository<Rooms> RoomRepo { get; }
+        IGenericRepository<LeaderHistory> LeaderHistoryRepo { get; }
+        IGenericRepository<WorkerHistory> WorkerHistoryRepo { get; }
+        IGenericRepository<Orders> OrderRepo { get; }
+        IGenericRepository<Requests> RequestRepo { get; }
+        IGenericRepository<Contracts> ContractRepo { get; }
+        IGenericRepository<Shipping> ShippingRepo { get; }
     }
 }

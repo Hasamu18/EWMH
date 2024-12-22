@@ -50,7 +50,17 @@ namespace Users.Application.Handlers
             apartmentArea.AreaId = areaId;
             apartmentArea.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             await _uow.ApartmentAreaRepo.AddAsync(apartmentArea);
-            
+
+            var leaderHistoryId = $"LH_{await _uow.LeaderHistoryRepo.Query().CountAsync() + 1:D10}";
+            LeaderHistory leaderHistory = new()
+            {
+                LeaderHistoryId = leaderHistoryId,
+                AreaId = areaId,
+                LeaderId = request.LeaderId,
+                From = Tools.GetDynamicTimeZone()
+            };
+            await _uow.LeaderHistoryRepo.AddAsync(leaderHistory);
+
             return (201, $"Chung cư: {request.Name} đã được thêm");
         }
     }
