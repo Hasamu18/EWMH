@@ -24,4 +24,6 @@ public partial class Shipping
     public string? CustomerNote { get; set; }
 
     public string? ProofFileUrl { get; set; }
+
+    public string? Address { get; set; }
 }

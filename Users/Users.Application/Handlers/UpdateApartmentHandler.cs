@@ -52,6 +52,14 @@ namespace Users.Application.Handlers
                 existingApartment[0].AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
             }
 
+            if (request.CollaborationFile != null)
+            {
+                int underscoreIndex = request.AreaId.IndexOf('_');
+                string collaborationId = request.AreaId.Insert(underscoreIndex, "CF");
+                var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(collaborationId, request.CollaborationFile, _config);
+                existingApartment[0].FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            }
+
             if (request.LeaderId != existingApartment[0].LeaderId)
             {
                 var time = Tools.GetDynamicTimeZone(); ;

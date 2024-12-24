@@ -50,16 +50,17 @@ namespace Users.Application.Handlers
                                                                           s.ShipmentDate
                                                                       })
                                                                       .ToList();
-               
+
+                var getLeaderInfo = await _uow.AccountRepo.GetByIdAsync(getHistory.LeaderId);
                 result.Add(new
                 {
                     WorkerHistory = new
                     {
                         getHistory.WorkerHistoryId,
-                        getHistory.LeaderId,
+                        LeaderInfo = getLeaderInfo,
                         getHistory.WorkerId,
                         getHistory.From,
-                        To = getHistory.To?.ToString("yyyy-MM-dd HH:mm:ss.fff") ?? "Hiện tại"
+                        To = getHistory.To?.ToString("yyyy-MM-ddTHH:mm:ss.fff") ?? "Hiện tại"
                     },
                     RequestList = getRequestList,
                     ShippingList = getShippingList

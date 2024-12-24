@@ -14,10 +14,13 @@ namespace Sales.Application.Commands
 
         public string? CustomerNote { get; set; }
 
-        public CheckOrderPaymentCommand(string customerId, string? customerNote)
+        public string Address { get; set; }
+
+        public CheckOrderPaymentCommand(string customerId, string? customerNote, string address)
         {
             CustomerId = customerId;
             CustomerNote = customerNote;
+            Address = address;
         }
     }
 }

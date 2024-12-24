@@ -40,8 +40,8 @@ namespace Requests.Application.Handlers
 
             var getRooms = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(existingUser[0].AccountId), includeProperties:"Area")).ToList();
 
-            if (!request.LeaderId.Equals(getRooms[0].Area.LeaderId))
-                return (409, "Bạn chỉ có thể tạo yêu cầu sửa chữa đối với những khách hàng thuộc chung cư của bạn");
+            //if (!request.LeaderId.Equals(getRooms[0].Area.LeaderId))
+            //    return (409, "Bạn chỉ có thể tạo yêu cầu sửa chữa đối với những khách hàng thuộc chung cư của bạn");
 
             return (200, new
             {

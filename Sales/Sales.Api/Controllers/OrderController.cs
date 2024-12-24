@@ -99,12 +99,12 @@ namespace Sales.Api.Controllers
         [Authorize(Roles = Role.CustomerRole)]
         [HttpPost("4")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CheckOrderPayment([FromForm] string? customerNote)
+        public async Task<IActionResult> CheckOrderPayment([FromForm] string? customerNote, [FromForm] string address)
         {
             try
             {
                 var accountId = (HttpContext.User.FindFirst("accountId")?.Value) ?? "";
-                var command = new CheckOrderPaymentCommand(accountId, customerNote);
+                var command = new CheckOrderPaymentCommand(accountId, customerNote, address);
                 var result = await _mediator.Send(command);                
                 return Ok(result.Item2);
             }

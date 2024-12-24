@@ -26,8 +26,8 @@ namespace Sales.Application.Handlers
                 return (404, "Gói dịch vụ không tồn tại");
 
             var currentServicePackage = existingServicePackage[0].ServicePackagePrices.OrderByDescending(p => p.Date).First();
-            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).First();
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).ToList();
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom[0].AreaId);
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);            
 
@@ -46,6 +46,7 @@ Mã hợp đồng: .............";
                 ApartmentName = $"Tên chung cư: {existingApartment.Name}",
                 Address = $"Địa chỉ: {existingApartment.Address}",
                 PhoneNumber = $"Điện thoại: {infoLeader!.PhoneNumber}",
+                Email = $"Email: {infoLeader!.Email}",
                 Role = @"Chức vụ: Trưởng nhóm (Leader)
                 -------------------------------------------------------------"                             
             };
@@ -55,7 +56,10 @@ Mã hợp đồng: .............";
                 B = "Bên mua: (Bên B)",
                 UserName = $"Tên người mua: {infoCustomer!.FullName}",
                 ApartmentName = $"Tên chung cư: {existingApartment.Name}",
+                Address = $"Địa chỉ: {existingApartment.Address}",
+                RoomIds = $"Địa chỉ căn hộ của khách được hưởng gói dịch vụ: {string.Join(", ", existingRoom.Select(s => s.RoomId))}",
                 PhoneNumber = $"Điện thoại: {infoCustomer!.PhoneNumber}",
+                Email = $"Email: {infoCustomer!.Email}",
                 Role = @"Chức vụ: Khách hàng (Customer)
 Trên cơ sở thỏa thuận, hai bên thống nhất ký kết hợp đồng mua bán dịch vụ với các điều khoản như sau: "
             };

@@ -24,10 +24,10 @@ namespace Requests.Api.Controllers
         }
 
         /// <summary>
-        /// (Leader) Get all room of a customer
+        /// (Leader, Customer) Get all room of a customer
         /// </summary>
         /// 
-        [Authorize(Roles = Role.TeamLeaderRole)]
+        [Authorize(Roles = Role.TeamLeaderRole + "," + Role.CustomerRole)]
         [HttpGet("1")]
         [ProducesResponseType(typeof(object), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCustomerRooms(
