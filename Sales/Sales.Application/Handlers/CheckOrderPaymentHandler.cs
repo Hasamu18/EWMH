@@ -64,7 +64,7 @@ namespace Sales.Application.Handlers
 
             PaymentData paymentData = new(orderCode, amount, description, itemDataList,
                 $"{_config["CustomerDeepLink:Url2"]}?isCanceled=1",
-                $"{_config["CustomerDeepLink:Url2"]}?id1={id1}&customerNote={request.CustomerNote}",
+                $"{_config["CustomerDeepLink:Url2"]}?id1={id1}&customerNote={request.CustomerNote}&address={request.Address}",
                 buyerName: buyerName, buyerEmail: buyerEmail, 
                 buyerPhone: buyerPhone, expiredAt: expiredAt);
 

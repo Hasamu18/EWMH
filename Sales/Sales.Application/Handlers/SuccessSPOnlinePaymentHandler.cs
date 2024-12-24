@@ -67,8 +67,8 @@ namespace Sales.Application.Handlers
                 await _uow.TransactionRepo.AddAsync(transaction);
             }
 
-            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).First();
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).ToList();
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom[0].AreaId);
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             
@@ -187,6 +187,18 @@ Mã hợp đồng: {request.ContractId}")
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Tên chung cư: ");
                                         text.Span($"{existingApartment.Name}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Địa chỉ: ");
+                                        text.Span($"{existingApartment.Address}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Địa chỉ căn hộ của khách được hưởng gói dịch vụ: ");
+                                        text.Span($"{string.Join(", ", existingRoom.Select(s => s.RoomId))}").SemiBold();
                                     });
                                     col.Item().Text(text =>
                                     {

@@ -20,6 +20,8 @@ public partial class ApartmentAreas
 
     public string AvatarUrl { get; set; } = null!;
 
+    public string? FileUrl { get; set; } 
+
     public virtual Leaders Leader { get; set; } = null!;
     [JsonIgnore]
     public virtual ICollection<Rooms> Rooms { get; set; } = new List<Rooms>();

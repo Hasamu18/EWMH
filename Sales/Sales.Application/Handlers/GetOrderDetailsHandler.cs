@@ -32,6 +32,7 @@ namespace Sales.Application.Handlers
             Accounts? leader = null;
             var order = await _uow.OrderRepo.GetByIdAsync(getOrderDetail[0].OrderId);
             var customer = await _uow.AccountRepo.GetByIdAsync(order!.CustomerId);
+            var getShipping = await _uow.ShippingRepo.GetByIdAsync(order.OrderId);
             var getAreaId = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(order!.CustomerId))).ToList();
 
             if (getAreaId.Count != 0)
@@ -81,7 +82,8 @@ namespace Sales.Application.Handlers
                     customer.PhoneNumber,
                     customer.Email,
                     customer.AvatarUrl,
-                    customer.DateOfBirth
+                    customer.DateOfBirth,
+                    Shipping = getShipping
                 },
                 Apartment = apartment,
                 Leader = leader,

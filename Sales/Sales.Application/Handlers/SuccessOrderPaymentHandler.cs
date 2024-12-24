@@ -232,15 +232,27 @@ namespace Sales.Application.Handlers
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Địa chỉ: ");
+                                        text.Span($"{existingApartment.Address}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Địa chỉ căn hộ nhận hàng của khách: ");
+                                        text.Span($"{request.Address}").SemiBold();
+                                    });
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                         text.Span("Điện thoại: ");
                                         text.Span($"{existingCustomer!.PhoneNumber}").SemiBold();
                                     });
-                                    //col.Item().Text(text =>
-                                    //{
-                                    //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                    //    text.Span("Email: ");
-                                    //    text.Span($"{existingCustomer!.Email}").SemiBold();
-                                    //});
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Email: ");
+                                        text.Span($"{existingCustomer!.Email}").SemiBold();
+                                    });
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
@@ -339,7 +351,8 @@ namespace Sales.Application.Handlers
                 DeliveriedDate = null,
                 Status = 0,
                 CustomerNote = request.CustomerNote == null ? null : Uri.UnescapeDataString(request.CustomerNote),
-                ProofFileUrl = null
+                ProofFileUrl = null,
+                Address = request.Address
             };
             await _uow.ShippingRepo.AddAsync(shipping);
 

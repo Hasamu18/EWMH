@@ -42,8 +42,8 @@ namespace Sales.Application.Handlers
 
             var currentServicePackage = existingServicePackage[0].ServicePackagePrices.OrderByDescending(p => p.Date).First();
 
-            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).First();
-            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom.AreaId);
+            var existingRoom = (await _uow.RoomRepo.GetAsync(a => (a.CustomerId ?? "").Equals(request.CustomerId))).ToList();
+            var existingApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(existingRoom[0].AreaId);
             var infoLeader = await _uow.AccountRepo.GetByIdAsync(existingApartment!.LeaderId);
             var infoCustomer = await _uow.AccountRepo.GetByIdAsync(request.CustomerId);
             
@@ -160,12 +160,12 @@ Mã hợp đồng: {contractId}")
                                             text.Span("Điện thoại: ");
                                             text.Span($"{infoLeader!.PhoneNumber}").SemiBold();
                                         });
-                                        //col.Item().Text(text =>
-                                        //{
-                                        //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        //    text.Span("Email: ");
-                                        //    text.Span($"{infoLeader!.Email}").SemiBold();
-                                        //});
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Email: ");
+                                            text.Span($"{infoLeader!.Email}").SemiBold();
+                                        });
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
@@ -197,15 +197,27 @@ Mã hợp đồng: {contractId}")
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Địa chỉ: ");
+                                            text.Span($"{existingApartment.Address}").SemiBold();
+                                        });
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Địa chỉ căn hộ của khách được hưởng gói dịch vụ: ");
+                                            text.Span($"{string.Join(", ", existingRoom.Select(s => s.RoomId))}").SemiBold();
+                                        });
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                             text.Span("Điện thoại: ");
                                             text.Span($"{infoCustomer!.PhoneNumber}").SemiBold();
                                         });
-                                        //col.Item().Text(text =>
-                                        //{
-                                        //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        //    text.Span("Email: ");
-                                        //    text.Span($"{infoCustomer!.Email}").SemiBold();
-                                        //});
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Email: ");
+                                            text.Span($"{infoCustomer!.Email}").SemiBold();
+                                        });
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));

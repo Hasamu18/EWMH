@@ -26,5 +26,7 @@ namespace Users.Application.Commands
         public required IFormFile Image { get; set; }
 
         public required string LeaderId { get; set; }
+
+        public required IFormFile CollaborationFile { get; set; }
     }
 }

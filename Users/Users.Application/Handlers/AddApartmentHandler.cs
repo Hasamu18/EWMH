@@ -45,10 +45,13 @@ namespace Users.Application.Handlers
                 return (409, $"Trưởng nhóm đã được gán vào một chung cư khác");
 
             var areaId = $"AA_{await _uow.ApartmentAreaRepo.Query().CountAsync() + 1:D10}";
+            var collaborationId = $"AACF_{await _uow.ApartmentAreaRepo.Query().CountAsync() + 1:D10}";
             var bucketAndPath = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(areaId, request.Image, _config);
+            var bucketAndPath1 = await _uow.ApartmentAreaRepo.UploadFileToStorageAsync(collaborationId, request.Image, _config);
             var apartmentArea = UserMapper.Mapper.Map<ApartmentAreas>(request);
             apartmentArea.AreaId = areaId;
             apartmentArea.AvatarUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath.Item1}/o/{Uri.EscapeDataString(bucketAndPath.Item2)}?alt=media";
+            apartmentArea.FileUrl = $"https://firebasestorage.googleapis.com/v0/b/{bucketAndPath1.Item1}/o/{Uri.EscapeDataString(bucketAndPath1.Item2)}?alt=media";
             await _uow.ApartmentAreaRepo.AddAsync(apartmentArea);
 
             var leaderHistoryId = $"LH_{await _uow.LeaderHistoryRepo.Query().CountAsync() + 1:D10}";

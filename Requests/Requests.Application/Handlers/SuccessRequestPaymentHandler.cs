@@ -202,12 +202,12 @@ namespace Requests.Application.Handlers
                                             text.Span("Điện thoại: ");
                                             text.Span($"{existingLeader!.PhoneNumber}").SemiBold();
                                         });
-                                        //col.Item().Text(text =>
-                                        //{
-                                        //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        //    text.Span("Email: ");
-                                        //    text.Span($"{existingLeader!.Email}").SemiBold();
-                                        //});
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Email: ");
+                                            text.Span($"{existingLeader!.Email}").SemiBold();
+                                        });
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
@@ -239,15 +239,27 @@ namespace Requests.Application.Handlers
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Địa chỉ: ");
+                                            text.Span($"{existingApartment[0].Address}").SemiBold();
+                                        });
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Địa chỉ căn hộ của khách sử dụng dịch vụ: ");
+                                            text.Span($"{getRequest.RoomId}").SemiBold();
+                                        });
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
                                             text.Span("Điện thoại: ");
                                             text.Span($"{existingCustomer!.PhoneNumber}").SemiBold();
                                         });
-                                        //col.Item().Text(text =>
-                                        //{
-                                        //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                        //    text.Span("Email: ");
-                                        //    text.Span($"{existingCustomer!.Email}").SemiBold();
-                                        //});
+                                        col.Item().Text(text =>
+                                        {
+                                            text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                            text.Span("Email: ");
+                                            text.Span($"{existingCustomer!.Email}").SemiBold();
+                                        });
                                         col.Item().Text(text =>
                                         {
                                             text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));

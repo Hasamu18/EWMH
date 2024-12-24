@@ -39,16 +39,7 @@ namespace Users.Application.Handlers
                                                                           s.Start
                                                                       })
                                                                       .ToList();
-
-                var r = (await _uow.RequestRepo.GetAsync(a => getCusIdList.Contains(a.CustomerId) &&
-                                                                      a.Start >= getHistory.From && a.Start <= (getHistory.To ?? current)))
-                                                                      .OrderByDescending(o => o.Start)
-                                                                      .Select(s => new
-                                                                      {
-                                                                          s.RequestId,
-                                                                          s.Start
-                                                                      })
-                                                                      .Count();
+               
                 var getContractList = (await _uow.ContractRepo.GetAsync(a => getCusIdList.Contains(a.CustomerId) &&
                                                                       a.PurchaseTime >= getHistory.From && a.PurchaseTime <= (getHistory.To ?? current) &&
                                                                       a.OrderCode != 2))
@@ -59,18 +50,7 @@ namespace Users.Application.Handlers
                                                                           s.PurchaseTime
                                                                       })
                                                                       .ToList();
-
-                var c = (await _uow.ContractRepo.GetAsync(a => getCusIdList.Contains(a.CustomerId) &&
-                                                                      a.PurchaseTime >= getHistory.From && a.PurchaseTime <= (getHistory.To ?? current) &&
-                                                                      a.OrderCode != 2))
-                                                                      .OrderByDescending(o => o.PurchaseTime)
-                                                                      .Select(s => new
-                                                                      {
-                                                                          s.ContractId,
-                                                                          s.PurchaseTime
-                                                                      })
-                                                                      .Count();
-
+               
                 var getOrderList = (await _uow.OrderRepo.GetAsync(a => getCusIdList.Contains(a.CustomerId) &&
                                                                       a.PurchaseTime >= getHistory.From && a.PurchaseTime <= (getHistory.To ?? current) &&
                                                                       a.OrderCode != null))
@@ -82,30 +62,25 @@ namespace Users.Application.Handlers
                                                                       })
                                                                       .ToList();
 
-                var o = (await _uow.OrderRepo.GetAsync(a => getCusIdList.Contains(a.CustomerId) &&
-                                                                      a.PurchaseTime >= getHistory.From && a.PurchaseTime <= (getHistory.To ?? current) &&
-                                                                      a.OrderCode != null))
-                                                                      .OrderByDescending(o => o.PurchaseTime)
-                                                                      .Select(s => new
-                                                                      {
-                                                                          s.OrderId,
-                                                                          s.PurchaseTime
-                                                                      })
-                                                                      .Count();
+                var getApartment = await _uow.ApartmentAreaRepo.GetByIdAsync(getHistory.AreaId);
+                
                 result.Add(new
                 {
                     LeaderHistory = new
                     {
                         getHistory.LeaderHistoryId,
-                        getHistory.AreaId,
+                        Apartment = new
+                        {
+                            getHistory.AreaId,
+                            getApartment
+                        },
                         getHistory.LeaderId,
                         getHistory.From,
-                        To = getHistory.To?.ToString("yyyy-MM-dd HH:mm:ss.fff") ?? "Hiện tại"
+                        To = getHistory.To?.ToString("yyyy-MM-ddTHH:mm:ss.fff") ?? "Hiện tại"
                     },
                     RequestList = getRequestList,
                     ContractList = getContractList,
-                    OrderList = getOrderList,
-                    r, c, o
+                    OrderList = getOrderList
                 });
             }
             return result;

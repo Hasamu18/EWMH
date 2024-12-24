@@ -48,11 +48,13 @@ namespace Requests.Application.Handlers
 
             foreach (var get in requestList)
             {
+                var getApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(get.LeaderId))).First();
                 var getCustomer = await _uow.AccountRepo.GetByIdAsync(get.CustomerId);
                 result.Add(new
                 {
                     get,
                     getCustomer,
+                    getApartment
                 });
             }
 
