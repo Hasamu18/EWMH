@@ -43,6 +43,7 @@ namespace Users.Application.Handlers
                         get.Address,
                         get.ManagementCompany,
                         get.AvatarUrl,
+                        get.FileUrl,
                         RoomIds = get.Rooms.Select(s => s.RoomId).ToList()
                     });
                 }

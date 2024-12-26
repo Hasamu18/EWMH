@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MongoDB.Driver.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ namespace Users.Application.Handlers
             foreach (var item in items)
             {
                 var getWorker = await _uow.AccountRepo.GetByIdAsync(item.WorkerId);
+                var currentWork = (await _uow.WorkerHistoryRepo.GetAsync(a => a.WorkerId.Equals(item.WorkerId) & a.To == null)).FirstOrDefault();
                 result.Add(new
                 {
                     getWorker!.AccountId,
@@ -31,7 +33,9 @@ namespace Users.Application.Handlers
                     getWorker.Email,
                     getWorker.PhoneNumber,
                     getWorker.AvatarUrl,
-                    getWorker.DateOfBirth
+                    getWorker.DateOfBirth,
+                    currentWork?.From,
+                    To = currentWork?.To?.ToString("yyyy-MM-ddTHH:mm:ss.fff") ?? "Hiện tại"
                 });
             }
             return result;

@@ -36,7 +36,7 @@ namespace Sales.Application.Handlers
             foreach (var item in getProccessingShippingOrder)
             {
                 var getCusInfo = await _uow.AccountRepo.GetByIdAsync(item.CustomerId);
-                
+                var getApartment = (await _uow.ApartmentAreaRepo.GetAsync(a => a.LeaderId.Equals(item.LeaderId))).First();
                 result.Add(new
                 {
                     ShippingOrder = item,
@@ -48,7 +48,8 @@ namespace Sales.Application.Handlers
                         getCusInfo!.PhoneNumber,
                         getCusInfo!.AvatarUrl,
                         getCusInfo!.DateOfBirth
-                    }
+                    },
+                    Apartment = getApartment
                 });
             }
 
