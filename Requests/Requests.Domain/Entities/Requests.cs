@@ -34,6 +34,10 @@ public partial class Requests
 
     public string? FileUrl { get; set; }
 
+    public string? PreRepairEvidenceUrl { get; set; }
+
+    public string? PostRepairEvidenceUrl { get; set; }
+
     public long? OrderCode { get; set; }
 
     public bool? IsOnlinePayment { get; set; }

@@ -105,6 +105,8 @@ namespace Requests.Application.Handlers
                     request.PurchaseTime,
                     request.TotalPrice,
                     request.FileUrl,
+                    request.PreRepairEvidenceUrl,
+                    request.PostRepairEvidenceUrl,
                     request.OrderCode,
                     request.IsOnlinePayment,
                     requestPrice = request.CategoryRequest == 0

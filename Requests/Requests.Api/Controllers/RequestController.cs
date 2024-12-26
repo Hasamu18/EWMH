@@ -554,7 +554,7 @@ namespace Requests.Api.Controllers
         {
             try
             {
-                var query = new GetWarrantyCardsQuery(requestId,customerId,productName,pageIndex,pageSize);
+                var query = new GetWarrantyCardsQuery(requestId, customerId, productName, pageIndex, pageSize);
                 var result = await _mediator.Send(query);
                 return Ok(result);
             }
@@ -725,5 +725,80 @@ namespace Requests.Api.Controllers
                 return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
             }
         }
+
+        /// <summary>
+        /// (Customer) Create a new request
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///     
+        ///     categoryRequest   = 0 (Warranty Product)
+        ///     categoryRequest   = 1 (Repair Request)
+        ///     
+        /// </remarks>
+        [Authorize(Roles = Role.CustomerRole)]
+        [HttpPost("29")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Created)]
+        public async Task<IActionResult> CreateNewRequestForCus(
+            [FromForm] string customerId,
+            [FromForm] string roomId,
+            [FromForm] string customerProblem,
+            [FromForm] Request.CategoryRequest categoryRequest)
+        {
+            try
+            {
+                var command = new CreateNewRequestForCusCommand(customerId, roomId, customerProblem, categoryRequest);
+                var result = await _mediator.Send(command);
+                return StatusCode(result.Item1, result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) Add pre-repair evidence file
+        /// </summary>
+        /// 
+        [Authorize(Roles = Role.WorkerRole)]
+        [HttpPost("30")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> AddPreRepairEvidenceToRequest([FromForm] AddPreRepairEvidenceToRequestCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                return StatusCode(result.Item1, result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
+
+        /// <summary>
+        /// (Worker) Add post-repair evidence file
+        /// </summary>
+        /// 
+        //[Authorize(Roles = Role.WorkerRole)]
+        [HttpPost("31")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> AddPostRepairEvidenceToRequest([FromForm] AddPostRepairEvidenceToRequestCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+                return StatusCode(result.Item1, result.Item2);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+                return StatusCode(500, $"Error message: {ex.Message}\n\nError{ex.StackTrace}");
+            }
+        }
     }
 }
+

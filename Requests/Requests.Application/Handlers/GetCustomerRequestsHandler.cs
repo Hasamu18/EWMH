@@ -63,6 +63,8 @@ namespace Requests.Application.Handlers
                         get.PurchaseTime,
                         get.TotalPrice,
                         get.FileUrl,
+                        get.PreRepairEvidenceUrl,
+                        get.PostRepairEvidenceUrl,
                         get.OrderCode,
                         get.IsOnlinePayment,
                         Feedback = get.Feedbacks.Select(s => new

@@ -195,12 +195,12 @@ namespace Sales.Application.Handlers
                                         text.Span("Điện thoại: ");
                                         text.Span($"{existingLeader!.PhoneNumber}").SemiBold();
                                     });
-                                    //col.Item().Text(text =>
-                                    //{
-                                    //    text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
-                                    //    text.Span("Email: ");
-                                    //    text.Span($"{existingLeader!.Email}").SemiBold();
-                                    //});
+                                    col.Item().Text(text =>
+                                    {
+                                        text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));
+                                        text.Span("Email: ");
+                                        text.Span($"{existingLeader!.Email}").SemiBold();
+                                    });
                                     col.Item().Text(text =>
                                     {
                                         text.DefaultTextStyle(x => x.FontSize(12).FontColor(Colors.Black));

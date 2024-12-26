@@ -16,6 +16,7 @@ namespace Requests.Application.Mappers
         public MapperProfile()
         {
             CreateMap<Domain.Entities.Requests, CreateNewRequestCommand>().ReverseMap();
+            CreateMap<Domain.Entities.Requests, CreateNewRequestForCusCommand>().ReverseMap();
             CreateMap<Domain.Entities.Requests, ViewModels.Request>().ReverseMap();
             CreateMap<Domain.Entities.Accounts, ViewModels.LeaderDetails>()
                 .ForMember(dest => dest.LeaderId, opt => opt.Ignore()) 
