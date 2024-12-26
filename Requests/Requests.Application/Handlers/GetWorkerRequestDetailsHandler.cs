@@ -21,12 +21,14 @@ namespace Requests.Application.Handlers
         private readonly IUnitOfWork _uow;
         private RequestWorkers _requestWorker;
         private ViewModels.WorkerRequestDetail _workerRequestDetailVM;
+        private IMapper _mapper;
         private int WARRANTY_REQUEST = 0;
         private int REPAIR_REQUEST = 1;
 
-        public GetWorkerRequestDetailsHandler(IUnitOfWork uow)
+        public GetWorkerRequestDetailsHandler(IUnitOfWork uow,IMapper mapper)
         {
             _uow = uow;
+            _mapper = mapper;
         }
 
         public async Task<ViewModels.WorkerRequestDetail> Handle(GetWorkerRequestDetailsQuery request, CancellationToken cancellationToken)
@@ -53,6 +55,7 @@ namespace Requests.Application.Handlers
             _workerRequestDetailVM.RequestId = request.RequestId;
             _workerRequestDetailVM.ContractId = request.ContractId;
             _workerRequestDetailVM.Status = request.Status;
+            _workerRequestDetailVM.StartDate = request.Start;
             _workerRequestDetailVM.CustomerId = customer.AccountId;
             _workerRequestDetailVM.CustomerAvatar = customer.AvatarUrl;
             _workerRequestDetailVM.CustomerName = customer.FullName;
@@ -60,6 +63,7 @@ namespace Requests.Application.Handlers
             _workerRequestDetailVM.CustomerPhone = customer.PhoneNumber;
             _workerRequestDetailVM.CustomerProblem = request.CustomerProblem;
             _workerRequestDetailVM.RoomId = request.RoomId;
+            _workerRequestDetailVM.Apartment = await GetApartmentDetails(request.RoomId,customer.AccountId);
             _workerRequestDetailVM.Workers = await GetWorkersForRepairRequest(request);
             if (request.CategoryRequest == WARRANTY_REQUEST)
             {
@@ -81,6 +85,14 @@ namespace Requests.Application.Handlers
             }
             return workerRequestDetailProducts;
         }
+        private async Task<ViewModels.WorkerRequestDetailApartment> GetApartmentDetails(string roomId,string customerId)
+        {
+            Domain.Entities.Rooms room = (await _uow.RoomRepo.GetAsync(room => room.RoomId == roomId && room.CustomerId == customerId)).FirstOrDefault();
+            Domain.Entities.ApartmentAreas apartmentArea = await _uow.ApartmentAreaRepo.GetByIdAsync(room.AreaId);
+            var result = _mapper.Map<ViewModels.WorkerRequestDetailApartment>(apartmentArea);
+            return result;
+        }
+
         private async Task<ViewModels.WorkerRequestDetailWorker> GetWorkerVM(Domain.Entities.RequestWorkers requestWorker)
         {
             Domain.Entities.Accounts worker = await _uow.AccountRepo.GetByIdAsync(requestWorker.WorkerId);
