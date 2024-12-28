@@ -56,6 +56,8 @@ namespace Requests.Application.Handlers
             _workerRequestDetailVM.ContractId = request.ContractId;
             _workerRequestDetailVM.Status = request.Status;
             _workerRequestDetailVM.StartDate = request.Start;
+            _workerRequestDetailVM.PreRepairEvidenceUrl = request.PreRepairEvidenceUrl;
+            _workerRequestDetailVM.PostRepairEvidenceUrl= request.PostRepairEvidenceUrl;
             _workerRequestDetailVM.CustomerId = customer.AccountId;
             _workerRequestDetailVM.CustomerAvatar = customer.AvatarUrl;
             _workerRequestDetailVM.CustomerName = customer.FullName;
