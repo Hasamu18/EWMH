@@ -12,6 +12,8 @@ namespace Requests.Application.ViewModels
         public string ContractId { get; set; } = null!;
         public int Status { get; set; }
         public DateTime StartDate { get; set; }
+        public string PreRepairEvidenceUrl { get; set; }
+        public string PostRepairEvidenceUrl { get; set; }
         public string CustomerId { get; set; } = null!;
         public string CustomerAvatar { get; set; } = null!;
         public string CustomerName { get; set; } = null!;        
