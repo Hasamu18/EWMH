@@ -90,7 +90,7 @@ namespace Requests.Application.Handlers
             newRequest.IsOnlinePayment = null;
             await _uow.RequestRepo.AddAsync(newRequest);
 
-            return (201, $"Yêu cầu mới cho mã phòng: {request.RoomId} tại chung cư {getApartment[0].Name} đã được tiếp nhận!");
+            return (201, $"{requestId}");
         }
     }
 }
