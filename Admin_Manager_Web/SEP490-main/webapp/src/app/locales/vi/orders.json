@@ -1,0 +1,25 @@
+{
+  "order_list": "Danh sách đơn hàng",
+  "search_by_phone": "Tìm kiếm theo SĐT",
+  "customer_order": {
+    "title": "Đơn hàng của khách hàng",
+    "order_table": {
+      "order_id": "Mã đơn hàng",
+      "order_customer_name": "Khách hàng",
+      "order_customer_phone": "SĐT",
+      "order_date": "Ngày đặt",
+      "order_total_price": "Tổng giá"
+    }
+  },
+  "request_order": {
+    "title": "Đơn hàng của yêu cầu",
+    "order_table": {
+      "request_id": "Mã yêu cầu",
+      "order_customer_name": "Khách hàng",
+      "order_customer_phone": "SĐT",
+      "order_date": "Ngày đặt",
+      "order_total_price": "Tổng giá",
+      "order_leader_name": "Trưởng nhóm"
+    }
+  }
+}

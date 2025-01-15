@@ -1,0 +1,10 @@
+{
+  "customer_list": "Customer List",
+  "search_by_email": "Search by email",
+  "customer_table": {
+    "customer_info": "Customer Information",
+    "customer_phone": "Phone Number",
+    "customer_status": "Status",
+    "customer_notes": "Notes"
+  }
+}

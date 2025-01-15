@@ -1,0 +1,14 @@
+{
+  "contract_list": "Danh sách hợp đồng",
+  "search_by_phone": "Tìm kiếm theo SĐT",
+  "contract_table": {
+    "contract_id": "Mã hợp đồng",
+    "service_package_name": "Tên gói dịch vụ",
+    "contract_customer_name": "Khách hàng",
+    "contract_paid_date": "Ngày thanh toán",
+    "contract_total_num_of_request": "Tổng lần sửa",
+    "contract_remaining_num_of_request": "Lần sửa còn",
+    "contract_end_date": "Hạn sử dụng",
+    "contract_status": "Trạng thái"
+  }
+}

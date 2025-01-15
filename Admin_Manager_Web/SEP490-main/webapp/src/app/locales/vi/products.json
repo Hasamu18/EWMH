@@ -1,0 +1,24 @@
+{
+  "product_list": "Danh sách sản phẩm",
+  "search_by_name": "Tìm kiếm theo tên sản phẩm",
+  "create_new_product": {
+    "title": "Tạo sản phẩm mới",
+    "product_name": "Tên sản phẩm",
+    "product_description": "Mô tả",
+    "product_price": "Giá sản phẩm (VND)",
+    "product_quantity": "Số lượng",
+    "product_warranty_month": "Số tháng bảo hành"
+  },
+  "product_table": {
+    "product_info": "Thông tin sản phẩm",
+    "product_price": "Giá",
+    "product_quantity": "Số lượng",
+    "product_quantity_status": "Tình trạng",
+    "product_status": "Trạng thái"
+  },
+  "dropdown": {
+    "view_product_details": "Xem chi tiết",
+    "update_product_details": "Chỉnh sửa",
+    "view_statistics": "Xem thống kê"
+  }
+}

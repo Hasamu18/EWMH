@@ -1,0 +1,34 @@
+{
+  "request_list": "Danh sách yêu cầu",
+  "new_request": "Yêu cầu mới",
+  "processing_request": "Đang xử lý",
+  "finished_request": "Đã hoàn thành",
+  "canceled_request": "Đã hủy",
+  "request_id": "Mã yêu cầu",
+  "customer": "Khách hàng",
+  "request_type": "Loại yêu cầu",
+  "start_time": "Thời gian bắt đầu",
+  "end_time": "Thời gian kết thúc",
+  "request_status": "Trạng thái",
+  "request_details": {
+    "request_details": "Thông tin yêu cầu",
+    "customer_details": "Thông tin khách hàng",
+    "leader_details": "Thông tin trưởng nhóm",
+    "phone_number": "SĐT",
+    "worker_list": "Danh sách nhân viên",
+    "request_description": "Mô tả vấn đề của khách hàng",
+    "worker_conclusion": "Kết luận của nhân viên",
+    "download_receipt": "Tải hóa đơn",
+    "product_list": "Đơn hàng của yêu cầu",
+    "request_price": "Giá gửi yêu cầu",
+    "total_price": "Tổng giá",
+    "free": "Miễn phí",
+    "not_have_yet": "Chưa có"
+  },
+  "request_price_table": {
+    "request_price_table": "Bảng giá yêu cầu",
+    "name": "Tên",
+    "description": "Mô tả",
+    "current_price": "Giá hiện tại"
+  }
+}

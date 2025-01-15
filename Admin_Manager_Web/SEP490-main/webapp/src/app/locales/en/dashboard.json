@@ -1,0 +1,9 @@
+{
+  "statistics": "Statistics",
+  "net_gain_nearest_months": "Total revenue for the past {{months}} months",
+  "net_gain_range_year": "Total revenue by year",
+  "todays_request_list": "Today's request list",
+  "todays_order_list": "Today's order list",
+  "top_selling_products": "Top {{top}} most purchased products",
+  "top_selling_service_package": "Top {{top}} most purchased service packages"
+}

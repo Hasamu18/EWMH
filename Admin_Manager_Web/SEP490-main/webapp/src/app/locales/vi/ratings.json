@@ -1,0 +1,16 @@
+{
+  "rating_list": "Danh sách đánh giá",
+  "total_reviews": "Số người đánh giá",
+  "avg_rating": "Trung bình số sao",
+  "rating_table": {
+    "customer_info": "Thông tin khách hàng",
+    "rating_value": "Số sao",
+    "rating_description": "Đánh giá",
+    "rating_time": "Thời gian",
+    "rating_status": "Trạng thái"
+  },
+  "dropdown": {
+    "view_rating_details": "Xem chi tiết đánh giá",
+    "view_request_details": "Xem chi tiết yêu cầu"
+  }
+}

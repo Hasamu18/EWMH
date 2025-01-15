@@ -1,0 +1,11 @@
+{
+  "leader_list": "Leader List",
+  "search_by_email": "Search by email",
+  "leader_table": {
+    "leader_info": "Leader Information",
+    "leader_phone": "Phone Number",
+    "leader_apartment": "Apartment",
+    "leader_status": "Status",
+    "leader_notes": "Notes"
+  }
+}

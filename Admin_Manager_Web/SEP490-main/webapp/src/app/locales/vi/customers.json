@@ -1,0 +1,10 @@
+{
+  "customer_list": "Danh sách khách hàng",
+  "search_by_email": "Tìm kiếm theo email",
+  "customer_table": {
+    "customer_info": "Thông tin khách hàng",
+    "customer_phone": "SĐT",
+    "customer_status": "Trạng thái",
+    "customer_notes": "Ghi chú"
+  }
+}
