@@ -1,0 +1,18 @@
+{
+  "user_list": "Danh sách tài khoản",
+  "create_new_user": {
+    "title": "Tạo tài khoản mới",
+    "full_name": "Họ và Tên",
+    "email": "Email",
+    "phoneNumber": "SĐT",
+    "dob": "Ngày sinh",
+    "role": "Vai trò"
+  },
+  "find_by_email": "Tìm kiếm theo email",
+  "user_table": {
+    "name": "Thông tin tài khoản",
+    "role": "Vai trò",
+    "status": "Trạng thái",
+    "notes": "Ghi chú"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "request_list": "Request List",
+  "new_request": "New Request",
+  "processing_request": "Processing Request",
+  "finished_request": "Finished Request",
+  "canceled_request": "Canceled Request",
+  "request_id": "Request ID",
+  "customer": "Customer",
+  "request_type": "Request Type",
+  "start_time": "Start Time",
+  "end_time": "End Time",
+  "request_status": "Status",
+  "request_details": {
+    "request_details": "Request Details",
+    "customer_details": "Customer Details",
+    "leader_details": "Leader Details",
+    "phone_number": "Phone Number",
+    "worker_list": "Worker List",
+    "request_description": "Customer's Issue",
+    "worker_conclusion": "Worker's Conclusion",
+    "download_receipt": "Download Receipt",
+    "product_list": "Request's Order List",
+    "request_price": "Request Price",
+    "total_price": "Total Price",
+    "free": "Free",
+    "not_have_yet": "No information yet"
+  },
+  "request_price_table": {
+    "request_price_table": "Request price table",
+    "name": "Name",
+    "description": "Description",
+    "current_price": "Current price"
+  }
+}

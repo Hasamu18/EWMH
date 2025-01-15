@@ -1,0 +1,10 @@
+{
+  "verify_request_list": "Danh sách chờ duyệt",
+  "search_by_phone": "Tìm kiếm bằng SĐT",
+  "approve_request_request_table": {
+    "approve_request_request_info": "Thông tin tài khoản",
+    "approve_request_request_phone": "SĐT",
+    "approve_request_request_apartment": "Chung cư",
+    "approve_request_request_apartment_room": "Căn hộ"
+  }
+}

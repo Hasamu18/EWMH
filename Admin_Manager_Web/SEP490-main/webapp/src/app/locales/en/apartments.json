@@ -1,0 +1,23 @@
+{
+  "apartment_list": "Apartment List",
+  "create_new_apartment": {
+    "title": "Add New Apartment",
+    "apartment_name": "Apartment Name",
+    "apartment_address": "Address",
+    "apartment_company": "Company",
+    "apartment_description": "Description",
+    "apartment_leader": "Leader"
+  },
+  "search_by_apartment_name": "Search by Apartment Name",
+  "apartment_table": {
+    "apartment_info": "Apartment Information",
+    "apartment_company": "Company",
+    "apartment_description": "Description",
+    "apartment_leader_name": "Leader Name"
+  },
+  "dropdown": {
+    "view_apartment_details": "View Apartment Details",
+    "update_apartment_details": "Edit Apartment Details",
+    "manage_apartment_rooms": "Manage Apartment Rooms"
+  }
+}

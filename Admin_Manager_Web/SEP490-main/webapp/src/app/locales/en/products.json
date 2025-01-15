@@ -1,0 +1,24 @@
+{
+  "product_list": "Product List",
+  "search_by_name": "Search by Product Name",
+  "create_new_product": {
+    "title": "Create New Product",
+    "product_name": "Product Name",
+    "product_description": "Description",
+    "product_price": "Product Price (VND)",
+    "product_quantity": "Quantity",
+    "product_warranty_month": "Warranty Period (Months)"
+  },
+  "product_table": {
+    "product_info": "Product Information",
+    "product_price": "Price",
+    "product_quantity": "Quantity",
+    "product_quantity_status": "Quantity Status",
+    "product_status": "Status"
+  },
+  "dropdown": {
+    "view_product_details": "View Details",
+    "update_product_details": "Edit",
+    "view_statistics": "View Statistics"
+  }
+}

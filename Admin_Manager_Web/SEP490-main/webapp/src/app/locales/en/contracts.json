@@ -1,0 +1,14 @@
+{
+  "contract_list": "Contract List",
+  "search_by_phone": "Search by Phone Number",
+  "contract_table": {
+    "contract_id": "Contract ID",
+    "service_package_name": "Service Package Name",
+    "contract_customer_name": "Customer",
+    "contract_paid_date": "Payment Date",
+    "contract_total_num_of_request": "Total Requests",
+    "contract_remaining_num_of_request": "Remaining Requests",
+    "contract_end_date": "Expiration Date",
+    "contract_status": "Status"
+  }
+}

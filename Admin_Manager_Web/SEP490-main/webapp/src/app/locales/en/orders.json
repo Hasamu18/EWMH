@@ -1,0 +1,25 @@
+{
+  "order_list": "Order List",
+  "search_by_phone": "Search by Phone Number",
+  "customer_order": {
+    "title": "Customer's Orders",
+    "order_table": {
+      "order_id": "Order ID",
+      "order_customer_name": "Customer Name",
+      "order_customer_phone": "Phone Number",
+      "order_date": "Order Date",
+      "order_total_price": "Total Price"
+    }
+  },
+  "request_order": {
+    "title": "Request's Orders",
+    "order_table": {
+      "request_id": "Request ID",
+      "order_customer_name": "Customer Name",
+      "order_customer_phone": "Phone Number",
+      "order_date": "Order Date",
+      "order_total_price": "Total Price",
+      "order_leader_name": "Team Leader"
+    }
+  }
+}

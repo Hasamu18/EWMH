@@ -1,0 +1,23 @@
+{
+  "apartment_list": "Danh sách chung cư",
+  "create_new_apartment": {
+    "title": "Thêm chung cư mới",
+    "apartment_name": "Tên chung cư",
+    "apartment_address": "Địa chỉ",
+    "apartment_company": "Công ty",
+    "apartment_description": "Mô tả",
+    "apartment_leader": "Trưởng nhóm"
+  },
+  "search_by_apartment_name": "Tìm kiếm theo tên chung cư",
+  "apartment_table": {
+    "apartment_info": "Thông tin chung cư",
+    "apartment_company": "Công ty",
+    "apartment_description": "Miêu tả",
+    "apartment_leader_name": "Trưởng nhóm"
+  },
+  "dropdown": {
+    "view_apartment_details": "Xem chi tiết chung cư",
+    "update_apartment_details": "Chỉnh sửa chung cư",
+    "manage_apartment_rooms": "Quản lý căn hộ"
+  }
+}

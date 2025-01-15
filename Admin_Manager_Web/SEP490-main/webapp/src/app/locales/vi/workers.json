@@ -1,0 +1,11 @@
+{
+  "worker_list": "Danh sách nhân viên",
+  "search_by_phone": "Tìm kiếm theo SĐT",
+  "worker_table": {
+    "worker_info": "Thông tin nhân viên",
+    "worker_phone": "SĐT",
+    "worker_leader": "Trưởng nhóm",
+    "worker_status": "Trạng thái",
+    "worker_notes": "Ghi chú"
+  }
+}

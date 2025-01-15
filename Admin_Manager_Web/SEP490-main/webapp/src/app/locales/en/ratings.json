@@ -1,0 +1,16 @@
+{
+  "rating_list": "Review List",
+  "total_reviews": "Total Reviews",
+  "avg_rating": "Average Rating",
+  "rating_table": {
+    "customer_info": "Customer Information",
+    "rating_value": "Stars",
+    "rating_description": "Review",
+    "rating_time": "Time",
+    "rating_status": "Status"
+  },
+  "dropdown": {
+    "view_rating_details": "View Rating Details",
+    "view_request_details": "View Request Details"
+  }
+}

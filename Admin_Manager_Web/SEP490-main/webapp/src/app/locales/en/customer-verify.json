@@ -1,0 +1,10 @@
+{
+  "verify_request_list": "Pending Approval List",
+  "search_by_phone": "Search by Phone",
+  "approve_request_request_table": {
+    "approve_request_request_info": "Account Information",
+    "approve_request_request_phone": "Phone",
+    "approve_request_request_apartment": "Apartment",
+    "approve_request_request_apartment_room": "Apartment Room"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "statistics": "Thống kê",
+  "net_gain_nearest_months": "Tổng doanh thu {{months}} tháng gần nhất",
+  "net_gain_range_year": "Tổng doanh thu theo từng năm",
+  "todays_request_list": "Danh sách yêu cầu hôm nay",
+  "todays_order_list": "Danh sách đơn hàng hôm nay",
+  "top_selling_products": "Top {{top}} sản phẩm được mua nhiều nhất",
+  "top_selling_service_package": "Top {{top}} gói dịch vụ được mua nhiều nhất"
+}

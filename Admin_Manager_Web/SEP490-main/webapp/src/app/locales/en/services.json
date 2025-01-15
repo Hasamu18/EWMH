@@ -1,0 +1,22 @@
+{
+  "service_package_list": "Service Package List",
+  "search_by_name": "Search by Package Name",
+  "create_new_service_package": {
+    "title": "Create New Service Package",
+    "service_package_name": "Service Package Name",
+    "service_package_description": "Description",
+    "service_package_num_of_request": "Number of Repairs",
+    "service_package_price": "Package Price (VND)"
+  },
+  "service_package_table": {
+    "service_package_info": "Service Package Information",
+    "service_package_desc": "Description",
+    "service_package_price": "Price",
+    "service_package_status": "Status"
+  },
+  "dropdown": {
+    "view_service_package_details": "View Details",
+    "update_service_package_details": "Edit",
+    "view_statistics": "View Statistics"
+  }
+}

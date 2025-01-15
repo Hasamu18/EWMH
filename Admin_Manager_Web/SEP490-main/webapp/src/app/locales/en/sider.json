@@ -1,0 +1,14 @@
+{
+  "dashboard": "Statistics",
+  "customers": "Customers",
+  "leaders": "Leaders",
+  "workers": "Workers",
+  "service_package": "Service Packages",
+  "products": "Products",
+  "contracts": "Contracts",
+  "requests": "Requests",
+  "orders": "Orders",
+  "ratings": "Reviews",
+  "apartments": "Apartments",
+  "customer-verify": "Pending Approval"
+}

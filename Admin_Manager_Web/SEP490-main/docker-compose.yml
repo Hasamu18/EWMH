@@ -1,0 +1,60 @@
+services:
+  nginx:
+    container_name: nginx
+    depends_on:
+      - webapp
+      - api0
+      - api1
+      - api2
+      - api3
+    restart: always
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/ssl/cert.cer:/etc/ssl/cert.cer
+      - /etc/ssl/key.key:/etc/ssl/key.key
+      - /etc/ssl/cloudflare.crt:/etc/ssl/cloudflare.crt
+
+  webapp:
+    restart: always
+    image: "${DOCKER_REPO:?error}-webapp:latest"
+    container_name: webapp
+    environment:
+      - MY_APP_API_END_POINT_1=${API_END_POINT_1}
+      - MY_APP_API_END_POINT_2=${API_END_POINT_2}
+      - MY_APP_API_END_POINT_3=${API_END_POINT_3}
+      - MY_APP_CHAT_END_POINT=${CHAT_END_POINT}
+      - MY_APP_ENVIRONMENT=Production
+    build: 
+      context: ./webapp
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+
+  api0:
+    image: "hasamu/ewmh:api.gateway"
+    container_name: api0
+    ports:
+      - "8000:8080"
+
+  api1:
+    image: "hasamu/ewmh:users.api"
+    container_name: api1
+    ports:
+      - "8001:8080"
+
+  api2:
+    image: "hasamu/ewmh:sales.api"
+    container_name: api2
+    ports:
+      - "8002:8080"
+
+  api3:
+    image: "hasamu/ewmh:requests.api"
+    container_name: api3
+    ports:
+      - "8003:8080"

@@ -1,0 +1,22 @@
+{
+  "service_package_list": "Danh sách gói dịch vụ",
+  "search_by_name": "Tìm kiếm theo tên gói",
+  "create_new_service_package": {
+    "title": "Tạo gói dịch vụ mới",
+    "service_package_name": "Tên gói dịch vụ",
+    "service_package_description": "Mô tả",
+    "service_package_num_of_request": "Số lần sửa chữa",
+    "service_package_price": "Giá gói (VND)"
+  },
+  "service_package_table": {
+    "service_package_info": "Thông tin gói dịch vụ",
+    "service_package_desc": "Mô tả",
+    "service_package_price": "Giá",
+    "service_package_status": "Trạng thái"
+  },
+  "dropdown": {
+    "view_service_package_details": "Xem chi tiết",
+    "update_service_package_details": "Chỉnh sửa",
+    "view_statistics": "Xem thống kê"
+  }
+}
